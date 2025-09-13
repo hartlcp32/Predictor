@@ -7,12 +7,12 @@ import json
 import os
 from datetime import datetime, timedelta
 from predictors.data_fetcher import StockDataFetcher
-from predictors.strategies import get_all_strategies
+from predictors.flexible_strategies import get_all_flexible_strategies
 
 class PredictionGenerator:
     def __init__(self):
         self.fetcher = StockDataFetcher()
-        self.strategies = get_all_strategies()
+        self.strategies = get_all_flexible_strategies()
         self.output_dir = 'docs'
         
     def generate_daily_predictions(self):
@@ -41,8 +41,12 @@ class PredictionGenerator:
                             'position': prediction['position'],
                             'confidence': prediction['confidence'],
                             'score': prediction['score'],
-                            'projected': self.calculate_projected_return(prediction),
-                            'timeframe': self.get_timeframe(strategy.name)
+                            'projected': self.calculate_projected_return(prediction, strategy),
+                            'timeframe': prediction.get('timeframe', strategy.get_timeframe_text()),
+                            'min_days': strategy.min_hold_days,
+                            'max_days': strategy.max_hold_days,
+                            'target_profit': f"+{strategy.target_profit:.1%}",
+                            'stop_loss': f"-{strategy.stop_loss:.1%}"
                         }
                         best_score = prediction['score']
             
@@ -58,18 +62,13 @@ class PredictionGenerator:
         
         return strategy_predictions
     
-    def calculate_projected_return(self, prediction):
-        """Calculate 1-week projected return based on confidence and position"""
-        # Base return for 1 week: typically 2-10% for high confidence
-        base_return = prediction['confidence'] * 10  # Max 10% weekly return
+    def calculate_projected_return(self, prediction, strategy):
+        """Calculate projected return based on strategy's target and confidence"""
+        base_return = prediction['confidence'] * strategy.target_profit
         if prediction['position'] == 'SHORT':
             return f"-{base_return:.1f}%"
         else:
             return f"+{base_return:.1f}%"
-    
-    def get_timeframe(self, strategy_name):
-        """All predictions are for 1 week (5 trading days)"""
-        return '1W'  # Unified 1-week predictions for all strategies
     
     def load_existing_predictions(self):
         """Load existing predictions file"""

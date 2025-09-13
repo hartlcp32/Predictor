@@ -5,13 +5,20 @@ from abc import ABC, abstractmethod
 class BaseStrategy(ABC):
     """Base class for all prediction strategies"""
     
-    def __init__(self, name):
+    def __init__(self, name, min_hold_days=1, max_hold_days=30):
         self.name = name
+        self.min_hold_days = min_hold_days
+        self.max_hold_days = max_hold_days
         self.predictions = []
         
     @abstractmethod
     def predict(self, features):
         """Make a prediction based on features"""
+        pass
+    
+    @abstractmethod
+    def get_exit_condition(self, entry_price, current_price, days_held, features):
+        """Determine if position should be closed"""
         pass
     
     def get_position(self, score):
@@ -26,13 +33,20 @@ class BaseStrategy(ABC):
     def get_confidence(self, score):
         """Convert score to confidence level"""
         return min(abs(score), 1.0)
+    
+    def get_timeframe_text(self):
+        """Get timeframe description"""
+        if self.min_hold_days == self.max_hold_days:
+            return f"{self.min_hold_days}D"
+        else:
+            return f"{self.min_hold_days}-{self.max_hold_days}D"
 
 
 class MomentumStrategy(BaseStrategy):
-    """Strategy 1: Classic price momentum"""
+    """Strategy 1: Classic price momentum - Hold 3-10 days"""
     
     def __init__(self):
-        super().__init__("Momentum")
+        super().__init__("Momentum", min_hold_days=3, max_hold_days=10)
     
     def predict(self, features):
         # Strong recent performance continues
@@ -60,8 +74,29 @@ class MomentumStrategy(BaseStrategy):
         return {
             'position': self.get_position(score),
             'confidence': self.get_confidence(score),
-            'score': score
+            'score': score,
+            'timeframe': self.get_timeframe_text()
         }
+    
+    def get_exit_condition(self, entry_price, current_price, days_held, features):
+        """Exit momentum trade when trend weakens or time limit hit"""
+        if days_held >= self.max_hold_days:
+            return True, "Max time reached"
+        
+        # Exit if momentum reverses
+        if features.get('returns', 0) < -0.02:  # 2% drop
+            return True, "Momentum reversed"
+            
+        # Take profit at 8%
+        pnl = (current_price - entry_price) / entry_price
+        if pnl > 0.08:
+            return True, "Profit target hit"
+            
+        # Stop loss at -5%
+        if pnl < -0.05:
+            return True, "Stop loss"
+            
+        return False, ""
 
 
 class MeanReversionStrategy(BaseStrategy):
