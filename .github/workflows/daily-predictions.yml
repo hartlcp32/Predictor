@@ -2,8 +2,10 @@ name: Generate Daily Predictions
 
 on:
   schedule:
-    # Runs at 13:00 UTC (8 AM EST / 9 AM EDT) every weekday
-    - cron: '0 13 * * 1-5'
+    # Runs at 14:00 UTC (9 AM EST / 10 AM EDT) every weekday - 30 min before market open
+    - cron: '0 14 * * 1-5'
+    # Alternative: Sunday 11 PM UTC (6 PM EST) for weekly predictions
+    # - cron: '0 23 * * 0'
   workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
