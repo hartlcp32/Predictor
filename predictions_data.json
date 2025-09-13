@@ -1,0 +1,202 @@
+{
+  "predictions": [
+    {
+      "date": "2025-01-13",
+      "predictions": {
+        "momentum": {
+          "stock": "AAPL",
+          "position": "LONG",
+          "confidence": 0.75,
+          "score": 0.75,
+          "projected": "+7.5%",
+          "timeframe": "1W"
+        },
+        "mean_reversion": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 0.68,
+          "score": -0.68,
+          "projected": "-6.8%",
+          "timeframe": "1W"
+        },
+        "volume_breakout": {
+          "stock": "NVDA",
+          "position": "LONG",
+          "confidence": 0.82,
+          "score": 0.82,
+          "projected": "+8.2%",
+          "timeframe": "1W"
+        },
+        "technical_indicators": {
+          "stock": "GOOGL",
+          "position": "LONG",
+          "confidence": 0.71,
+          "score": 0.71,
+          "projected": "+7.1%",
+          "timeframe": "1W"
+        },
+        "pattern_recognition": {
+          "stock": "AMZN",
+          "position": "SHORT",
+          "confidence": 0.55,
+          "score": -0.55,
+          "projected": "-5.5%",
+          "timeframe": "1W"
+        },
+        "volatility_arbitrage": {
+          "stock": "META",
+          "position": "SHORT",
+          "confidence": 0.79,
+          "score": -0.79,
+          "projected": "-7.9%",
+          "timeframe": "1W"
+        },
+        "moving_average_crossover": {
+          "stock": "MSFT",
+          "position": "LONG",
+          "confidence": 0.66,
+          "score": 0.66,
+          "projected": "+6.6%",
+          "timeframe": "1W"
+        },
+        "support_resistance": {
+          "stock": "JPM",
+          "position": "LONG",
+          "confidence": 0.58,
+          "score": 0.58,
+          "projected": "+5.8%",
+          "timeframe": "1W"
+        },
+        "market_sentiment": {
+          "stock": "JNJ",
+          "position": "LONG",
+          "confidence": 0.62,
+          "score": 0.62,
+          "projected": "+6.2%",
+          "timeframe": "1W"
+        },
+        "ensemble": {
+          "stock": "AAPL",
+          "position": "LONG",
+          "confidence": 0.83,
+          "score": 0.83,
+          "projected": "+8.3%",
+          "timeframe": "1W"
+        }
+      },
+      "generated_at": "2025-01-13T09:00:00"
+    },
+    {
+      "date": "2025-01-06",
+      "predictions": {
+        "momentum": {
+          "stock": "MSFT",
+          "position": "LONG",
+          "confidence": 0.72,
+          "score": 0.72,
+          "projected": "+7.2%",
+          "timeframe": "1W",
+          "actual": "+6.8%"
+        },
+        "mean_reversion": {
+          "stock": "AAPL",
+          "position": "LONG",
+          "confidence": 0.65,
+          "score": 0.65,
+          "projected": "+6.5%",
+          "timeframe": "1W",
+          "actual": "+7.2%"
+        },
+        "volume_breakout": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 0.78,
+          "score": -0.78,
+          "projected": "-7.8%",
+          "timeframe": "1W",
+          "actual": "-8.1%"
+        },
+        "technical_indicators": {
+          "stock": "NVDA",
+          "position": "LONG",
+          "confidence": 0.69,
+          "score": 0.69,
+          "projected": "+6.9%",
+          "timeframe": "1W",
+          "actual": "+8.5%"
+        },
+        "pattern_recognition": {
+          "stock": "GOOGL",
+          "position": "LONG",
+          "confidence": 0.52,
+          "score": 0.52,
+          "projected": "+5.2%",
+          "timeframe": "1W",
+          "actual": "+4.8%"
+        },
+        "volatility_arbitrage": {
+          "stock": "META",
+          "position": "LONG",
+          "confidence": 0.70,
+          "score": 0.70,
+          "projected": "+7.0%",
+          "timeframe": "1W",
+          "actual": "+6.5%"
+        },
+        "moving_average_crossover": {
+          "stock": "AMZN",
+          "position": "SHORT",
+          "confidence": 0.63,
+          "score": -0.63,
+          "projected": "-6.3%",
+          "timeframe": "1W",
+          "actual": "-5.9%"
+        },
+        "support_resistance": {
+          "stock": "BRK-B",
+          "position": "HOLD",
+          "confidence": 0.45,
+          "score": 0,
+          "projected": "0%",
+          "timeframe": "-",
+          "actual": "+0.3%"
+        },
+        "market_sentiment": {
+          "stock": "JPM",
+          "position": "LONG",
+          "confidence": 0.68,
+          "score": 0.68,
+          "projected": "+6.8%",
+          "timeframe": "1W",
+          "actual": "+7.1%"
+        },
+        "ensemble": {
+          "stock": "NVDA",
+          "position": "LONG",
+          "confidence": 0.85,
+          "score": 0.85,
+          "projected": "+8.5%",
+          "timeframe": "1W",
+          "actual": "+8.9%"
+        }
+      },
+      "generated_at": "2025-01-06T09:00:00"
+    }
+  ],
+  "statistics": {
+    "total_predictions": 20,
+    "strategies": {
+      "momentum": {"win_rate": 0.62, "total_return": 18.5},
+      "mean_reversion": {"win_rate": 0.58, "total_return": 12.3},
+      "volume_breakout": {"win_rate": 0.55, "total_return": 8.7},
+      "technical_indicators": {"win_rate": 0.61, "total_return": 15.2},
+      "pattern_recognition": {"win_rate": 0.53, "total_return": 5.4},
+      "volatility_arbitrage": {"win_rate": 0.59, "total_return": 11.8},
+      "moving_average_crossover": {"win_rate": 0.57, "total_return": 9.3},
+      "support_resistance": {"win_rate": 0.54, "total_return": 6.1},
+      "market_sentiment": {"win_rate": 0.56, "total_return": 7.9},
+      "ensemble": {"win_rate": 0.64, "total_return": 21.3}
+    }
+  },
+  "last_updated": "2025-01-13T09:00:00"
+}
