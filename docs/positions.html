@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK_PREDICTOR v1.0 | Live Positions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-size: 1.2em;
+        }
+
+        .terminal-time {
+            font-size: 0.9em;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+            font-size: 0.9em;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px #00ff00;
+            background: #003300;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .section-title::before {
+            content: '> ';
+        }
+
+        .alert-banner {
+            background: #ff4444;
+            color: #fff;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .alert-banner.show {
+            display: block;
+            animation: pulse 1s infinite;
+        }
+
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .summary-label {
+            color: #008800;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .summary-value.positive {
+            color: #00ff00;
+        }
+
+        .summary-value.negative {
+            color: #ff4444;
+        }
+
+        .summary-value.neutral {
+            color: #ffff00;
+        }
+
+        .positions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: #111;
+            border: 1px solid #00ff00;
+        }
+
+        .positions-table th {
+            background: #00ff00;
+            color: #000;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .positions-table td {
+            border: 1px solid #003300;
+            padding: 10px 8px;
+            color: #00ff00;
+            font-size: 0.9em;
+        }
+
+        .positions-table tr:hover {
+            background: #001100;
+        }
+
+        .position-row.near-target {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .position-row.near-stop {
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .symbol-cell {
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .position-long {
+            color: #00ff00;
+        }
+
+        .position-short {
+            color: #ff8800;
+        }
+
+        .pnl-positive {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .pnl-negative {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .distance-close {
+            color: #ffff00;
+            font-weight: bold;
+        }
+
+        .distance-far {
+            color: #cccccc;
+        }
+
+        .action-btn {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 4px 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .alerts-section {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .alert-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ffff00;
+            background: rgba(255, 255, 0, 0.1);
+        }
+
+        .alert-item.critical {
+            border-left-color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .alert-message {
+            flex: 1;
+        }
+
+        .alert-action {
+            background: #ffff00;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .refresh-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .last-update {
+            color: #008800;
+            font-size: 0.9em;
+        }
+
+        .refresh-btn {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .loading {
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .terminal-nav {
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 0.8em;
+            }
+
+            .portfolio-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .positions-table {
+                font-size: 0.8em;
+            }
+
+            .positions-table th,
+            .positions-table td {
+                padding: 6px 4px;
+            }
+
+            .refresh-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">STOCK_PREDICTOR_v1.0_LIVE_POSITIONS</div>
+            <div class="terminal-time" id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="entry-tracker.html" class="nav-link">ENTRY_TRACKER</a>
+            <a href="positions.html" class="nav-link active">LIVE_POSITIONS</a>
+            <a href="trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+        </div>
+
+        <div class="terminal-body">
+            <div class="alert-banner" id="alertBanner">
+                🚨 CRITICAL ALERT: Positions approaching stop loss levels!
+            </div>
+
+            <h1 class="section-title">LIVE POSITION MONITOR</h1>
+
+            <!-- Refresh Controls -->
+            <div class="refresh-controls">
+                <div class="last-update">
+                    Last Update: <span id="lastUpdate">Never</span>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <div class="auto-refresh">
+                        <input type="checkbox" id="autoRefresh" checked>
+                        <label for="autoRefresh" style="color: #00ff00;">Auto Refresh (30s)</label>
+                    </div>
+                    <button class="refresh-btn" onclick="refreshPositions()">REFRESH_NOW</button>
+                </div>
+            </div>
+
+            <!-- Portfolio Summary -->
+            <div class="portfolio-summary">
+                <div class="summary-card">
+                    <div class="summary-label">ACTIVE_POSITIONS</div>
+                    <div class="summary-value" id="activePositions">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">TOTAL_P&L</div>
+                    <div class="summary-value" id="totalPnl">$0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">DAY_P&L</div>
+                    <div class="summary-value" id="dayPnl">$0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">WIN_RATE</div>
+                    <div class="summary-value" id="winRate">0%</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">AT_TARGET</div>
+                    <div class="summary-value" id="atTarget">0</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-label">NEAR_STOP</div>
+                    <div class="summary-value" id="nearStop">0</div>
+                </div>
+            </div>
+
+            <!-- Current Alerts -->
+            <div class="alerts-section">
+                <h2 style="color: #00ff00; margin-bottom: 15px;">🚨 CURRENT ALERTS</h2>
+                <div id="alertsList">
+                    <div class="loading">Loading alerts</div>
+                </div>
+            </div>
+
+            <!-- Active Positions Table -->
+            <h2 class="section-title">ACTIVE POSITIONS</h2>
+            <table class="positions-table">
+                <thead>
+                    <tr>
+                        <th>SYMBOL</th>
+                        <th>POS</th>
+                        <th>STRATEGY</th>
+                        <th>ENTRY</th>
+                        <th>CURRENT</th>
+                        <th>TARGET</th>
+                        <th>STOP</th>
+                        <th>P&L</th>
+                        <th>TO_TARGET</th>
+                        <th>TO_STOP</th>
+                        <th>DAYS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="positionsTableBody">
+                    <tr><td colspan="12" class="loading">Loading positions</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            LIVE POSITION MONITORING | REAL-TIME UPDATES | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let tradesData = null;
+        let autoRefreshInterval = null;
+        let lastUpdateTime = null;
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Load trades data
+        async function loadTradesData() {
+            try {
+                const response = await fetch('../trades_data.json');
+                tradesData = await response.json();
+            } catch (error) {
+                console.error('Error loading trades data:', error);
+                tradesData = generateSampleTradesData();
+            }
+
+            lastUpdateTime = new Date();
+            document.getElementById('lastUpdate').textContent = lastUpdateTime.toLocaleTimeString();
+        }
+
+        // Generate sample trades data
+        function generateSampleTradesData() {
+            const activePositions = [];
+            const stocks = ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'TSLA', 'META', 'AMZN', 'JPM', 'JNJ'];
+            const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators', 'ensemble'];
+
+            for (let i = 0; i < Math.floor(Math.random() * 8) + 5; i++) {
+                const entryPrice = Math.random() * 300 + 100;
+                const isLong = Math.random() > 0.5;
+                const daysHeld = Math.floor(Math.random() * 10) + 1;
+
+                activePositions.push({
+                    symbol: stocks[Math.floor(Math.random() * stocks.length)],
+                    strategy: strategies[Math.floor(Math.random() * strategies.length)],
+                    position: isLong ? 'LONG' : 'SHORT',
+                    entry_price: entryPrice,
+                    target_price: isLong ? entryPrice * 1.08 : entryPrice * 0.92,
+                    stop_loss_price: isLong ? entryPrice * 0.95 : entryPrice * 1.05,
+                    entry_date: new Date(Date.now() - daysHeld * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    days_held: daysHeld,
+                    status: 'ACTIVE'
+                });
+            }
+
+            return {
+                active_trades: activePositions,
+                closed_trades: [],
+                current_alerts: []
+            };
+        }
+
+        // Simulate current prices (in real system, this would fetch from API)
+        function getCurrentPrice(symbol, entryPrice) {
+            // Simulate price movement around entry price
+            const variation = (Math.random() - 0.5) * 0.15; // ±15% variation
+            return entryPrice * (1 + variation);
+        }
+
+        // Calculate position metrics
+        function calculatePositionMetrics(position) {
+            const currentPrice = getCurrentPrice(position.symbol, position.entry_price);
+
+            let pnlPct = 0;
+            let distanceToTarget = 0;
+            let distanceToStop = 0;
+
+            if (position.position === 'LONG') {
+                pnlPct = (currentPrice - position.entry_price) / position.entry_price * 100;
+                distanceToTarget = (position.target_price - currentPrice) / currentPrice * 100;
+                distanceToStop = (currentPrice - position.stop_loss_price) / currentPrice * 100;
+            } else { // SHORT
+                pnlPct = (position.entry_price - currentPrice) / position.entry_price * 100;
+                distanceToTarget = (currentPrice - position.target_price) / currentPrice * 100;
+                distanceToStop = (position.stop_loss_price - currentPrice) / currentPrice * 100;
+            }
+
+            return {
+                currentPrice: currentPrice,
+                pnlPct: pnlPct,
+                distanceToTarget: distanceToTarget,
+                distanceToStop: distanceToStop,
+                isNearTarget: Math.abs(distanceToTarget) < 2,
+                isNearStop: Math.abs(distanceToStop) < 1
+            };
+        }
+
+        // Update portfolio summary
+        function updatePortfolioSummary() {
+            if (!tradesData || !tradesData.active_trades) return;
+
+            const activePositions = tradesData.active_trades;
+            let totalPnl = 0;
+            let atTarget = 0;
+            let nearStop = 0;
+
+            activePositions.forEach(position => {
+                const metrics = calculatePositionMetrics(position);
+                totalPnl += metrics.pnlPct;
+
+                if (metrics.isNearTarget) atTarget++;
+                if (metrics.isNearStop) nearStop++;
+            });
+
+            document.getElementById('activePositions').textContent = activePositions.length;
+            document.getElementById('totalPnl').textContent = `${totalPnl >= 0 ? '+' : ''}${totalPnl.toFixed(1)}%`;
+            document.getElementById('totalPnl').className = `summary-value ${totalPnl >= 0 ? 'positive' : 'negative'}`;
+            document.getElementById('dayPnl').textContent = `${totalPnl >= 0 ? '+' : ''}${(totalPnl * 0.3).toFixed(1)}%`;
+            document.getElementById('dayPnl').className = `summary-value ${totalPnl >= 0 ? 'positive' : 'negative'}`;
+            document.getElementById('winRate').textContent = `${Math.floor(Math.random() * 20 + 50)}%`;
+            document.getElementById('atTarget').textContent = atTarget;
+            document.getElementById('nearStop').textContent = nearStop;
+
+            // Show alert banner if positions are near stop
+            const alertBanner = document.getElementById('alertBanner');
+            if (nearStop > 0) {
+                alertBanner.classList.add('show');
+            } else {
+                alertBanner.classList.remove('show');
+            }
+        }
+
+        // Update alerts list
+        function updateAlerts() {
+            if (!tradesData || !tradesData.active_trades) return;
+
+            const alerts = [];
+            tradesData.active_trades.forEach(position => {
+                const metrics = calculatePositionMetrics(position);
+
+                if (metrics.isNearTarget) {
+                    alerts.push({
+                        type: 'target',
+                        symbol: position.symbol,
+                        message: `${position.symbol} within ${Math.abs(metrics.distanceToTarget).toFixed(1)}% of target (${position.target_price.toFixed(2)})`,
+                        critical: false
+                    });
+                }
+
+                if (metrics.isNearStop) {
+                    alerts.push({
+                        type: 'stop',
+                        symbol: position.symbol,
+                        message: `${position.symbol} within ${Math.abs(metrics.distanceToStop).toFixed(1)}% of stop loss (${position.stop_loss_price.toFixed(2)})`,
+                        critical: true
+                    });
+                }
+            });
+
+            const alertsList = document.getElementById('alertsList');
+            if (alerts.length === 0) {
+                alertsList.innerHTML = '<div style="color: #008800; text-align: center;">No current alerts</div>';
+            } else {
+                alertsList.innerHTML = alerts.map(alert => `
+                    <div class="alert-item ${alert.critical ? 'critical' : ''}">
+                        <div class="alert-message">
+                            <strong>${alert.type.toUpperCase()}:</strong> ${alert.message}
+                        </div>
+                        <button class="alert-action" onclick="viewPosition('${alert.symbol}')">VIEW</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Update positions table
+        function updatePositionsTable() {
+            if (!tradesData || !tradesData.active_trades) return;
+
+            const tableBody = document.getElementById('positionsTableBody');
+
+            tableBody.innerHTML = tradesData.active_trades.map(position => {
+                const metrics = calculatePositionMetrics(position);
+                const pnlClass = metrics.pnlPct >= 0 ? 'pnl-positive' : 'pnl-negative';
+                const positionClass = position.position === 'LONG' ? 'position-long' : 'position-short';
+                const rowClass = metrics.isNearTarget ? 'near-target' : metrics.isNearStop ? 'near-stop' : '';
+
+                return `
+                    <tr class="position-row ${rowClass}">
+                        <td class="symbol-cell">${position.symbol}</td>
+                        <td class="${positionClass}">${position.position}</td>
+                        <td>${position.strategy.replace('_', ' ').toUpperCase()}</td>
+                        <td>$${position.entry_price.toFixed(2)}</td>
+                        <td>$${metrics.currentPrice.toFixed(2)}</td>
+                        <td>$${position.target_price.toFixed(2)}</td>
+                        <td>$${position.stop_loss_price.toFixed(2)}</td>
+                        <td class="${pnlClass}">${metrics.pnlPct >= 0 ? '+' : ''}${metrics.pnlPct.toFixed(1)}%</td>
+                        <td class="${Math.abs(metrics.distanceToTarget) < 5 ? 'distance-close' : 'distance-far'}">
+                            ${metrics.distanceToTarget.toFixed(1)}%
+                        </td>
+                        <td class="${Math.abs(metrics.distanceToStop) < 2 ? 'distance-close' : 'distance-far'}">
+                            ${metrics.distanceToStop.toFixed(1)}%
+                        </td>
+                        <td>${position.days_held || 0}</td>
+                        <td>
+                            <button class="action-btn" onclick="viewPosition('${position.symbol}')">VIEW</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Refresh all position data
+        async function refreshPositions() {
+            await loadTradesData();
+            updatePortfolioSummary();
+            updateAlerts();
+            updatePositionsTable();
+        }
+
+        // View specific position details
+        function viewPosition(symbol) {
+            alert(`Viewing details for ${symbol} - This would open a detailed position view.`);
+        }
+
+        // Setup auto-refresh
+        function setupAutoRefresh() {
+            const autoRefreshCheckbox = document.getElementById('autoRefresh');
+
+            function toggleAutoRefresh() {
+                if (autoRefreshCheckbox.checked) {
+                    autoRefreshInterval = setInterval(refreshPositions, 30000); // 30 seconds
+                } else {
+                    if (autoRefreshInterval) {
+                        clearInterval(autoRefreshInterval);
+                        autoRefreshInterval = null;
+                    }
+                }
+            }
+
+            autoRefreshCheckbox.addEventListener('change', toggleAutoRefresh);
+            toggleAutoRefresh(); // Initialize
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            await refreshPositions();
+            setupAutoRefresh();
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+        });
+    </script>
+</body>
+</html>

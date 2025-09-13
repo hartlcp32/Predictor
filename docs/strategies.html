@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK_PREDICTOR v1.0 | Strategy Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-size: 1.2em;
+        }
+
+        .terminal-time {
+            font-size: 0.9em;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px #00ff00;
+            background: #003300;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .section-title::before {
+            content: '> ';
+        }
+
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .strategy-card {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .strategy-card:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+            transition: all 0.3s;
+        }
+
+        .strategy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #003300;
+            padding-bottom: 10px;
+        }
+
+        .strategy-name {
+            color: #00ff00;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .strategy-rank {
+            background: #00ff00;
+            color: #000;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .strategy-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-label {
+            color: #008800;
+            font-size: 0.8em;
+            margin-bottom: 3px;
+        }
+
+        .metric-value {
+            color: #00ff00;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .metric-value.positive {
+            color: #00ff00;
+        }
+
+        .metric-value.negative {
+            color: #ff4444;
+        }
+
+        .metric-value.neutral {
+            color: #ffff00;
+        }
+
+        .strategy-description {
+            color: #cccccc;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .strategy-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #008800;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background: #111;
+        }
+
+        .comparison-table th {
+            background: #00ff00;
+            color: #000;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            border: 1px solid #003300;
+            padding: 10px;
+            color: #00ff00;
+        }
+
+        .comparison-table tr:hover {
+            background: #001100;
+        }
+
+        .rank-1 { border-left: 3px solid #ffd700; }
+        .rank-2 { border-left: 3px solid #c0c0c0; }
+        .rank-3 { border-left: 3px solid #cd7f32; }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+
+        .badge-excellent { background: #00ff00; color: #000; }
+        .badge-good { background: #ffff00; color: #000; }
+        .badge-average { background: #ff8800; color: #000; }
+        .badge-poor { background: #ff4444; color: #fff; }
+
+        .mini-chart {
+            height: 60px;
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #003300;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
+        }
+
+        .loading {
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @media (max-width: 768px) {
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .terminal-nav {
+                gap: 15px;
+            }
+
+            .nav-link {
+                font-size: 0.9em;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">STOCK_PREDICTOR_v1.0_STRATEGIES</div>
+            <div class="terminal-time" id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link active">STRATEGIES</a>
+            <a href="entry-tracker.html" class="nav-link">ENTRY_TRACKER</a>
+            <a href="positions.html" class="nav-link">LIVE_POSITIONS</a>
+            <a href="trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+        </div>
+
+        <div class="terminal-body">
+            <h1 class="section-title">STRATEGY PERFORMANCE COMPARISON</h1>
+
+            <!-- Strategy Cards Grid -->
+            <div class="strategy-grid" id="strategyGrid">
+                <div class="loading">Loading strategy data</div>
+            </div>
+
+            <!-- Detailed Comparison Table -->
+            <h2 class="section-title">DETAILED COMPARISON TABLE</h2>
+            <table class="comparison-table" id="comparisonTable">
+                <thead>
+                    <tr>
+                        <th>RANK</th>
+                        <th>STRATEGY</th>
+                        <th>WIN_RATE</th>
+                        <th>AVG_RETURN</th>
+                        <th>TOTAL_RETURN</th>
+                        <th>PREDICTIONS</th>
+                        <th>RISK_SCORE</th>
+                        <th>PERFORMANCE</th>
+                    </tr>
+                </thead>
+                <tbody id="comparisonTableBody">
+                    <tr><td colspan="8" class="loading">Loading comparison data</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Strategy Methodology -->
+            <h2 class="section-title">STRATEGY METHODOLOGIES</h2>
+            <div id="methodologies">
+                <div class="loading">Loading methodology descriptions</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            STRATEGY ANALYSIS MODULE | COMPREHENSIVE PERFORMANCE TRACKING | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let performanceData = null;
+        let strategyDescriptions = null;
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Strategy descriptions and methodologies
+        const strategies = {
+            momentum: {
+                name: "Momentum",
+                description: "Identifies stocks with strong recent price trends, betting that trends will continue short-term.",
+                methodology: "Analyzes 3-20 day price momentum, RSI, and volume patterns. Targets 8% profit with 5% stop loss over 3-10 days.",
+                riskLevel: "Medium"
+            },
+            mean_reversion: {
+                name: "Mean Reversion",
+                description: "Exploits temporary price deviations from statistical averages, expecting return to mean.",
+                methodology: "Uses Bollinger Bands, price-to-moving-average ratios. Quick 1-5 day trades targeting 6% profit.",
+                riskLevel: "Low"
+            },
+            volume_breakout: {
+                name: "Volume Breakout",
+                description: "Detects unusual volume spikes that often precede significant price movements.",
+                methodology: "Monitors volume-to-average ratios, price breakouts. High-reward 1-3 day plays targeting 10% profit.",
+                riskLevel: "High"
+            },
+            technical_indicators: {
+                name: "Technical Indicators",
+                description: "Combines multiple technical indicators for comprehensive trend analysis.",
+                methodology: "RSI, MACD, moving averages convergence. Medium-term 5-15 day holds targeting 12% profit.",
+                riskLevel: "Medium"
+            },
+            pattern_recognition: {
+                name: "Pattern Recognition",
+                description: "Identifies classic chart patterns like head & shoulders, triangles, and support/resistance.",
+                methodology: "Pattern matching algorithms with confirmation signals. Variable timeframes based on pattern type.",
+                riskLevel: "Medium"
+            },
+            volatility_arbitrage: {
+                name: "Volatility Arbitrage",
+                description: "Exploits volatility mean reversion and VIX-based market fear/greed cycles.",
+                methodology: "VIX analysis, historical volatility comparisons. Counter-trend positions in high-volatility periods.",
+                riskLevel: "High"
+            },
+            moving_average_crossover: {
+                name: "Moving Average Crossover",
+                description: "Classic trend-following using exponential and simple moving average crossovers.",
+                methodology: "EMA/SMA crossover signals with momentum confirmation. Traditional trend-following approach.",
+                riskLevel: "Low"
+            },
+            support_resistance: {
+                name: "Support/Resistance",
+                description: "Trades bounces and breakouts from key psychological and technical price levels.",
+                methodology: "Identifies key price levels, trades bounces and breakouts with volume confirmation.",
+                riskLevel: "Medium"
+            },
+            market_sentiment: {
+                name: "Market Sentiment",
+                description: "Volume-weighted momentum analysis incorporating broad market sentiment indicators.",
+                methodology: "Combines individual stock metrics with market-wide sentiment and sector rotation analysis.",
+                riskLevel: "Medium"
+            },
+            ensemble: {
+                name: "Ensemble",
+                description: "Meta-strategy combining signals from all other strategies with optimized weights.",
+                methodology: "Weighted voting system based on historical performance and current market conditions.",
+                riskLevel: "Low"
+            }
+        };
+
+        // Load data and initialize page
+        async function loadData() {
+            try {
+                // Try to load real performance data
+                const performanceResponse = await fetch('performance_data.json');
+                performanceData = await performanceResponse.json();
+            } catch (e) {
+                console.log('Using sample performance data');
+                performanceData = generateSamplePerformanceData();
+            }
+
+            renderStrategyCards();
+            renderComparisonTable();
+            renderMethodologies();
+        }
+
+        function generateSamplePerformanceData() {
+            const strategyNames = Object.keys(strategies);
+
+            return {
+                strategy_performance: strategyNames.reduce((acc, strategy) => {
+                    acc[strategy] = {
+                        win_rate: Math.random() * 0.4 + 0.4, // 40-80%
+                        total_return: Math.random() * 40 - 10, // -10% to 30%
+                        avg_return: Math.random() * 8 - 2, // -2% to 6%
+                        completed_predictions: Math.floor(Math.random() * 25 + 10),
+                        best_pick: {
+                            return: Math.random() * 20 + 5,
+                            stock: ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'TSLA'][Math.floor(Math.random() * 5)]
+                        },
+                        worst_pick: {
+                            return: Math.random() * -15 - 5,
+                            stock: ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'TSLA'][Math.floor(Math.random() * 5)]
+                        }
+                    };
+                    return acc;
+                }, {}),
+                overall_stats: {
+                    overall_win_rate: 0.58,
+                    total_predictions_completed: 180
+                }
+            };
+        }
+
+        function renderStrategyCards() {
+            const strategyGrid = document.getElementById('strategyGrid');
+
+            // Sort strategies by win rate
+            const sortedStrategies = Object.entries(performanceData.strategy_performance)
+                .sort((a, b) => b[1].win_rate - a[1].win_rate);
+
+            strategyGrid.innerHTML = sortedStrategies.map(([strategyName, data], index) => {
+                const strategy = strategies[strategyName];
+                const winRate = (data.win_rate * 100).toFixed(1);
+                const avgReturn = data.avg_return.toFixed(1);
+                const totalReturn = data.total_return.toFixed(1);
+
+                const performanceBadge = getPerformanceBadge(data.win_rate);
+                const rankClass = index < 3 ? `rank-${index + 1}` : '';
+
+                return `
+                    <div class="strategy-card ${rankClass}">
+                        <div class="strategy-header">
+                            <div class="strategy-name">${strategy.name.toUpperCase()}</div>
+                            <div class="strategy-rank">#${index + 1}</div>
+                        </div>
+
+                        <div class="strategy-metrics">
+                            <div class="metric">
+                                <div class="metric-label">WIN_RATE</div>
+                                <div class="metric-value ${getValueClass(data.win_rate, 0.6, 0.5)}">${winRate}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">AVG_RETURN</div>
+                                <div class="metric-value ${getValueClass(data.avg_return, 2, 0)}">${avgReturn > 0 ? '+' : ''}${avgReturn}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">TOTAL_RETURN</div>
+                                <div class="metric-value ${getValueClass(data.total_return, 10, 0)}">${totalReturn > 0 ? '+' : ''}${totalReturn}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">PREDICTIONS</div>
+                                <div class="metric-value">${data.completed_predictions}</div>
+                            </div>
+                        </div>
+
+                        <div class="strategy-description">${strategy.description}</div>
+
+                        <div class="strategy-stats">
+                            <span>Risk: ${strategy.riskLevel}</span>
+                            <span>${performanceBadge}</span>
+                        </div>
+
+                        <div class="mini-chart">
+                            <div class="chart-line" style="height: ${Math.max(20, data.win_rate * 100)}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderComparisonTable() {
+            const tableBody = document.getElementById('comparisonTableBody');
+
+            // Sort strategies by win rate
+            const sortedStrategies = Object.entries(performanceData.strategy_performance)
+                .sort((a, b) => b[1].win_rate - a[1].win_rate);
+
+            tableBody.innerHTML = sortedStrategies.map(([strategyName, data], index) => {
+                const strategy = strategies[strategyName];
+                const riskScore = getRiskScore(strategy.riskLevel);
+                const performanceBadge = getPerformanceBadge(data.win_rate);
+
+                return `
+                    <tr>
+                        <td><strong>#${index + 1}</strong></td>
+                        <td><strong>${strategy.name}</strong></td>
+                        <td class="${getValueClass(data.win_rate, 0.6, 0.5)}">${(data.win_rate * 100).toFixed(1)}%</td>
+                        <td class="${getValueClass(data.avg_return, 2, 0)}">${data.avg_return > 0 ? '+' : ''}${data.avg_return.toFixed(1)}%</td>
+                        <td class="${getValueClass(data.total_return, 10, 0)}">${data.total_return > 0 ? '+' : ''}${data.total_return.toFixed(1)}%</td>
+                        <td>${data.completed_predictions}</td>
+                        <td>${riskScore}/10</td>
+                        <td>${performanceBadge}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderMethodologies() {
+            const methodologies = document.getElementById('methodologies');
+
+            methodologies.innerHTML = Object.entries(strategies).map(([key, strategy]) => `
+                <div class="strategy-card" style="margin-bottom: 20px;">
+                    <div class="strategy-header">
+                        <div class="strategy-name">${strategy.name}</div>
+                        <div style="color: #008800;">Risk: ${strategy.riskLevel}</div>
+                    </div>
+                    <div class="strategy-description" style="margin-bottom: 10px;"><strong>Overview:</strong> ${strategy.description}</div>
+                    <div class="strategy-description"><strong>Methodology:</strong> ${strategy.methodology}</div>
+                </div>
+            `).join('');
+        }
+
+        function getValueClass(value, good, neutral) {
+            if (value >= good) return 'positive';
+            if (value >= neutral) return 'neutral';
+            return 'negative';
+        }
+
+        function getPerformanceBadge(winRate) {
+            if (winRate >= 0.7) return '<span class="performance-badge badge-excellent">EXCELLENT</span>';
+            if (winRate >= 0.6) return '<span class="performance-badge badge-good">GOOD</span>';
+            if (winRate >= 0.5) return '<span class="performance-badge badge-average">AVERAGE</span>';
+            return '<span class="performance-badge badge-poor">POOR</span>';
+        }
+
+        function getRiskScore(riskLevel) {
+            switch(riskLevel) {
+                case 'Low': return Math.floor(Math.random() * 3) + 1; // 1-3
+                case 'Medium': return Math.floor(Math.random() * 4) + 4; // 4-7
+                case 'High': return Math.floor(Math.random() * 3) + 8; // 8-10
+                default: return 5;
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

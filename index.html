@@ -216,6 +216,118 @@
             color: #008800;
             font-size: 0.9em;
         }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .terminal-container {
+                border-width: 1px;
+            }
+
+            .terminal-header {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .terminal-title {
+                font-size: 1em;
+            }
+
+            .terminal-time {
+                font-size: 0.8em;
+            }
+
+            .terminal-nav {
+                padding: 10px 15px;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                font-size: 0.9em;
+                padding: 8px 12px;
+                border: 1px solid #00ff00;
+                border-radius: 3px;
+                background: #003300;
+            }
+
+            .terminal-body {
+                padding: 20px 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 15px 10px;
+            }
+
+            .stat-value {
+                font-size: 1.5em;
+            }
+
+            .predictions-table {
+                font-size: 0.8em;
+            }
+
+            .predictions-table th,
+            .predictions-table td {
+                padding: 8px 5px;
+            }
+
+            .terminal-prompt {
+                font-size: 0.9em;
+                padding: 15px;
+            }
+
+            .section-title {
+                font-size: 1.2em;
+            }
+
+            /* Hide debug navigation on mobile */
+            .terminal-container > div:nth-child(2) {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .terminal-header {
+                padding: 8px 10px;
+            }
+
+            .terminal-nav {
+                padding: 8px 10px;
+                gap: 8px;
+            }
+
+            .nav-link {
+                font-size: 0.8em;
+                padding: 6px 8px;
+            }
+
+            .terminal-body {
+                padding: 15px 10px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .predictions-table {
+                font-size: 0.7em;
+            }
+
+            .terminal-prompt {
+                font-size: 0.8em;
+                padding: 10px;
+            }
+        }
         
         .loading {
             color: #00ff00;
@@ -243,16 +355,26 @@
         </div>
         
         <!-- HUGE VISIBLE NAVIGATION FOR DEBUGGING -->
-        <div style="background: red; padding: 20px; text-align: center; font-size: 2em;">
-            <a href="index.html" style="color: white; margin: 20px; text-decoration: none; background: blue; padding: 10px;">HOME</a>
-            <a href="predictions.html" style="color: white; margin: 20px; text-decoration: none; background: green; padding: 10px;">PREDICTIONS_TABLE</a>
-            <a href="historic.html" style="color: white; margin: 20px; text-decoration: none; background: purple; padding: 10px;">HISTORIC_DATA</a>
+        <div style="background: red; padding: 20px; text-align: center; font-size: 1.2em; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <a href="index.html" style="color: white; padding: 8px 12px; text-decoration: none; background: blue; border-radius: 3px;">HOME</a>
+            <a href="predictions.html" style="color: white; padding: 8px 12px; text-decoration: none; background: green; border-radius: 3px;">PREDICTIONS</a>
+            <a href="docs/charts.html" style="color: white; padding: 8px 12px; text-decoration: none; background: orange; border-radius: 3px;">ANALYTICS</a>
+            <a href="docs/strategies.html" style="color: white; padding: 8px 12px; text-decoration: none; background: teal; border-radius: 3px;">STRATEGIES</a>
+            <a href="docs/entry-tracker.html" style="color: white; padding: 8px 12px; text-decoration: none; background: navy; border-radius: 3px;">ENTRY_TRACKER</a>
+            <a href="docs/positions.html" style="color: white; padding: 8px 12px; text-decoration: none; background: maroon; border-radius: 3px;">LIVE_POSITIONS</a>
+            <a href="docs/trade-history.html" style="color: white; padding: 8px 12px; text-decoration: none; background: darkgreen; border-radius: 3px;">TRADE_HISTORY</a>
+            <a href="historic.html" style="color: white; padding: 8px 12px; text-decoration: none; background: purple; border-radius: 3px;">HISTORIC</a>
         </div>
         
         <div class="terminal-nav">
             <a href="index.html" class="nav-link active">HOME</a>
-            <a href="predictions.html" class="nav-link">PREDICTIONS_TABLE</a>
-            <a href="historic.html" class="nav-link">HISTORIC_DATA</a>
+            <a href="predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="docs/charts.html" class="nav-link">ANALYTICS</a>
+            <a href="docs/strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="docs/entry-tracker.html" class="nav-link">ENTRY_TRACKER</a>
+            <a href="docs/positions.html" class="nav-link">LIVE_POSITIONS</a>
+            <a href="docs/trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="historic.html" class="nav-link">HISTORIC</a>
         </div>
         
         <div class="terminal-body">

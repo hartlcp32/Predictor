@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK_PREDICTOR v1.0 | Entry Point Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-size: 1.2em;
+        }
+
+        .terminal-time {
+            font-size: 0.9em;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+            font-size: 0.9em;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px #00ff00;
+            background: #003300;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .section-title::before {
+            content: '> ';
+        }
+
+        .date-selector {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .date-input {
+            background: #000;
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 3px;
+        }
+
+        .date-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .btn {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .entry-summary {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .trade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .trade-card {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .trade-card.profit {
+            border-left: 4px solid #00ff00;
+        }
+
+        .trade-card.loss {
+            border-left: 4px solid #ff4444;
+        }
+
+        .trade-card.active {
+            border-left: 4px solid #ffff00;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 0, 0.8); }
+        }
+
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #003300;
+            padding-bottom: 10px;
+        }
+
+        .trade-symbol {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .trade-status {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #ffff00;
+            color: #000;
+        }
+
+        .status-closed {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .status-stopped {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .price-levels {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-box {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #003300;
+            border-radius: 3px;
+        }
+
+        .price-label {
+            font-size: 0.8em;
+            color: #008800;
+            margin-bottom: 5px;
+        }
+
+        .price-value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .entry-price {
+            color: #00ff00;
+        }
+
+        .target-price {
+            color: #00ff00;
+        }
+
+        .stop-price {
+            color: #ff4444;
+        }
+
+        .current-price {
+            color: #ffff00;
+        }
+
+        .trade-pnl {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .pnl-positive {
+            color: #00ff00;
+        }
+
+        .pnl-negative {
+            color: #ff4444;
+        }
+
+        .pnl-neutral {
+            color: #ffff00;
+        }
+
+        .trade-details {
+            font-size: 0.9em;
+            color: #cccccc;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #003300;
+            border-radius: 3px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff4444, #ffff00, #00ff00);
+            transition: width 0.3s;
+        }
+
+        .quick-dates {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-date-btn {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 5px 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8em;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .quick-date-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .loading {
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .terminal-nav {
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 0.8em;
+            }
+
+            .date-selector {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .trade-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .price-levels {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+
+            .quick-dates {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">STOCK_PREDICTOR_v1.0_ENTRY_TRACKER</div>
+            <div class="terminal-time" id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="entry-tracker.html" class="nav-link active">ENTRY_TRACKER</a>
+            <a href="positions.html" class="nav-link">LIVE_POSITIONS</a>
+            <a href="trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+        </div>
+
+        <div class="terminal-body">
+            <h1 class="section-title">ENTRY POINT TRACKER</h1>
+
+            <!-- Date Selector -->
+            <div class="date-selector">
+                <div>
+                    <label for="entryDate" style="color: #00ff00; margin-right: 10px;">SELECT_ENTRY_DATE:</label>
+                    <input type="date" id="entryDate" class="date-input">
+                </div>
+                <button class="btn" onclick="loadEntryData()">TRACK_ENTRY</button>
+
+                <div class="quick-dates">
+                    <button class="quick-date-btn" onclick="selectQuickDate(-1)">YESTERDAY</button>
+                    <button class="quick-date-btn" onclick="selectQuickDate(-7)">1_WEEK_AGO</button>
+                    <button class="quick-date-btn" onclick="selectQuickDate(-14)">2_WEEKS_AGO</button>
+                    <button class="quick-date-btn" onclick="selectQuickDate(-30)">1_MONTH_AGO</button>
+                </div>
+            </div>
+
+            <!-- Entry Summary -->
+            <div class="entry-summary" id="entrySummary" style="display: none;">
+                <h2 style="color: #00ff00; margin-bottom: 15px;">📊 ENTRY SUMMARY FOR <span id="selectedDate"></span></h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                    <div style="text-align: center;">
+                        <div style="color: #008800; font-size: 0.9em;">TOTAL_TRADES</div>
+                        <div style="color: #00ff00; font-size: 1.5em; font-weight: bold;" id="totalTrades">0</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="color: #008800; font-size: 0.9em;">ACTIVE_TRADES</div>
+                        <div style="color: #ffff00; font-size: 1.5em; font-weight: bold;" id="activeTrades">0</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="color: #008800; font-size: 0.9em;">CLOSED_P&L</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="closedPnl">$0</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="color: #008800; font-size: 0.9em;">UNREALIZED_P&L</div>
+                        <div style="font-size: 1.5em; font-weight: bold;" id="unrealizedPnl">$0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trade Cards -->
+            <div class="trade-grid" id="tradeGrid">
+                <div class="loading">Select a date to view entry details</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            ENTRY POINT TRACKING | FOLLOW YOUR SPECIFIC TRADES | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let predictionsData = null;
+        let tradesData = null;
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Set default date to today
+        document.getElementById('entryDate').valueAsDate = new Date();
+
+        // Quick date selection
+        function selectQuickDate(daysAgo) {
+            const date = new Date();
+            date.setDate(date.getDate() + daysAgo);
+            document.getElementById('entryDate').valueAsDate = date;
+            loadEntryData();
+        }
+
+        // Load data files
+        async function loadData() {
+            try {
+                // Load predictions data
+                const predictionsResponse = await fetch('../predictions_data.json');
+                predictionsData = await predictionsResponse.json();
+
+                // Load trades data
+                try {
+                    const tradesResponse = await fetch('../trades_data.json');
+                    tradesData = await tradesResponse.json();
+                } catch (e) {
+                    tradesData = generateSampleTradesData();
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                predictionsData = generateSamplePredictionsData();
+                tradesData = generateSampleTradesData();
+            }
+        }
+
+        // Generate sample data for demonstration
+        function generateSampleTradesData() {
+            const today = new Date();
+            const sampleTrades = [];
+
+            for (let i = 0; i < 30; i++) {
+                const entryDate = new Date(today);
+                entryDate.setDate(entryDate.getDate() - i);
+
+                const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators', 'ensemble'];
+                const stocks = ['AAPL', 'MSFT', 'GOOGL', 'NVDA', 'TSLA', 'META', 'AMZN'];
+
+                for (let j = 0; j < Math.floor(Math.random() * 8) + 3; j++) {
+                    const entryPrice = Math.random() * 300 + 100;
+                    const isLong = Math.random() > 0.5;
+                    const targetMultiplier = 1 + (Math.random() * 0.15 + 0.05);
+                    const stopMultiplier = 1 - (Math.random() * 0.08 + 0.03);
+
+                    const trade = {
+                        symbol: stocks[Math.floor(Math.random() * stocks.length)],
+                        strategy: strategies[Math.floor(Math.random() * strategies.length)],
+                        position: isLong ? 'LONG' : 'SHORT',
+                        entry_price: entryPrice,
+                        target_price: isLong ? entryPrice * targetMultiplier : entryPrice * stopMultiplier,
+                        stop_loss_price: isLong ? entryPrice * stopMultiplier : entryPrice * targetMultiplier,
+                        entry_date: entryDate.toISOString().split('T')[0],
+                        status: i < 7 ? 'ACTIVE' : (Math.random() > 0.3 ? 'CLOSED' : 'STOPPED')
+                    };
+
+                    if (trade.status !== 'ACTIVE') {
+                        const exitPrice = entryPrice * (0.9 + Math.random() * 0.2);
+                        trade.exit_price = exitPrice;
+                        trade.exit_date = new Date(entryDate.getTime() + Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                        trade.return_pct = isLong ?
+                            (exitPrice - entryPrice) / entryPrice * 100 :
+                            (entryPrice - exitPrice) / entryPrice * 100;
+                    }
+
+                    sampleTrades.push(trade);
+                }
+            }
+
+            return {
+                active_trades: sampleTrades.filter(t => t.status === 'ACTIVE'),
+                closed_trades: sampleTrades.filter(t => t.status !== 'ACTIVE')
+            };
+        }
+
+        function generateSamplePredictionsData() {
+            return {
+                predictions: Array.from({length: 30}, (_, i) => ({
+                    date: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    predictions: {
+                        momentum: { stock: 'AAPL', position: 'LONG', projected: '+7.2%' },
+                        mean_reversion: { stock: 'TSLA', position: 'SHORT', projected: '-5.8%' },
+                        ensemble: { stock: 'NVDA', position: 'LONG', projected: '+8.5%' }
+                    }
+                }))
+            };
+        }
+
+        // Load entry data for selected date
+        function loadEntryData() {
+            const selectedDate = document.getElementById('entryDate').value;
+            if (!selectedDate) return;
+
+            document.getElementById('selectedDate').textContent = selectedDate;
+            document.getElementById('entrySummary').style.display = 'block';
+
+            // Filter trades for the selected date
+            const dayTrades = getAllTradesForDate(selectedDate);
+
+            // Update summary
+            updateEntrySummary(dayTrades, selectedDate);
+
+            // Display trade cards
+            displayTradeCards(dayTrades);
+        }
+
+        function getAllTradesForDate(date) {
+            if (!tradesData) return [];
+
+            const allTrades = [
+                ...(tradesData.active_trades || []),
+                ...(tradesData.closed_trades || [])
+            ];
+
+            return allTrades.filter(trade => trade.entry_date === date);
+        }
+
+        function updateEntrySummary(trades, date) {
+            const totalTrades = trades.length;
+            const activeTrades = trades.filter(t => t.status === 'ACTIVE').length;
+
+            let closedPnl = 0;
+            let unrealizedPnl = 0;
+
+            trades.forEach(trade => {
+                if (trade.status !== 'ACTIVE' && trade.return_pct) {
+                    closedPnl += trade.return_pct;
+                } else if (trade.status === 'ACTIVE') {
+                    // Simulate current P&L for active trades
+                    const randomPnl = (Math.random() - 0.5) * 10;
+                    unrealizedPnl += randomPnl;
+                }
+            });
+
+            document.getElementById('totalTrades').textContent = totalTrades;
+            document.getElementById('activeTrades').textContent = activeTrades;
+            document.getElementById('closedPnl').textContent = `${closedPnl >= 0 ? '+' : ''}${closedPnl.toFixed(1)}%`;
+            document.getElementById('closedPnl').className = closedPnl >= 0 ? 'pnl-positive' : 'pnl-negative';
+            document.getElementById('unrealizedPnl').textContent = `${unrealizedPnl >= 0 ? '+' : ''}${unrealizedPnl.toFixed(1)}%`;
+            document.getElementById('unrealizedPnl').className = unrealizedPnl >= 0 ? 'pnl-positive' : 'pnl-negative';
+        }
+
+        function displayTradeCards(trades) {
+            const tradeGrid = document.getElementById('tradeGrid');
+
+            if (trades.length === 0) {
+                tradeGrid.innerHTML = '<div class="loading">No trades found for this date</div>';
+                return;
+            }
+
+            tradeGrid.innerHTML = trades.map(trade => {
+                const currentPrice = trade.entry_price * (0.95 + Math.random() * 0.1); // Simulate current price
+                let pnl = 0;
+                let pnlClass = 'pnl-neutral';
+
+                if (trade.status === 'ACTIVE') {
+                    pnl = trade.position === 'LONG' ?
+                        (currentPrice - trade.entry_price) / trade.entry_price * 100 :
+                        (trade.entry_price - currentPrice) / trade.entry_price * 100;
+                } else if (trade.return_pct) {
+                    pnl = trade.return_pct;
+                }
+
+                pnlClass = pnl > 0 ? 'pnl-positive' : pnl < 0 ? 'pnl-negative' : 'pnl-neutral';
+
+                const cardClass = trade.status === 'ACTIVE' ? 'active' :
+                                 pnl > 0 ? 'profit' : 'loss';
+
+                const statusClass = trade.status === 'ACTIVE' ? 'status-active' :
+                                   trade.status === 'CLOSED' ? 'status-closed' : 'status-stopped';
+
+                // Calculate progress to target
+                let progress = 0;
+                if (trade.status === 'ACTIVE') {
+                    const targetDistance = Math.abs(trade.target_price - trade.entry_price);
+                    const currentDistance = Math.abs(currentPrice - trade.entry_price);
+                    progress = Math.min((currentDistance / targetDistance) * 100, 100);
+                }
+
+                return `
+                    <div class="trade-card ${cardClass}">
+                        <div class="trade-header">
+                            <div class="trade-symbol">${trade.symbol} ${trade.position}</div>
+                            <div class="trade-status ${statusClass}">${trade.status}</div>
+                        </div>
+
+                        <div class="trade-pnl ${pnlClass}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</div>
+
+                        <div class="price-levels">
+                            <div class="price-box">
+                                <div class="price-label">ENTRY</div>
+                                <div class="price-value entry-price">$${trade.entry_price.toFixed(2)}</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price-label">TARGET</div>
+                                <div class="price-value target-price">$${trade.target_price.toFixed(2)}</div>
+                            </div>
+                            <div class="price-box">
+                                <div class="price-label">STOP</div>
+                                <div class="price-value stop-price">$${trade.stop_loss_price.toFixed(2)}</div>
+                            </div>
+                        </div>
+
+                        ${trade.status === 'ACTIVE' ? `
+                            <div class="price-box" style="margin-bottom: 10px;">
+                                <div class="price-label">CURRENT</div>
+                                <div class="price-value current-price">$${currentPrice.toFixed(2)}</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progress}%"></div>
+                            </div>
+                        ` : ''}
+
+                        <div class="trade-details">
+                            <div><strong>Strategy:</strong> ${trade.strategy.replace('_', ' ').toUpperCase()}</div>
+                            <div><strong>Entry Date:</strong> ${trade.entry_date}</div>
+                            ${trade.exit_date ? `<div><strong>Exit Date:</strong> ${trade.exit_date}</div>` : ''}
+                            ${trade.exit_price ? `<div><strong>Exit Price:</strong> $${trade.exit_price.toFixed(2)}</div>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadData();
+            loadEntryData(); // Load today's data by default
+        });
+    </script>
+</body>
+</html>

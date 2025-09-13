@@ -119,8 +119,31 @@ class PredictionGenerator:
         return data
     
     def calculate_statistics(self, predictions):
-        """Calculate performance statistics"""
-        # This would be updated with actual results over time
+        """Calculate performance statistics using real tracking"""
+        try:
+            from predictors.performance_tracker import PerformanceTracker
+            tracker = PerformanceTracker(self.output_dir)
+            performance_data = tracker.generate_performance_report()
+
+            # Return real statistics if available
+            if performance_data['overall_stats']['total_predictions_completed'] > 0:
+                return {
+                    'total_predictions': performance_data['overall_stats']['total_predictions_completed'],
+                    'overall_accuracy': performance_data['overall_stats']['overall_win_rate'],
+                    'best_strategy': performance_data['overall_stats']['best_strategy'],
+                    'strategies': {
+                        name: {
+                            'win_rate': stats['win_rate'],
+                            'total_return': stats['total_return'],
+                            'avg_return': stats['avg_return']
+                        }
+                        for name, stats in performance_data['strategy_performance'].items()
+                    }
+                }
+        except Exception as e:
+            print(f"Note: Using fallback statistics (real tracking available after first week): {e}")
+
+        # Fallback to sample data for new installations
         return {
             'total_predictions': len(predictions) * 10,
             'strategies': {
@@ -147,25 +170,48 @@ class PredictionGenerator:
         try:
             # Generate predictions
             predictions = self.generate_daily_predictions()
-            
+
             # Save to JSON
             data = self.save_predictions(predictions)
-            
+
+            # Generate performance and risk analysis
+            try:
+                from predictors.performance_tracker import PerformanceTracker
+                from predictors.risk_analyzer import RiskAnalyzer
+                from predictors.trade_tracker import TradeTracker
+
+                print("\n📊 Updating performance tracking...")
+                performance_tracker = PerformanceTracker(self.output_dir)
+                performance_tracker.generate_performance_report()
+
+                print("📈 Updating risk analysis...")
+                risk_analyzer = RiskAnalyzer(self.output_dir)
+                risk_analyzer.generate_risk_report()
+
+                print("🎯 Updating trade tracking...")
+                trade_tracker = TradeTracker(self.output_dir)
+                trade_tracker.update_trades_system()
+
+            except Exception as e:
+                print(f"Note: Performance/risk analysis skipped: {e}")
+
             # Display summary
             print("\n" + "="*50)
             print(f"PREDICTIONS FOR {datetime.now().strftime('%Y-%m-%d')}")
             print("="*50)
-            
+
             for strategy, pred in predictions.items():
                 if pred['stock'] != 'NONE':
                     print(f"{strategy:25} {pred['stock']:6} {pred['position']:5} {pred['projected']:>6} ({pred['timeframe']})")
-            
+
             print("\n✅ Predictions generated successfully!")
             print("\n📝 Next steps:")
             print("1. Review predictions in docs/predictions_data.json")
-            print("2. Commit and push to GitHub")
-            print("3. GitHub Pages will automatically display the new predictions")
-            
+            print("2. Check performance metrics in docs/performance_data.json")
+            print("3. Review risk analysis in docs/risk_analysis.json")
+            print("4. Commit and push to GitHub")
+            print("5. GitHub Pages will automatically display the new predictions")
+
         except Exception as e:
             print(f"❌ Error generating predictions: {e}")
             raise

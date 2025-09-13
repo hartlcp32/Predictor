@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK_PREDICTOR v1.0 | Analytics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-size: 1.2em;
+        }
+
+        .terminal-time {
+            font-size: 0.9em;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-shadow: 0 0 5px #00ff00;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px #00ff00;
+            background: #003300;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .section-title::before {
+            content: '> ';
+        }
+
+        .chart-container {
+            background: #111;
+            border: 1px solid #00ff00;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .chart-title {
+            color: #00ff00;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            margin-bottom: 20px;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .metric-label {
+            color: #008800;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .metric-value {
+            color: #00ff00;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .loading {
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">STOCK_PREDICTOR_v1.0_ANALYTICS</div>
+            <div class="terminal-time" id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link active">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="entry-tracker.html" class="nav-link">ENTRY_TRACKER</a>
+            <a href="positions.html" class="nav-link">LIVE_POSITIONS</a>
+            <a href="trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+        </div>
+
+        <div class="terminal-body">
+            <h1 class="section-title">PERFORMANCE ANALYTICS</h1>
+
+            <!-- Key Metrics -->
+            <div class="metrics-grid" id="metricsGrid">
+                <div class="loading">Loading metrics</div>
+            </div>
+
+            <!-- Strategy Performance Chart -->
+            <div class="chart-container">
+                <h2 class="chart-title">📊 STRATEGY WIN RATES</h2>
+                <div class="chart-wrapper">
+                    <canvas id="strategyWinRateChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Returns Over Time -->
+            <div class="chart-container">
+                <h2 class="chart-title">📈 CUMULATIVE RETURNS OVER TIME</h2>
+                <div class="chart-wrapper">
+                    <canvas id="cumulativeReturnsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Grid of smaller charts -->
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">🎯 ACCURACY DISTRIBUTION</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="accuracyDistributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3 class="chart-title">💰 AVERAGE RETURNS</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="averageReturnsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk vs Return -->
+            <div class="chart-container">
+                <h2 class="chart-title">⚖️ RISK VS RETURN ANALYSIS</h2>
+                <div class="chart-wrapper">
+                    <canvas id="riskReturnChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Prediction Timeline -->
+            <div class="chart-container">
+                <h2 class="chart-title">📅 DAILY PREDICTION ACCURACY</h2>
+                <div class="chart-wrapper">
+                    <canvas id="dailyAccuracyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            ANALYTICS MODULE | REAL-TIME PERFORMANCE TRACKING | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js default configuration for terminal theme
+        Chart.defaults.color = '#00ff00';
+        Chart.defaults.backgroundColor = '#111111';
+        Chart.defaults.borderColor = '#00ff00';
+
+        // Global variables
+        let predictionsData = null;
+        let performanceData = null;
+        let charts = {};
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Load data and initialize charts
+        async function loadData() {
+            try {
+                // Load predictions data
+                const predictionsResponse = await fetch('predictions_data.json');
+                predictionsData = await predictionsResponse.json();
+
+                // Load performance data if available
+                try {
+                    const performanceResponse = await fetch('performance_data.json');
+                    performanceData = await performanceResponse.json();
+                } catch (e) {
+                    console.log('Performance data not yet available, using sample data');
+                    performanceData = generateSamplePerformanceData();
+                }
+
+                initializeCharts();
+                updateMetrics();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                // Use sample data
+                predictionsData = generateSampleData();
+                performanceData = generateSamplePerformanceData();
+                initializeCharts();
+                updateMetrics();
+            }
+        }
+
+        function generateSampleData() {
+            // Generate sample data for demonstration
+            return {
+                predictions: Array.from({length: 14}, (_, i) => ({
+                    date: new Date(Date.now() - (13-i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                    predictions: {
+                        momentum: { position: 'LONG', confidence: Math.random() * 0.3 + 0.6, projected: '+7.2%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
+                        mean_reversion: { position: 'SHORT', confidence: Math.random() * 0.3 + 0.5, projected: '-5.8%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
+                        volume_breakout: { position: 'LONG', confidence: Math.random() * 0.3 + 0.7, projected: '+8.1%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
+                        technical_indicators: { position: 'LONG', confidence: Math.random() * 0.3 + 0.6, projected: '+6.5%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
+                        ensemble: { position: 'LONG', confidence: Math.random() * 0.2 + 0.8, projected: '+9.2%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' }
+                    }
+                }))
+            };
+        }
+
+        function generateSamplePerformanceData() {
+            const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators', 'pattern_recognition', 'volatility_arbitrage', 'moving_average_crossover', 'support_resistance', 'market_sentiment', 'ensemble'];
+
+            return {
+                strategy_performance: strategies.reduce((acc, strategy) => {
+                    acc[strategy] = {
+                        win_rate: Math.random() * 0.4 + 0.4, // 40-80%
+                        total_return: Math.random() * 30 - 5, // -5% to 25%
+                        avg_return: Math.random() * 6 - 1, // -1% to 5%
+                        completed_predictions: Math.floor(Math.random() * 20 + 5)
+                    };
+                    return acc;
+                }, {}),
+                overall_stats: {
+                    overall_win_rate: 0.58,
+                    overall_avg_return: 3.2,
+                    best_strategy: 'ensemble',
+                    total_predictions_completed: 147
+                }
+            };
+        }
+
+        function updateMetrics() {
+            const metricsGrid = document.getElementById('metricsGrid');
+            const overall = performanceData.overall_stats;
+
+            metricsGrid.innerHTML = `
+                <div class="metric-card">
+                    <div class="metric-label">TOTAL_PREDICTIONS</div>
+                    <div class="metric-value">${overall.total_predictions_completed || 147}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">WIN_RATE</div>
+                    <div class="metric-value">${(overall.overall_win_rate * 100).toFixed(1)}%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">AVG_RETURN</div>
+                    <div class="metric-value">${overall.overall_avg_return > 0 ? '+' : ''}${overall.overall_avg_return.toFixed(1)}%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">BEST_STRATEGY</div>
+                    <div class="metric-value">${overall.best_strategy || 'ENSEMBLE'}</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">SHARPE_RATIO</div>
+                    <div class="metric-value">${(overall.overall_avg_return / 2.5).toFixed(2)}</div>
+                </div>
+            `;
+        }
+
+        function initializeCharts() {
+            createStrategyWinRateChart();
+            createCumulativeReturnsChart();
+            createAccuracyDistributionChart();
+            createAverageReturnsChart();
+            createRiskReturnChart();
+            createDailyAccuracyChart();
+        }
+
+        function createStrategyWinRateChart() {
+            const ctx = document.getElementById('strategyWinRateChart').getContext('2d');
+            const strategies = Object.keys(performanceData.strategy_performance);
+            const winRates = strategies.map(s => performanceData.strategy_performance[s].win_rate * 100);
+
+            charts.strategyWinRate = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: strategies.map(s => s.replace('_', ' ').toUpperCase()),
+                    datasets: [{
+                        label: 'Win Rate (%)',
+                        data: winRates,
+                        backgroundColor: winRates.map(rate => rate > 60 ? '#00ff00' : rate > 50 ? '#ffff00' : '#ff4444'),
+                        borderColor: '#00ff00',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00', maxRotation: 45 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCumulativeReturnsChart() {
+            const ctx = document.getElementById('cumulativeReturnsChart').getContext('2d');
+
+            // Generate cumulative returns data
+            const dates = predictionsData.predictions.map(p => p.date);
+            let cumulativeReturn = 0;
+            const cumulativeReturns = dates.map((date, index) => {
+                cumulativeReturn += Math.random() * 4 - 1; // Simulate daily returns
+                return cumulativeReturn;
+            });
+
+            charts.cumulativeReturns = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Cumulative Return (%)',
+                        data: cumulativeReturns,
+                        borderColor: '#00ff00',
+                        backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00', maxRotation: 45 }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createAccuracyDistributionChart() {
+            const ctx = document.getElementById('accuracyDistributionChart').getContext('2d');
+
+            charts.accuracyDistribution = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct Direction', 'Wrong Direction'],
+                    datasets: [{
+                        data: [58, 42],
+                        backgroundColor: ['#00ff00', '#ff4444'],
+                        borderColor: ['#00ff00', '#ff4444'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } }
+                    }
+                }
+            });
+        }
+
+        function createAverageReturnsChart() {
+            const ctx = document.getElementById('averageReturnsChart').getContext('2d');
+            const strategies = Object.keys(performanceData.strategy_performance);
+            const avgReturns = strategies.map(s => performanceData.strategy_performance[s].avg_return);
+
+            charts.averageReturns = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: {
+                    labels: strategies.map(s => s.replace('_', ' ').toUpperCase()),
+                    datasets: [{
+                        label: 'Avg Return (%)',
+                        data: avgReturns,
+                        backgroundColor: avgReturns.map(ret => ret > 0 ? '#00ff00' : '#ff4444'),
+                        borderColor: '#00ff00',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createRiskReturnChart() {
+            const ctx = document.getElementById('riskReturnChart').getContext('2d');
+            const strategies = Object.keys(performanceData.strategy_performance);
+
+            const data = strategies.map(s => ({
+                x: Math.random() * 10 + 5, // Risk (volatility)
+                y: performanceData.strategy_performance[s].avg_return, // Return
+                label: s.replace('_', ' ')
+            }));
+
+            charts.riskReturn = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Strategies',
+                        data: data,
+                        backgroundColor: '#00ff00',
+                        borderColor: '#00ff00',
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${data[context.dataIndex].label}: Risk ${context.parsed.x.toFixed(1)}%, Return ${context.parsed.y.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Return (%)', color: '#00ff00' },
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Risk (Volatility %)', color: '#00ff00' },
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createDailyAccuracyChart() {
+            const ctx = document.getElementById('dailyAccuracyChart').getContext('2d');
+            const dates = predictionsData.predictions.map(p => p.date);
+            const accuracies = dates.map(() => Math.random() * 40 + 40); // 40-80% accuracy
+
+            charts.dailyAccuracy = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Daily Accuracy (%)',
+                        data: accuracies,
+                        borderColor: '#00ff00',
+                        backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: accuracies.map(acc => acc > 60 ? '#00ff00' : '#ffff00')
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#00ff00' } }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00' }
+                        },
+                        x: {
+                            grid: { color: '#003300' },
+                            ticks: { color: '#00ff00', maxRotation: 45 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

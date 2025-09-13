@@ -35,5 +35,5 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add docs/predictions_data.json
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily predictions for $(date +'%Y-%m-%d')" && git push)
+        git add docs/predictions_data.json docs/performance_data.json docs/risk_analysis.json docs/trades_data.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily predictions and analysis for $(date +'%Y-%m-%d')" && git push)
