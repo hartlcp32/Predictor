@@ -1,0 +1,37 @@
+name: Generate Daily Predictions
+
+on:
+  schedule:
+    # Runs at 13:00 UTC (8 AM EST / 9 AM EDT) every weekday
+    - cron: '0 13 * * 1-5'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  generate-predictions:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    
+    - name: Install dependencies
+      run: |
+        pip install yfinance pandas numpy scikit-learn ta plotly pytz
+    
+    - name: Generate predictions
+      run: |
+        python generate_predictions.py
+    
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/predictions_data.json
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Daily predictions for $(date +'%Y-%m-%d')" && git push)

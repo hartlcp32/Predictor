@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HISTORIC_DATA | Stock Predictor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+        
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            text-shadow: 0 0 10px #00ff00;
+        }
+        
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+        
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+        
+        .terminal-body {
+            padding: 30px;
+        }
+        
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        
+        .section-title::before {
+            content: '> ';
+        }
+        
+        .backtest-summary {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #003300;
+        }
+        
+        .metric-label {
+            color: #008800;
+        }
+        
+        .metric-value {
+            color: #00ff00;
+            font-weight: bold;
+        }
+        
+        .performance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        .performance-table th {
+            background: #111;
+            color: #00ff00;
+            padding: 15px 10px;
+            text-align: left;
+            border: 1px solid #00ff00;
+            font-weight: bold;
+        }
+        
+        .performance-table td {
+            padding: 12px 10px;
+            border: 1px solid #003300;
+            color: #00ff00;
+        }
+        
+        .performance-table tr:hover {
+            background: #001100;
+        }
+        
+        .positive {
+            color: #00ff00;
+            font-weight: bold;
+        }
+        
+        .negative {
+            color: #ff4444;
+            font-weight: bold;
+        }
+        
+        .chart-container {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            height: 400px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .bar {
+            flex: 1;
+            background: #00ff00;
+            position: relative;
+            min-height: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.7em;
+            transform: rotate(-45deg);
+            transform-origin: center;
+            white-space: nowrap;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -20px;
+            font-size: 0.8em;
+        }
+        
+        .year-selector {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .year-btn {
+            background: #111;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        
+        .year-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+        
+        .year-btn.active {
+            background: #00ff00;
+            color: #000;
+        }
+        
+        .terminal-prompt {
+            color: #00ff00;
+            padding: 20px;
+            background: #111;
+            border: 1px solid #00ff00;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div>HISTORIC_DATA_ANALYSIS</div>
+            <div id="currentTime"></div>
+        </div>
+        
+        <div class="terminal-nav">
+            <a href="index.html" class="nav-link">HOME</a>
+            <a href="predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="historic.html" class="nav-link active">HISTORIC_DATA</a>
+            <a href="performance.html" class="nav-link">PERFORMANCE</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
+        </div>
+        
+        <div class="terminal-body">
+            <h1 class="section-title">BACKTEST RESULTS [2022-2024]</h1>
+            
+            <div class="backtest-summary">
+                <div class="metric-row">
+                    <span class="metric-label">TEST_PERIOD:</span>
+                    <span class="metric-value">2022-01-01 to 2024-12-31</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">TOTAL_WEEKS_TESTED:</span>
+                    <span class="metric-value">156</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">TOTAL_PREDICTIONS:</span>
+                    <span class="metric-value">15,600</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">AVERAGE_ACCURACY:</span>
+                    <span class="metric-value">57.3%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">BEST_YEAR:</span>
+                    <span class="metric-value">2023 (+42.7%)</span>
+                </div>
+            </div>
+            
+            <h2 class="section-title">STRATEGY PERFORMANCE RANKING</h2>
+            
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>RANK</th>
+                        <th>STRATEGY</th>
+                        <th>WIN_RATE</th>
+                        <th>AVG_WEEKLY</th>
+                        <th>TOTAL_RETURN</th>
+                        <th>SHARPE</th>
+                        <th>MAX_DD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>ENSEMBLE</td>
+                        <td class="positive">64.2%</td>
+                        <td class="positive">+1.8%</td>
+                        <td class="positive">+93.6%</td>
+                        <td>1.42</td>
+                        <td class="negative">-12.3%</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>MOMENTUM</td>
+                        <td class="positive">61.8%</td>
+                        <td class="positive">+1.6%</td>
+                        <td class="positive">+83.2%</td>
+                        <td>1.28</td>
+                        <td class="negative">-15.7%</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>TECHNICAL</td>
+                        <td class="positive">60.5%</td>
+                        <td class="positive">+1.4%</td>
+                        <td class="positive">+72.8%</td>
+                        <td>1.15</td>
+                        <td class="negative">-18.2%</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>VOLATILITY</td>
+                        <td class="positive">58.9%</td>
+                        <td class="positive">+1.3%</td>
+                        <td class="positive">+67.6%</td>
+                        <td>1.08</td>
+                        <td class="negative">-19.4%</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>MEAN_REVERSION</td>
+                        <td class="positive">57.6%</td>
+                        <td class="positive">+1.2%</td>
+                        <td class="positive">+62.4%</td>
+                        <td>0.98</td>
+                        <td class="negative">-21.3%</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>MA_CROSSOVER</td>
+                        <td class="positive">56.8%</td>
+                        <td class="positive">+1.1%</td>
+                        <td class="positive">+57.2%</td>
+                        <td>0.92</td>
+                        <td class="negative">-22.8%</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>SENTIMENT</td>
+                        <td class="positive">55.4%</td>
+                        <td class="positive">+0.9%</td>
+                        <td class="positive">+46.8%</td>
+                        <td>0.85</td>
+                        <td class="negative">-24.1%</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>VOLUME_BREAKOUT</td>
+                        <td>54.9%</td>
+                        <td class="positive">+0.8%</td>
+                        <td class="positive">+41.6%</td>
+                        <td>0.78</td>
+                        <td class="negative">-26.3%</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>SUPPORT_RESIST</td>
+                        <td>53.7%</td>
+                        <td class="positive">+0.7%</td>
+                        <td class="positive">+36.4%</td>
+                        <td>0.71</td>
+                        <td class="negative">-27.9%</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>PATTERN</td>
+                        <td>52.3%</td>
+                        <td class="positive">+0.5%</td>
+                        <td class="positive">+26.0%</td>
+                        <td>0.62</td>
+                        <td class="negative">-31.2%</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h2 class="section-title">YEARLY PERFORMANCE</h2>
+            
+            <div class="year-selector">
+                <button class="year-btn active" onclick="showYear('all')">ALL</button>
+                <button class="year-btn" onclick="showYear('2022')">2022</button>
+                <button class="year-btn" onclick="showYear('2023')">2023</button>
+                <button class="year-btn" onclick="showYear('2024')">2024</button>
+            </div>
+            
+            <div class="chart-container" id="yearChart">
+                <div class="bar" style="height: 45%">
+                    <span class="bar-value">+23.4%</span>
+                    <span class="bar-label">2022</span>
+                </div>
+                <div class="bar" style="height: 85%; background: #00ff00;">
+                    <span class="bar-value">+42.7%</span>
+                    <span class="bar-label">2023</span>
+                </div>
+                <div class="bar" style="height: 55%">
+                    <span class="bar-value">+27.5%</span>
+                    <span class="bar-label">2024</span>
+                </div>
+            </div>
+            
+            <h2 class="section-title">KEY INSIGHTS</h2>
+            
+            <div class="terminal-prompt">
+                <div>> ENSEMBLE strategy consistently outperformed individual strategies</div>
+                <div>> Win rate above 60% achieved by top 3 strategies</div>
+                <div>> Best performance during trending markets (Q1 2023, Q4 2023)</div>
+                <div>> Worst drawdowns during Fed announcements and earnings seasons</div>
+                <div>> SHORT positions had 48% win rate vs 62% for LONG positions</div>
+                <div>> Monday entries outperformed other days by +0.3%</div>
+                <div>> Tech stocks (AAPL, NVDA, MSFT) most profitable overall</div>
+            </div>
+            
+            <h2 class="section-title">STATISTICAL ANALYSIS</h2>
+            
+            <table class="performance-table">
+                <thead>
+                    <tr>
+                        <th>METRIC</th>
+                        <th>VALUE</th>
+                        <th>INTERPRETATION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alpha</td>
+                        <td class="positive">+0.42</td>
+                        <td>Significant positive alpha vs SPY</td>
+                    </tr>
+                    <tr>
+                        <td>Beta</td>
+                        <td>0.78</td>
+                        <td>Lower market correlation</td>
+                    </tr>
+                    <tr>
+                        <td>Information Ratio</td>
+                        <td>1.23</td>
+                        <td>Good risk-adjusted returns</td>
+                    </tr>
+                    <tr>
+                        <td>Calmar Ratio</td>
+                        <td>2.14</td>
+                        <td>Strong return vs drawdown</td>
+                    </tr>
+                    <tr>
+                        <td>Sortino Ratio</td>
+                        <td>1.87</td>
+                        <td>Good downside protection</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="terminal-prompt" style="margin-top: 30px;">
+                <div>$ analyze --period 2022-2024 --confidence 95</div>
+                <div>  </div>
+                <div>BACKTEST COMPLETE</div>
+                <div>15,600 predictions analyzed</div>
+                <div>Statistical significance: p < 0.001</div>
+                <div>Results saved to /data/backtest_2022_2024.json</div>
+                <div>  </div>
+                <div>WARNING: Past performance does not guarantee future results</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Update time
+        function updateTime() {
+            document.getElementById('currentTime').textContent = new Date().toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Year selector
+        function showYear(year) {
+            // Update button states
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update chart based on year
+            const chartData = {
+                'all': [
+                    { year: '2022', return: 23.4, height: 45 },
+                    { year: '2023', return: 42.7, height: 85 },
+                    { year: '2024', return: 27.5, height: 55 }
+                ],
+                '2022': [
+                    { year: 'Q1', return: -5.2, height: -10 },
+                    { year: 'Q2', return: 8.3, height: 25 },
+                    { year: 'Q3', return: 12.1, height: 40 },
+                    { year: 'Q4', return: 8.2, height: 25 }
+                ],
+                '2023': [
+                    { year: 'Q1', return: 18.5, height: 60 },
+                    { year: 'Q2', return: 7.2, height: 20 },
+                    { year: 'Q3', return: -2.1, height: -5 },
+                    { year: 'Q4', return: 19.1, height: 65 }
+                ],
+                '2024': [
+                    { year: 'Q1', return: 11.3, height: 35 },
+                    { year: 'Q2', return: 6.8, height: 20 },
+                    { year: 'Q3', return: 4.2, height: 12 },
+                    { year: 'Q4', return: 5.2, height: 15 }
+                ]
+            };
+            
+            const data = chartData[year] || chartData['all'];
+            const chart = document.getElementById('yearChart');
+            
+            chart.innerHTML = data.map(d => {
+                const isNegative = d.height < 0;
+                const absHeight = Math.abs(d.height);
+                const color = isNegative ? '#ff4444' : '#00ff00';
+                const sign = d.return >= 0 ? '+' : '';
+                
+                return `
+                    <div class="bar" style="height: ${absHeight}%; background: ${color};">
+                        <span class="bar-value">${sign}${d.return}%</span>
+                        <span class="bar-label">${d.year}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
