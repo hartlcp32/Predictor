@@ -1,0 +1,9 @@
+VERSION: 2025-01-13-UPDATE
+CHANGES:
+- Added PERFORMANCE link to navigation
+- Added MONTHLY link to navigation
+- Added ABOUT link to navigation
+- Created performance.html page
+- Created about.html page
+
+If you can see this file at /version.txt, the deployment is working.
