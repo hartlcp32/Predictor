@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT | Stock Predictor System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #ffffff;
+            text-shadow: 0 0 15px #00ff00;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .content-section h3 {
+            color: #ffff00;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #00ff00;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .feature-title {
+            color: #ffff00;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            font-size: 0.9em;
+            color: #00ff00;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .tech-badge {
+            background: #00ff00;
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .disclaimer {
+            background: #220000;
+            border: 2px solid #ff4444;
+            padding: 20px;
+            margin: 30px 0;
+            color: #ff8888;
+        }
+
+        .disclaimer h3 {
+            color: #ff4444;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+
+        .version-info {
+            background: #001100;
+            border: 1px solid #00ff00;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .terminal-nav {
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-title">STOCK_PREDICTOR_ABOUT</div>
+            <div class="terminal-time" id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="performance.html" class="nav-link">PERFORMANCE</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+            <a href="about.html" class="nav-link active">ABOUT</a>
+        </div>
+
+        <div class="terminal-body">
+            <h1 class="section-title">ABOUT STOCK PREDICTOR SYSTEM</h1>
+
+            <div class="content-section">
+                <h3>📊 SYSTEM OVERVIEW</h3>
+                <p>
+                    Stock Predictor is an advanced algorithmic trading system that combines 10 distinct
+                    technical analysis strategies to generate daily stock predictions for the top 10
+                    most liquid stocks in the market.
+                </p>
+                <p>
+                    Our system analyzes real-time market data, technical indicators, volume patterns,
+                    and price movements to identify potential trading opportunities across different
+                    market conditions.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3>🚀 KEY FEATURES</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-title">10 STRATEGIES</div>
+                        <div class="feature-description">
+                            Multiple independent strategies running simultaneously for diversified signals
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">REAL-TIME DATA</div>
+                        <div class="feature-description">
+                            Live market data from Yahoo Finance API with minute-level granularity
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">TRADE TRACKING</div>
+                        <div class="feature-description">
+                            Complete lifecycle management from entry signals to exit conditions
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">RISK MANAGEMENT</div>
+                        <div class="feature-description">
+                            Automated stop-loss and take-profit levels for every position
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">PERFORMANCE ANALYTICS</div>
+                        <div class="feature-description">
+                            Comprehensive metrics including Sharpe ratio, drawdown analysis, and win rates
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-title">BACKTESTING</div>
+                        <div class="feature-description">
+                            Historical performance validation with survivorship bias prevention
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3>⚙️ TECHNICAL IMPLEMENTATION</h3>
+                <p>The system is built using modern web technologies and financial APIs:</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Python 3.10+</span>
+                    <span class="tech-badge">yfinance</span>
+                    <span class="tech-badge">pandas</span>
+                    <span class="tech-badge">NumPy</span>
+                    <span class="tech-badge">scikit-learn</span>
+                    <span class="tech-badge">JavaScript ES6</span>
+                    <span class="tech-badge">Chart.js</span>
+                    <span class="tech-badge">GitHub Pages</span>
+                    <span class="tech-badge">GitHub Actions</span>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3>📈 TRADING STRATEGIES</h3>
+                <p>Our system employs 10 sophisticated trading strategies:</p>
+                <ol style="margin-left: 30px; color: #00ff00;">
+                    <li><strong>Momentum Strategy:</strong> Identifies stocks with strong price trends</li>
+                    <li><strong>Mean Reversion:</strong> Exploits temporary price deviations</li>
+                    <li><strong>Volume Breakout:</strong> Detects unusual volume spikes</li>
+                    <li><strong>Technical Indicators:</strong> Combines RSI, MACD, and Bollinger Bands</li>
+                    <li><strong>Pattern Recognition:</strong> Identifies chart patterns</li>
+                    <li><strong>Volatility Arbitrage:</strong> Trades volatility expansions/contractions</li>
+                    <li><strong>Moving Average Crossover:</strong> Classic trend-following approach</li>
+                    <li><strong>Support/Resistance:</strong> Trades key price levels</li>
+                    <li><strong>Market Sentiment:</strong> Analyzes market psychology indicators</li>
+                    <li><strong>Ensemble Method:</strong> Combines signals from multiple strategies</li>
+                </ol>
+            </div>
+
+            <div class="version-info">
+                <h3>📦 VERSION INFORMATION</h3>
+                <div class="code-block">
+SYSTEM_VERSION: 1.0.0
+LAUNCH_DATE: 2024-01-01
+LAST_UPDATE: 2025-01-13
+DATA_SOURCES: Yahoo Finance API
+UPDATE_FREQUENCY: Daily (Market Days)
+SUPPORTED_SYMBOLS: AAPL, MSFT, GOOGL, AMZN, NVDA, META, TSLA, BRK-B, JPM, JNJ
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h3>🔄 HOW IT WORKS</h3>
+                <p>
+                    <strong>1. Data Collection:</strong> Every trading day, the system fetches the latest
+                    market data including price, volume, and technical indicators for the top 10 stocks.
+                </p>
+                <p>
+                    <strong>2. Signal Generation:</strong> Each strategy independently analyzes the data
+                    and generates trading signals (LONG, SHORT, or HOLD) with confidence scores.
+                </p>
+                <p>
+                    <strong>3. Position Management:</strong> Trades are tracked from entry to exit with
+                    automated monitoring of price targets and stop-loss levels.
+                </p>
+                <p>
+                    <strong>4. Performance Tracking:</strong> All trades are logged and analyzed to
+                    calculate performance metrics and improve strategy parameters.
+                </p>
+            </div>
+
+            <div class="disclaimer">
+                <h3>⚠️ IMPORTANT DISCLAIMER</h3>
+                <p>
+                    <strong>THIS SYSTEM IS FOR EDUCATIONAL AND INFORMATIONAL PURPOSES ONLY.</strong>
+                </p>
+                <p>
+                    This is not financial advice. Past performance does not guarantee future results.
+                    Trading stocks involves substantial risk of loss and is not suitable for all investors.
+                    Never trade with money you cannot afford to lose.
+                </p>
+                <p>
+                    Always conduct your own research and consult with a qualified financial advisor
+                    before making any investment decisions.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3>📬 CONTACT & SUPPORT</h3>
+                <p>
+                    For questions, bug reports, or feature requests, please visit our
+                    <a href="https://github.com/hartlcp32/Predictor" style="color: #ffff00;">GitHub Repository</a>.
+                </p>
+                <p>
+                    This is an open-source project. Contributions are welcome! Please read our
+                    contributing guidelines before submitting pull requests.
+                </p>
+            </div>
+
+            <div class="content-section">
+                <h3>🎯 FUTURE ROADMAP</h3>
+                <ul style="margin-left: 30px; color: #00ff00;">
+                    <li>Machine learning integration for pattern recognition</li>
+                    <li>Options trading strategies</li>
+                    <li>Cryptocurrency support</li>
+                    <li>Real-time WebSocket data feeds</li>
+                    <li>Mobile application development</li>
+                    <li>Advanced portfolio optimization</li>
+                    <li>Sentiment analysis from news and social media</li>
+                    <li>Automated execution via broker APIs</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            Stock Predictor System v1.0 | Built with ❤️ for algorithmic trading enthusiasts
+        </div>
+    </div>
+
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
