@@ -53,7 +53,9 @@
             border-bottom: 1px solid #00ff00;
             padding: 15px 20px;
             display: flex;
-            gap: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
         }
         
         .nav-link {
@@ -63,14 +65,16 @@
             transition: all 0.3s;
             font-weight: bold;
             text-shadow: 0 0 5px #00ff00;
+            font-size: 0.9em;
+            white-space: nowrap;
+            padding: 5px 8px;
+            border-radius: 3px;
         }
         
         .nav-link:hover {
             color: #ffffff;
             text-shadow: 0 0 15px #00ff00;
             background: #003300;
-            padding: 5px 10px;
-            border-radius: 3px;
         }
         
         .nav-link.active::before {
