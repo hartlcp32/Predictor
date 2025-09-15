@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOCK_PREDICTOR v1.0 | Monthly Performance</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .terminal-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            border: 2px solid #00ff00;
+            background: #000000;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .terminal-header {
+            background: #00ff00;
+            color: #000;
+            padding: 10px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-nav {
+            background: #111;
+            border-bottom: 1px solid #00ff00;
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #00ff00;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .nav-link:hover {
+            text-shadow: 0 0 10px #00ff00;
+            background: #003300;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .nav-link.active::before {
+            content: '[';
+            position: absolute;
+            left: -10px;
+        }
+
+        .nav-link.active::after {
+            content: ']';
+            position: absolute;
+            right: -10px;
+        }
+
+        .terminal-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        .section-title::before {
+            content: '> ';
+        }
+
+        .year-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .year-btn {
+            background: #111;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .year-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .year-btn.active {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .year-summary {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-item {
+            background: #0a0a0a;
+            border: 1px solid #003300;
+            padding: 15px;
+            text-align: center;
+            border-radius: 3px;
+        }
+
+        .summary-label {
+            color: #008800;
+            font-size: 0.8em;
+            margin-bottom: 5px;
+        }
+
+        .summary-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .positive {
+            color: #00ff00;
+        }
+
+        .negative {
+            color: #ff4444;
+        }
+
+        .neutral {
+            color: #ffff00;
+        }
+
+        .monthly-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .month-card {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .month-card.winning {
+            border-left: 4px solid #00ff00;
+        }
+
+        .month-card.losing {
+            border-left: 4px solid #ff4444;
+        }
+
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #003300;
+            padding-bottom: 10px;
+        }
+
+        .month-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .month-return {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .market-condition {
+            background: #003300;
+            color: #00ff00;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .condition-bullish { background: #00ff00; color: #000; }
+        .condition-bearish { background: #ff4444; color: #fff; }
+        .condition-volatile { background: #ffff00; color: #000; }
+        .condition-crash { background: #ff0000; color: #fff; }
+
+        .month-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 8px;
+            background: #0a0a0a;
+            border: 1px solid #003300;
+            border-radius: 3px;
+        }
+
+        .metric-label {
+            font-size: 0.7em;
+            color: #008800;
+            margin-bottom: 3px;
+        }
+
+        .metric-value {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .strategy-performance {
+            margin-top: 15px;
+        }
+
+        .strategy-table {
+            width: 100%;
+            font-size: 0.8em;
+            border-collapse: collapse;
+        }
+
+        .strategy-table th {
+            background: #003300;
+            color: #00ff00;
+            padding: 5px;
+            text-align: left;
+            font-size: 0.75em;
+        }
+
+        .strategy-table td {
+            padding: 4px;
+            border-bottom: 1px solid #003300;
+            color: #00ff00;
+        }
+
+        .expand-btn {
+            background: #003300;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            border-radius: 3px;
+            float: right;
+        }
+
+        .expand-btn:hover {
+            background: #00ff00;
+            color: #000;
+        }
+
+        .heatmap-container {
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .heatmap-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        .heatmap-table th {
+            background: #111;
+            color: #00ff00;
+            padding: 8px;
+            position: sticky;
+            top: 0;
+            border: 1px solid #00ff00;
+        }
+
+        .heatmap-table td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #003300;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .heatmap-table td:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+            z-index: 10;
+            position: relative;
+        }
+
+        .heat-high { background: #00ff00; color: #000; }
+        .heat-medium-high { background: #66ff66; color: #000; }
+        .heat-medium { background: #ffff00; color: #000; }
+        .heat-medium-low { background: #ff8800; color: #000; }
+        .heat-low { background: #ff4444; color: #fff; }
+
+        .loading {
+            color: #00ff00;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+
+        @media (max-width: 768px) {
+            .monthly-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .month-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .heatmap-table {
+                font-size: 0.7em;
+            }
+
+            .terminal-nav {
+                gap: 10px;
+            }
+
+            .nav-link {
+                font-size: 0.8em;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #00ff00;
+            color: #008800;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div>MONTHLY_PERFORMANCE_ANALYSIS</div>
+            <div id="currentTime"></div>
+        </div>
+
+        <div class="terminal-nav">
+            <a href="../index.html" class="nav-link">HOME</a>
+            <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
+            <a href="charts.html" class="nav-link">ANALYTICS</a>
+            <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="monthly-performance.html" class="nav-link active">MONTHLY_PERF</a>
+            <a href="../historic.html" class="nav-link">HISTORIC</a>
+        </div>
+
+        <div class="terminal-body">
+            <h1 class="section-title">MONTHLY PERFORMANCE BREAKDOWN [2022-2024]</h1>
+
+            <!-- Year Selector -->
+            <div class="year-selector">
+                <button class="year-btn active" onclick="showYear('all')">ALL_YEARS</button>
+                <button class="year-btn" onclick="showYear(2022)">2022</button>
+                <button class="year-btn" onclick="showYear(2023)">2023</button>
+                <button class="year-btn" onclick="showYear(2024)">2024</button>
+            </div>
+
+            <!-- Year Summary -->
+            <div class="year-summary" id="yearSummary">
+                <div class="loading">Loading performance data</div>
+            </div>
+
+            <!-- Monthly Performance Heatmap -->
+            <h2 class="section-title">PERFORMANCE HEATMAP</h2>
+            <div class="heatmap-container">
+                <table class="heatmap-table" id="heatmapTable">
+                    <thead>
+                        <tr>
+                            <th>STRATEGY</th>
+                            <th>JAN</th>
+                            <th>FEB</th>
+                            <th>MAR</th>
+                            <th>APR</th>
+                            <th>MAY</th>
+                            <th>JUN</th>
+                            <th>JUL</th>
+                            <th>AUG</th>
+                            <th>SEP</th>
+                            <th>OCT</th>
+                            <th>NOV</th>
+                            <th>DEC</th>
+                            <th>TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="heatmapBody">
+                        <tr><td colspan="14" class="loading">Loading heatmap data</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Monthly Cards Grid -->
+            <h2 class="section-title">DETAILED MONTHLY RESULTS</h2>
+            <div class="monthly-grid" id="monthlyGrid">
+                <div class="loading">Loading monthly data</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            GRANULAR MONTHLY PERFORMANCE TRACKING | MARKET CONDITION ANALYSIS | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let monthlyData = null;
+        let currentYear = 'all';
+
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Load monthly performance data
+        async function loadMonthlyData() {
+            try {
+                const response = await fetch('../monthly_performance.json');
+                const data = await response.json();
+                monthlyData = data;
+                displayData();
+            } catch (error) {
+                console.error('Error loading monthly data:', error);
+                // Generate sample data for demonstration
+                monthlyData = generateSampleMonthlyData();
+                displayData();
+            }
+        }
+
+        // Generate sample monthly data
+        function generateSampleMonthlyData() {
+            const months = [];
+            const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators',
+                              'pattern_recognition', 'volatility_arbitrage', 'moving_average_crossover',
+                              'support_resistance', 'market_sentiment', 'ensemble'];
+
+            for (let year = 2022; year <= 2024; year++) {
+                for (let month = 1; month <= 12; month++) {
+                    const monthData = {
+                        year: year,
+                        month: month,
+                        month_name: new Date(year, month - 1).toLocaleString('default', { month: 'long' }),
+                        market_condition: getRandomCondition(),
+                        strategies: {}
+                    };
+
+                    strategies.forEach(strategy => {
+                        monthData.strategies[strategy] = {
+                            return: (Math.random() - 0.4) * 20,
+                            trades: Math.floor(Math.random() * 30) + 10,
+                            win_rate: Math.random() * 40 + 40,
+                            best_trade: Math.random() * 15,
+                            worst_trade: -Math.random() * 10
+                        };
+                    });
+
+                    months[`${year}-${month.toString().padStart(2, '0')}`] = monthData;
+                }
+            }
+
+            return {
+                monthly_performance: months,
+                yearly_summary: calculateYearlySummary(months)
+            };
+        }
+
+        function getRandomCondition() {
+            const conditions = ['BULLISH', 'BEARISH', 'VOLATILE', 'NEUTRAL', 'RECOVERY', 'CORRECTION'];
+            return conditions[Math.floor(Math.random() * conditions.length)];
+        }
+
+        function calculateYearlySummary(months) {
+            const summary = {};
+            for (let year = 2022; year <= 2024; year++) {
+                let yearReturn = 0;
+                let winningMonths = 0;
+                let totalTrades = 0;
+
+                Object.entries(months).forEach(([key, data]) => {
+                    if (data.year === year) {
+                        const monthReturn = Object.values(data.strategies).reduce((sum, s) => sum + s.return, 0) / 10;
+                        yearReturn += monthReturn;
+                        if (monthReturn > 0) winningMonths++;
+                        totalTrades += Object.values(data.strategies).reduce((sum, s) => sum + s.trades, 0);
+                    }
+                });
+
+                summary[year] = {
+                    total_return: yearReturn,
+                    winning_months: winningMonths,
+                    losing_months: 12 - winningMonths,
+                    total_trades: totalTrades
+                };
+            }
+            return summary;
+        }
+
+        // Display data based on selected year
+        function displayData() {
+            updateYearSummary();
+            updateHeatmap();
+            updateMonthlyCards();
+        }
+
+        // Update year summary
+        function updateYearSummary() {
+            const summaryDiv = document.getElementById('yearSummary');
+
+            if (currentYear === 'all') {
+                // Show overall summary
+                let totalReturn = 0;
+                let totalWinningMonths = 0;
+                let totalLosingMonths = 0;
+                let totalTrades = 0;
+
+                if (monthlyData && monthlyData.yearly_summary) {
+                    Object.values(monthlyData.yearly_summary).forEach(year => {
+                        totalReturn += year.total_return;
+                        totalWinningMonths += year.winning_months;
+                        totalLosingMonths += year.losing_months;
+                        totalTrades += year.total_trades;
+                    });
+                }
+
+                summaryDiv.innerHTML = `
+                    <h3 style="color: #00ff00; margin-bottom: 15px;">📊 OVERALL PERFORMANCE (2022-2024)</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-label">TOTAL_RETURN</div>
+                            <div class="summary-value ${totalReturn >= 0 ? 'positive' : 'negative'}">
+                                ${totalReturn >= 0 ? '+' : ''}${totalReturn.toFixed(1)}%
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">WINNING_MONTHS</div>
+                            <div class="summary-value positive">${totalWinningMonths}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">LOSING_MONTHS</div>
+                            <div class="summary-value negative">${totalLosingMonths}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">WIN_RATE</div>
+                            <div class="summary-value">
+                                ${((totalWinningMonths / (totalWinningMonths + totalLosingMonths)) * 100).toFixed(1)}%
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">TOTAL_TRADES</div>
+                            <div class="summary-value">${totalTrades.toLocaleString()}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">AVG_MONTHLY</div>
+                            <div class="summary-value ${totalReturn/36 >= 0 ? 'positive' : 'negative'}">
+                                ${totalReturn >= 0 ? '+' : ''}${(totalReturn / 36).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Show specific year summary
+                const yearData = monthlyData?.yearly_summary?.[currentYear] || {};
+                summaryDiv.innerHTML = `
+                    <h3 style="color: #00ff00; margin-bottom: 15px;">📊 ${currentYear} PERFORMANCE</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-label">YEAR_RETURN</div>
+                            <div class="summary-value ${yearData.total_return >= 0 ? 'positive' : 'negative'}">
+                                ${yearData.total_return >= 0 ? '+' : ''}${yearData.total_return?.toFixed(1) || 0}%
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">WINNING_MONTHS</div>
+                            <div class="summary-value positive">${yearData.winning_months || 0}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">LOSING_MONTHS</div>
+                            <div class="summary-value negative">${yearData.losing_months || 0}</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">TOTAL_TRADES</div>
+                            <div class="summary-value">${yearData.total_trades?.toLocaleString() || 0}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Update heatmap
+        function updateHeatmap() {
+            const tbody = document.getElementById('heatmapBody');
+            if (!monthlyData || !monthlyData.monthly_performance) {
+                tbody.innerHTML = '<tr><td colspan="14">No data available</td></tr>';
+                return;
+            }
+
+            const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators',
+                              'pattern_recognition', 'volatility_arbitrage', 'moving_average_crossover',
+                              'support_resistance', 'market_sentiment', 'ensemble'];
+
+            let heatmapHTML = '';
+
+            strategies.forEach(strategy => {
+                let row = `<tr><td style="font-weight: bold;">${strategy.replace('_', ' ').toUpperCase()}</td>`;
+                let yearTotal = 0;
+
+                for (let month = 1; month <= 12; month++) {
+                    let monthValue = null;
+                    const monthKey = `${currentYear === 'all' ? 2024 : currentYear}-${month.toString().padStart(2, '0')}`;
+
+                    if (monthlyData.monthly_performance[monthKey]) {
+                        monthValue = monthlyData.monthly_performance[monthKey].strategies[strategy]?.return;
+                        yearTotal += monthValue || 0;
+                    }
+
+                    if (monthValue !== null) {
+                        const heatClass = getHeatClass(monthValue);
+                        row += `<td class="${heatClass}" title="${strategy} - ${getMonthName(month)}: ${monthValue.toFixed(1)}%">
+                                ${monthValue.toFixed(1)}%</td>`;
+                    } else {
+                        row += `<td>-</td>`;
+                    }
+                }
+
+                row += `<td style="font-weight: bold;" class="${yearTotal >= 0 ? 'positive' : 'negative'}">
+                        ${yearTotal >= 0 ? '+' : ''}${yearTotal.toFixed(1)}%</td></tr>`;
+                heatmapHTML += row;
+            });
+
+            tbody.innerHTML = heatmapHTML;
+        }
+
+        // Update monthly cards
+        function updateMonthlyCards() {
+            const grid = document.getElementById('monthlyGrid');
+
+            if (!monthlyData || !monthlyData.monthly_performance) {
+                grid.innerHTML = '<div class="loading">No monthly data available</div>';
+                return;
+            }
+
+            let cardsHTML = '';
+
+            Object.entries(monthlyData.monthly_performance).forEach(([monthKey, data]) => {
+                if (currentYear !== 'all' && data.year !== currentYear) return;
+
+                const monthReturn = Object.values(data.strategies).reduce((sum, s) => sum + s.return, 0) / 10;
+                const isWinning = monthReturn > 0;
+
+                const conditionClass = `condition-${data.market_condition.toLowerCase().split('_')[0]}`;
+
+                cardsHTML += `
+                    <div class="month-card ${isWinning ? 'winning' : 'losing'}">
+                        <div class="month-header">
+                            <div class="month-name">${data.month_name} ${data.year}</div>
+                            <div class="month-return ${isWinning ? 'positive' : 'negative'}">
+                                ${monthReturn >= 0 ? '+' : ''}${monthReturn.toFixed(1)}%
+                            </div>
+                        </div>
+
+                        <div class="market-condition ${conditionClass}">
+                            ${data.market_condition.replace('_', ' ')}
+                        </div>
+
+                        <div class="month-metrics">
+                            <div class="metric">
+                                <div class="metric-label">TRADES</div>
+                                <div class="metric-value">
+                                    ${Object.values(data.strategies).reduce((sum, s) => sum + s.trades, 0)}
+                                </div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">WIN_RATE</div>
+                                <div class="metric-value">
+                                    ${(Object.values(data.strategies).reduce((sum, s) => sum + s.win_rate, 0) / 10).toFixed(1)}%
+                                </div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">BEST</div>
+                                <div class="metric-value positive">
+                                    +${Math.max(...Object.values(data.strategies).map(s => s.best_trade || 0)).toFixed(1)}%
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="expand-btn" onclick="toggleStrategyDetails('${monthKey}')">DETAILS</button>
+
+                        <div class="strategy-performance" id="details-${monthKey}" style="display: none;">
+                            <table class="strategy-table">
+                                <thead>
+                                    <tr>
+                                        <th>STRATEGY</th>
+                                        <th>RETURN</th>
+                                        <th>WIN%</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${Object.entries(data.strategies).map(([strategy, perf]) => `
+                                        <tr>
+                                            <td>${strategy.replace('_', ' ')}</td>
+                                            <td class="${perf.return >= 0 ? 'positive' : 'negative'}">
+                                                ${perf.return >= 0 ? '+' : ''}${perf.return.toFixed(1)}%
+                                            </td>
+                                            <td>${perf.win_rate.toFixed(0)}%</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = cardsHTML || '<div>No data for selected period</div>';
+        }
+
+        // Helper functions
+        function getHeatClass(value) {
+            if (value > 10) return 'heat-high';
+            if (value > 5) return 'heat-medium-high';
+            if (value > 0) return 'heat-medium';
+            if (value > -5) return 'heat-medium-low';
+            return 'heat-low';
+        }
+
+        function getMonthName(month) {
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return monthNames[month - 1];
+        }
+
+        function showYear(year) {
+            currentYear = year;
+
+            // Update button states
+            document.querySelectorAll('.year-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(year) || (year === 'all' && btn.textContent.includes('ALL'))) {
+                    btn.classList.add('active');
+                }
+            });
+
+            displayData();
+        }
+
+        function toggleStrategyDetails(monthKey) {
+            const details = document.getElementById(`details-${monthKey}`);
+            details.style.display = details.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadMonthlyData);
+    </script>
+</body>
+</html>

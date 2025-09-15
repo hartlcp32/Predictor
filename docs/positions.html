@@ -193,6 +193,25 @@
             background: rgba(255, 68, 68, 0.1);
         }
 
+        .position-row.pending {
+            background: rgba(255, 255, 0, 0.1);
+            opacity: 0.7;
+        }
+
+        .position-row.pending td {
+            color: #ffff00;
+        }
+
+        .status-pending {
+            color: #ffff00;
+            font-weight: bold;
+        }
+
+        .status-active {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
         .symbol-cell {
             font-weight: bold;
             color: #00ff00;
@@ -460,6 +479,7 @@
                 <thead>
                     <tr>
                         <th>SYMBOL</th>
+                        <th>STATUS</th>
                         <th>POS</th>
                         <th>STRATEGY</th>
                         <th>ENTRY</th>
@@ -474,7 +494,7 @@
                     </tr>
                 </thead>
                 <tbody id="positionsTableBody">
-                    <tr><td colspan="12" class="loading">Loading positions</td></tr>
+                    <tr><td colspan="13" class="loading">Loading positions</td></tr>
                 </tbody>
             </table>
         </div>
@@ -665,23 +685,43 @@
                 const metrics = calculatePositionMetrics(position);
                 const pnlClass = metrics.pnlPct >= 0 ? 'pnl-positive' : 'pnl-negative';
                 const positionClass = position.position === 'LONG' ? 'position-long' : 'position-short';
-                const rowClass = metrics.isNearTarget ? 'near-target' : metrics.isNearStop ? 'near-stop' : '';
+
+                // Determine status and row styling
+                const status = position.status || 'PENDING';
+                const statusClass = status === 'ACTIVE' ? 'status-active' : 'status-pending';
+                const isPending = status === 'PENDING';
+
+                let rowClass = '';
+                if (isPending) {
+                    rowClass = 'pending';
+                } else {
+                    rowClass = metrics.isNearTarget ? 'near-target' : metrics.isNearStop ? 'near-stop' : '';
+                }
+
+                // For PENDING positions, show different P&L calculation
+                const displayPnL = isPending ?
+                    (position.position === 'LONG' ?
+                        (metrics.currentPrice >= position.entry_price ? 'READY' : `${((position.entry_price - metrics.currentPrice) / position.entry_price * 100).toFixed(1)}% to entry`) :
+                        (metrics.currentPrice <= position.entry_price ? 'READY' : `${((metrics.currentPrice - position.entry_price) / position.entry_price * 100).toFixed(1)}% to entry`)
+                    ) :
+                    `${metrics.pnlPct >= 0 ? '+' : ''}${metrics.pnlPct.toFixed(1)}%`;
 
                 return `
                     <tr class="position-row ${rowClass}">
                         <td class="symbol-cell">${position.symbol}</td>
+                        <td class="${statusClass}">${status}</td>
                         <td class="${positionClass}">${position.position}</td>
                         <td>${position.strategy.replace('_', ' ').toUpperCase()}</td>
                         <td>$${position.entry_price.toFixed(2)}</td>
                         <td>$${metrics.currentPrice.toFixed(2)}</td>
                         <td>$${position.target_price.toFixed(2)}</td>
                         <td>$${position.stop_loss_price.toFixed(2)}</td>
-                        <td class="${pnlClass}">${metrics.pnlPct >= 0 ? '+' : ''}${metrics.pnlPct.toFixed(1)}%</td>
+                        <td class="${isPending ? '' : pnlClass}">${displayPnL}</td>
                         <td class="${Math.abs(metrics.distanceToTarget) < 5 ? 'distance-close' : 'distance-far'}">
-                            ${metrics.distanceToTarget.toFixed(1)}%
+                            ${isPending ? 'N/A' : `${metrics.distanceToTarget.toFixed(1)}%`}
                         </td>
                         <td class="${Math.abs(metrics.distanceToStop) < 2 ? 'distance-close' : 'distance-far'}">
-                            ${metrics.distanceToStop.toFixed(1)}%
+                            ${isPending ? 'N/A' : `${metrics.distanceToStop.toFixed(1)}%`}
                         </td>
                         <td>${position.days_held || 0}</td>
                         <td>

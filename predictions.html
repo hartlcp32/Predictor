@@ -44,8 +44,13 @@
     
     <div class="nav-buttons">
         <a href="index.html">HOME</a>
-        <a href="predictions.html">PREDICTIONS_TABLE</a>
-        <a href="historic.html">HISTORIC_DATA</a>
+        <a href="predictions.html">PREDICTIONS</a>
+        <a href="docs/charts.html">ANALYTICS</a>
+        <a href="docs/strategies.html">STRATEGIES</a>
+        <a href="docs/entry-tracker.html">ENTRY_TRACKER</a>
+        <a href="docs/positions.html">LIVE_POSITIONS</a>
+        <a href="docs/trade-history.html">TRADE_HISTORY</a>
+        <a href="historic.html">HISTORIC</a>
     </div>
     
     <div class="table-container">
@@ -157,22 +162,25 @@
         async function loadPredictions() {
             const tbody = document.getElementById('tableBody');
             const predictionsData = await loadPredictionsData();
-            
+
             tbody.innerHTML = predictionsData.map(day => {
                 const p = day.predictions;
+                // Handle undefined predictions with default values
+                const defaultPred = { stock: 'NONE', position: 'HOLD', projected: '0%', timeframe: '-', actual: 'pending' };
+
                 return `
                     <tr>
                         <td class="date-cell">${day.date}</td>
-                        ${formatPick(p.momentum)}${formatReturn(p.momentum)}
-                        ${formatPick(p.meanReversion)}${formatReturn(p.meanReversion)}
-                        ${formatPick(p.volumeBreakout)}${formatReturn(p.volumeBreakout)}
-                        ${formatPick(p.technical)}${formatReturn(p.technical)}
-                        ${formatPick(p.pattern)}${formatReturn(p.pattern)}
-                        ${formatPick(p.volatility)}${formatReturn(p.volatility)}
-                        ${formatPick(p.maCross)}${formatReturn(p.maCross)}
-                        ${formatPick(p.supportResist)}${formatReturn(p.supportResist)}
-                        ${formatPick(p.sentiment)}${formatReturn(p.sentiment)}
-                        ${formatPick(p.ensemble)}${formatReturn(p.ensemble)}
+                        ${formatPick(p.momentum || defaultPred)}${formatReturn(p.momentum || defaultPred)}
+                        ${formatPick(p.mean_reversion || defaultPred)}${formatReturn(p.mean_reversion || defaultPred)}
+                        ${formatPick(p.volume_breakout || defaultPred)}${formatReturn(p.volume_breakout || defaultPred)}
+                        ${formatPick(p.technical_indicators || defaultPred)}${formatReturn(p.technical_indicators || defaultPred)}
+                        ${formatPick(p.pattern_recognition || defaultPred)}${formatReturn(p.pattern_recognition || defaultPred)}
+                        ${formatPick(p.volatility_arbitrage || defaultPred)}${formatReturn(p.volatility_arbitrage || defaultPred)}
+                        ${formatPick(p.moving_average_crossover || defaultPred)}${formatReturn(p.moving_average_crossover || defaultPred)}
+                        ${formatPick(p.support_resistance || defaultPred)}${formatReturn(p.support_resistance || defaultPred)}
+                        ${formatPick(p.market_sentiment || defaultPred)}${formatReturn(p.market_sentiment || defaultPred)}
+                        ${formatPick(p.ensemble || defaultPred)}${formatReturn(p.ensemble || defaultPred)}
                     </tr>
                 `;
             }).join('');

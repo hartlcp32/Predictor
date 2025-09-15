@@ -31,7 +31,7 @@ class TradeSetup:
     exit_date: Optional[str] = None
     exit_price: Optional[float] = None
     exit_reason: Optional[str] = None  # "TARGET", "STOP_LOSS", "TIME_EXIT"
-    status: str = "ACTIVE"  # ACTIVE, CLOSED, STOPPED
+    status: str = "PENDING"  # PENDING, ACTIVE, CLOSED, STOPPED
     return_pct: Optional[float] = None
     days_held: Optional[int] = None
 
@@ -41,23 +41,43 @@ class TradeTracker:
         self.data_dir = data_dir
         self.trades_file = os.path.join(data_dir, 'trades_data.json')
         self.predictions_file = os.path.join(data_dir, 'predictions_data.json')
+        self.price_cache = {}  # Cache prices to ensure consistency
 
-    def get_current_price(self, symbol: str) -> Optional[float]:
-        """Get current stock price"""
+    def get_current_price(self, symbol: str, use_cache=True) -> Optional[float]:
+        """Get current stock price with caching for consistency"""
+        # Return cached price if available and requested
+        if use_cache and symbol in self.price_cache:
+            return self.price_cache[symbol]
+
         if not YFINANCE_AVAILABLE:
-            # Return mock price for testing
-            import random
-            return 100 + random.random() * 200
+            print(f"Warning: yfinance not available, cannot fetch real price for {symbol}")
+            return None
 
         try:
             ticker = yf.Ticker(symbol)
-            data = ticker.history(period="1d")
+            # Try recent data first
+            data = ticker.history(period="1d", interval="1m")
             if len(data) > 0:
-                return float(data['Close'].iloc[-1])
+                price = float(data['Close'].iloc[-1])
+                self.price_cache[symbol] = price
+                return price
+
+            # Fallback to daily data
+            data = ticker.history(period="2d")
+            if len(data) > 0:
+                price = float(data['Close'].iloc[-1])
+                self.price_cache[symbol] = price
+                return price
+
+            print(f"No price data available for {symbol}")
             return None
         except Exception as e:
             print(f"Error fetching price for {symbol}: {e}")
             return None
+
+    def clear_price_cache(self):
+        """Clear price cache to get fresh prices"""
+        self.price_cache = {}
 
     def calculate_price_levels(self, symbol: str, strategy_name: str, position: str,
                              confidence: float, strategy_config: Dict) -> Dict:
@@ -141,7 +161,7 @@ class TradeTracker:
                     target_price=price_levels['target_price'],
                     stop_loss_price=price_levels['stop_loss_price'],
                     entry_date=date,
-                    status="ACTIVE"
+                    status="PENDING"  # Start as PENDING until entry price is hit
                 )
                 trade_setups.append(trade_setup)
 
@@ -154,12 +174,15 @@ class TradeTracker:
         return trade_setups
 
     def check_active_trades(self) -> List[Dict]:
-        """Check all active trades for exit conditions"""
+        """Check all active trades for entry and exit conditions"""
+        # Clear price cache to get fresh prices for all checks
+        self.clear_price_cache()
+
         trades_data = self.load_trades_data()
         updates = []
 
         for trade_data in trades_data.get('active_trades', []):
-            if trade_data['status'] != 'ACTIVE':
+            if trade_data['status'] not in ['PENDING', 'ACTIVE']:
                 continue
 
             trade = TradeSetup(**trade_data)
@@ -168,11 +191,40 @@ class TradeTracker:
             if not current_price:
                 continue
 
-            # Calculate days held
+            # Calculate days since position was created
             entry_date = datetime.strptime(trade.entry_date, '%Y-%m-%d')
-            days_held = (datetime.now() - entry_date).days
+            days_since_created = (datetime.now() - entry_date).days
 
-            # Check exit conditions
+            # First check if PENDING position should become ACTIVE
+            if trade.status == "PENDING":
+                entry_triggered = False
+
+                if trade.position == "LONG":
+                    # For LONG: Enter when price goes UP to or above entry price
+                    entry_triggered = current_price >= trade.entry_price
+                else:  # SHORT
+                    # For SHORT: Enter when price goes DOWN to or below entry price
+                    entry_triggered = current_price <= trade.entry_price
+
+                if entry_triggered:
+                    # Position becomes ACTIVE
+                    update = {
+                        'trade': trade,
+                        'status_change': 'PENDING_TO_ACTIVE',
+                        'entry_triggered_at': current_price,
+                        'days_to_entry': days_since_created
+                    }
+                    updates.append(update)
+
+                    print(f"🟢 ENTRY TRIGGERED: {trade.symbol} {trade.position}")
+                    print(f"   Entry Level: ${trade.entry_price} → Current: ${current_price}")
+                    print(f"   Days to entry: {days_since_created}")
+
+                # Skip exit checks for PENDING positions
+                continue
+
+            # Check exit conditions for ACTIVE positions
+            days_held = days_since_created  # For now, use days since created
             exit_triggered = False
             exit_reason = None
 
@@ -309,37 +361,49 @@ class TradeTracker:
                 }
                 trades_data['active_trades'].append(trade_dict)
 
-        # Check for exits on active trades
-        exit_updates = self.check_active_trades()
+        # Check for entry triggers and exits on all trades
+        all_updates = self.check_active_trades()
 
-        # Process exits
-        for update in exit_updates:
-            # Move from active to closed
+        # Process updates
+        for update in all_updates:
             trade = update['trade']
 
-            # Find and remove from active trades
-            trades_data['active_trades'] = [
-                t for t in trades_data['active_trades']
-                if not (t['symbol'] == trade.symbol and t['strategy'] == trade.strategy and t['entry_date'] == trade.entry_date)
-            ]
+            if update.get('status_change') == 'PENDING_TO_ACTIVE':
+                # Update status from PENDING to ACTIVE
+                for active_trade in trades_data['active_trades']:
+                    if (active_trade['symbol'] == trade.symbol and
+                        active_trade['strategy'] == trade.strategy and
+                        active_trade['entry_date'] == trade.entry_date):
+                        active_trade['status'] = 'ACTIVE'
+                        print(f"✅ {trade.symbol} {trade.strategy} status changed to ACTIVE")
+                        break
 
-            # Add to closed trades
-            closed_trade = {
-                'symbol': trade.symbol,
-                'strategy': trade.strategy,
-                'position': trade.position,
-                'entry_price': trade.entry_price,
-                'target_price': trade.target_price,
-                'stop_loss_price': trade.stop_loss_price,
-                'entry_date': trade.entry_date,
-                'exit_date': update['exit_date'],
-                'exit_price': update['exit_price'],
-                'exit_reason': update['exit_reason'],
-                'return_pct': update['return_pct'],
-                'days_held': update['days_held'],
-                'status': 'CLOSED'
-            }
-            trades_data['closed_trades'].append(closed_trade)
+            elif 'exit_price' in update:
+                # Process exit (move from active to closed)
+
+                # Find and remove from active trades
+                trades_data['active_trades'] = [
+                    t for t in trades_data['active_trades']
+                    if not (t['symbol'] == trade.symbol and t['strategy'] == trade.strategy and t['entry_date'] == trade.entry_date)
+                ]
+
+                # Add to closed trades
+                closed_trade = {
+                    'symbol': trade.symbol,
+                    'strategy': trade.strategy,
+                    'position': trade.position,
+                    'entry_price': trade.entry_price,
+                    'target_price': trade.target_price,
+                    'stop_loss_price': trade.stop_loss_price,
+                    'entry_date': trade.entry_date,
+                    'exit_date': update['exit_date'],
+                    'exit_price': update['exit_price'],
+                    'exit_reason': update['exit_reason'],
+                    'return_pct': update['return_pct'],
+                    'days_held': update['days_held'],
+                    'status': 'CLOSED'
+                }
+                trades_data['closed_trades'].append(closed_trade)
 
         # Generate current alerts
         alerts = self.generate_trade_alerts()
