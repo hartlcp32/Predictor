@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STOCK_PREDICTOR v1.0 | Analytics</title>
+    <title>ANALYTICS | Stock Predictor</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
 
@@ -40,20 +40,13 @@
             align-items: center;
         }
 
-        .terminal-title {
-            font-size: 1.2em;
-        }
-
-        .terminal-time {
-            font-size: 0.9em;
-        }
-
         .terminal-nav {
             background: #111;
             border-bottom: 1px solid #00ff00;
             padding: 15px 20px;
             display: flex;
-            gap: 30px;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .nav-link {
@@ -62,15 +55,16 @@
             position: relative;
             transition: all 0.3s;
             font-weight: bold;
-            text-shadow: 0 0 5px #00ff00;
+            font-size: 0.9em;
+            white-space: nowrap;
+            padding: 5px 8px;
+            border-radius: 3px;
         }
 
         .nav-link:hover {
             color: #ffffff;
             text-shadow: 0 0 15px #00ff00;
             background: #003300;
-            padding: 5px 10px;
-            border-radius: 3px;
         }
 
         .nav-link.active::before {
@@ -97,85 +91,175 @@
             padding-bottom: 10px;
         }
 
-        .section-title::before {
-            content: '> ';
-        }
-
-        .chart-container {
-            background: #111;
-            border: 1px solid #00ff00;
-            margin-bottom: 30px;
-            padding: 20px;
-            border-radius: 5px;
-        }
-
-        .chart-title {
-            color: #00ff00;
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .chart-wrapper {
-            position: relative;
-            height: 400px;
-            margin-bottom: 20px;
-        }
-
-        .chart-grid {
+        .metrics-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
 
-        @media (max-width: 768px) {
-            .chart-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
         .metric-card {
-            background: #0a0a0a;
+            background: #111;
             border: 1px solid #00ff00;
             padding: 15px;
             text-align: center;
+            transition: all 0.3s;
+        }
+
+        .metric-card:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
         }
 
         .metric-label {
-            color: #008800;
+            color: #ffff00;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .metric-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .metric-value.positive {
+            color: #00ff00;
+        }
+
+        .metric-value.negative {
+            color: #ff4444;
+        }
+
+        .metric-value.neutral {
+            color: #ffff00;
+        }
+
+        .metric-change {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .analytics-panel {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+        }
+
+        .panel-title {
+            color: #ffff00;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .strategy-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .strategy-name {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .strategy-metric {
+            color: #ffff00;
+        }
+
+        .prediction-row {
+            display: grid;
+            grid-template-columns: 1fr 80px 80px 100px;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+            font-size: 0.9em;
+        }
+
+        .prediction-row:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .position-long {
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        .position-short {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .position-hold {
+            color: #888;
+        }
+
+        .confidence-bar {
+            height: 20px;
+            background: #222;
+            border: 1px solid #444;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(to right, #ff4444, #ffff00, #00ff00);
+            transition: width 0.3s;
+        }
+
+        .confidence-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8em;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .market-overview {
+            background: #111;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .market-stat {
+            text-align: center;
+            padding: 10px;
+            background: #222;
+            border: 1px solid #333;
+        }
+
+        .stat-label {
+            color: #888;
             font-size: 0.8em;
             margin-bottom: 5px;
         }
 
-        .metric-value {
+        .stat-value {
             color: #00ff00;
-            font-size: 1.8em;
             font-weight: bold;
-        }
-
-        .loading {
-            color: #00ff00;
-            text-align: center;
-            padding: 50px;
-        }
-
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s infinite;
-        }
-
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
+            font-size: 1.2em;
         }
 
         .footer {
@@ -185,14 +269,27 @@
             color: #008800;
             font-size: 0.9em;
         }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .prediction-row {
+                grid-template-columns: 1fr 60px 60px 80px;
+                font-size: 0.8em;
+            }
+        }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
 </head>
 <body>
     <div class="terminal-container">
         <div class="terminal-header">
-            <div class="terminal-title">STOCK_PREDICTOR_v1.0_ANALYTICS</div>
+            <div class="terminal-title">ANALYTICS_MODULE_v1.0</div>
             <div class="terminal-time" id="currentTime"></div>
         </div>
 
@@ -201,85 +298,120 @@
             <a href="../predictions.html" class="nav-link">PREDICTIONS</a>
             <a href="charts.html" class="nav-link active">ANALYTICS</a>
             <a href="strategies.html" class="nav-link">STRATEGIES</a>
+            <a href="performance.html" class="nav-link">PERFORMANCE</a>
             <a href="entry-tracker.html" class="nav-link">ENTRY_TRACKER</a>
             <a href="positions.html" class="nav-link">LIVE_POSITIONS</a>
             <a href="trade-history.html" class="nav-link">TRADE_HISTORY</a>
+            <a href="monthly-performance.html" class="nav-link">MONTHLY</a>
             <a href="../historic.html" class="nav-link">HISTORIC</a>
+            <a href="about.html" class="nav-link">ABOUT</a>
         </div>
 
         <div class="terminal-body">
-            <h1 class="section-title">PERFORMANCE ANALYTICS</h1>
+            <h1 class="section-title">REAL-TIME ANALYTICS DASHBOARD</h1>
 
             <!-- Key Metrics -->
             <div class="metrics-grid" id="metricsGrid">
-                <div class="loading">Loading metrics</div>
-            </div>
-
-            <!-- Strategy Performance Chart -->
-            <div class="chart-container">
-                <h2 class="chart-title">📊 STRATEGY WIN RATES</h2>
-                <div class="chart-wrapper">
-                    <canvas id="strategyWinRateChart"></canvas>
+                <div class="metric-card">
+                    <div class="metric-label">Active Signals</div>
+                    <div class="metric-value positive" id="activeSignals">--</div>
+                    <div class="metric-change" id="signalsChange">Loading...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Avg Confidence</div>
+                    <div class="metric-value neutral" id="avgConfidence">--</div>
+                    <div class="metric-change" id="confidenceChange">Loading...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Long Positions</div>
+                    <div class="metric-value positive" id="longPositions">--</div>
+                    <div class="metric-change" id="longChange">Loading...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Short Positions</div>
+                    <div class="metric-value negative" id="shortPositions">--</div>
+                    <div class="metric-change" id="shortChange">Loading...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Diversification</div>
+                    <div class="metric-value neutral" id="diversification">--</div>
+                    <div class="metric-change" id="diversificationChange">Loading...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Market Sentiment</div>
+                    <div class="metric-value" id="marketSentiment">--</div>
+                    <div class="metric-change" id="sentimentChange">Loading...</div>
                 </div>
             </div>
 
-            <!-- Returns Over Time -->
-            <div class="chart-container">
-                <h2 class="chart-title">📈 CUMULATIVE RETURNS OVER TIME</h2>
-                <div class="chart-wrapper">
-                    <canvas id="cumulativeReturnsChart"></canvas>
+            <!-- Market Overview -->
+            <div class="market-overview">
+                <h2 class="panel-title">📊 CURRENT MARKET OVERVIEW</h2>
+                <div class="market-stats">
+                    <div class="market-stat">
+                        <div class="stat-label">Stocks Tracked</div>
+                        <div class="stat-value" id="stocksTracked">10</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="stat-label">Strategies Active</div>
+                        <div class="stat-value" id="strategiesActive">10</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="stat-label">Total Predictions</div>
+                        <div class="stat-value" id="totalPredictions">--</div>
+                    </div>
+                    <div class="market-stat">
+                        <div class="stat-label">Last Update</div>
+                        <div class="stat-value" id="lastUpdate">--</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Grid of smaller charts -->
-            <div class="chart-grid">
-                <div class="chart-container">
-                    <h3 class="chart-title">🎯 ACCURACY DISTRIBUTION</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="accuracyDistributionChart"></canvas>
+            <!-- Analytics Panels -->
+            <div class="analytics-grid">
+                <!-- Strategy Performance -->
+                <div class="analytics-panel">
+                    <h3 class="panel-title">🎯 STRATEGY CONFIDENCE LEVELS</h3>
+                    <div id="strategyConfidence">
+                        <div class="loading">Loading strategy data...</div>
                     </div>
                 </div>
 
-                <div class="chart-container">
-                    <h3 class="chart-title">💰 AVERAGE RETURNS</h3>
-                    <div class="chart-wrapper">
-                        <canvas id="averageReturnsChart"></canvas>
+                <!-- Current Predictions -->
+                <div class="analytics-panel">
+                    <h3 class="panel-title">📈 TODAY'S PREDICTIONS</h3>
+                    <div id="currentPredictions">
+                        <div class="loading">Loading predictions...</div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Risk vs Return -->
-            <div class="chart-container">
-                <h2 class="chart-title">⚖️ RISK VS RETURN ANALYSIS</h2>
-                <div class="chart-wrapper">
-                    <canvas id="riskReturnChart"></canvas>
+                <!-- Stock Distribution -->
+                <div class="analytics-panel">
+                    <h3 class="panel-title">📊 STOCK DISTRIBUTION</h3>
+                    <div id="stockDistribution">
+                        <div class="loading">Analyzing stock allocation...</div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Prediction Timeline -->
-            <div class="chart-container">
-                <h2 class="chart-title">📅 DAILY PREDICTION ACCURACY</h2>
-                <div class="chart-wrapper">
-                    <canvas id="dailyAccuracyChart"></canvas>
+                <!-- Position Analysis -->
+                <div class="analytics-panel">
+                    <h3 class="panel-title">⚖️ POSITION ANALYSIS</h3>
+                    <div id="positionAnalysis">
+                        <div class="loading">Calculating position metrics...</div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="footer">
-            ANALYTICS MODULE | REAL-TIME PERFORMANCE TRACKING | <a href="https://github.com/yourusername/stock-predictor" style="color: #00ff00;">GITHUB</a>
+            REAL-TIME ANALYTICS | Data updated every 15 minutes | Last refresh: <span id="refreshTime">--</span>
         </div>
     </div>
 
     <script>
-        // Chart.js default configuration for terminal theme
-        Chart.defaults.color = '#00ff00';
-        Chart.defaults.backgroundColor = '#111111';
-        Chart.defaults.borderColor = '#00ff00';
-
         // Global variables
         let predictionsData = null;
-        let performanceData = null;
-        let charts = {};
+        let currentMetrics = {};
 
         // Update current time
         function updateTime() {
@@ -289,347 +421,241 @@
         updateTime();
         setInterval(updateTime, 1000);
 
-        // Load data and initialize charts
-        async function loadData() {
+        // Load and analyze real data
+        async function loadAnalyticsData() {
             try {
                 // Load predictions data
-                const predictionsResponse = await fetch('predictions_data.json');
-                predictionsData = await predictionsResponse.json();
+                const response = await fetch('../predictions_data.json');
+                predictionsData = await response.json();
 
-                // Load performance data if available
-                try {
-                    const performanceResponse = await fetch('performance_data.json');
-                    performanceData = await performanceResponse.json();
-                } catch (e) {
-                    console.log('Performance data not yet available, using sample data');
-                    performanceData = generateSamplePerformanceData();
-                }
-
-                initializeCharts();
-                updateMetrics();
+                analyzeData();
+                updateDashboard();
+                document.getElementById('refreshTime').textContent = new Date().toLocaleTimeString();
             } catch (error) {
                 console.error('Error loading data:', error);
-                // Use sample data
-                predictionsData = generateSampleData();
-                performanceData = generateSamplePerformanceData();
-                initializeCharts();
-                updateMetrics();
+                showErrorState();
             }
         }
 
-        function generateSampleData() {
-            // Generate sample data for demonstration
-            return {
-                predictions: Array.from({length: 14}, (_, i) => ({
-                    date: new Date(Date.now() - (13-i) * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                    predictions: {
-                        momentum: { position: 'LONG', confidence: Math.random() * 0.3 + 0.6, projected: '+7.2%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
-                        mean_reversion: { position: 'SHORT', confidence: Math.random() * 0.3 + 0.5, projected: '-5.8%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
-                        volume_breakout: { position: 'LONG', confidence: Math.random() * 0.3 + 0.7, projected: '+8.1%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
-                        technical_indicators: { position: 'LONG', confidence: Math.random() * 0.3 + 0.6, projected: '+6.5%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' },
-                        ensemble: { position: 'LONG', confidence: Math.random() * 0.2 + 0.8, projected: '+9.2%', actual: (Math.random() * 16 - 8).toFixed(1) + '%' }
-                    }
-                }))
+        function analyzeData() {
+            if (!predictionsData || !predictionsData.predictions || !predictionsData.predictions[0]) {
+                return;
+            }
+
+            const latestPredictions = predictionsData.predictions[0].predictions;
+            const strategies = Object.keys(latestPredictions);
+
+            // Calculate metrics
+            const longCount = strategies.filter(s => latestPredictions[s].position === 'LONG').length;
+            const shortCount = strategies.filter(s => latestPredictions[s].position === 'SHORT').length;
+            const holdCount = strategies.filter(s => latestPredictions[s].position === 'HOLD').length;
+
+            const confidences = strategies
+                .filter(s => latestPredictions[s].position !== 'HOLD')
+                .map(s => latestPredictions[s].confidence || 0);
+
+            const avgConfidence = confidences.length > 0 ?
+                confidences.reduce((a, b) => a + b, 0) / confidences.length : 0;
+
+            // Count unique stocks
+            const uniqueStocks = new Set(
+                strategies
+                    .filter(s => latestPredictions[s].position !== 'HOLD')
+                    .map(s => latestPredictions[s].stock)
+            );
+
+            // Calculate market sentiment
+            const bullishSignals = longCount;
+            const bearishSignals = shortCount;
+            let sentiment = 'NEUTRAL';
+            let sentimentClass = 'neutral';
+
+            if (bullishSignals > bearishSignals + 2) {
+                sentiment = 'BULLISH';
+                sentimentClass = 'positive';
+            } else if (bearishSignals > bullishSignals + 2) {
+                sentiment = 'BEARISH';
+                sentimentClass = 'negative';
+            }
+
+            currentMetrics = {
+                activeSignals: longCount + shortCount,
+                avgConfidence: avgConfidence,
+                longCount: longCount,
+                shortCount: shortCount,
+                holdCount: holdCount,
+                uniqueStocks: uniqueStocks.size,
+                sentiment: sentiment,
+                sentimentClass: sentimentClass,
+                totalPredictions: strategies.length,
+                diversification: uniqueStocks.size,
+                lastUpdate: predictionsData.predictions[0].date
             };
         }
 
-        function generateSamplePerformanceData() {
-            const strategies = ['momentum', 'mean_reversion', 'volume_breakout', 'technical_indicators', 'pattern_recognition', 'volatility_arbitrage', 'moving_average_crossover', 'support_resistance', 'market_sentiment', 'ensemble'];
+        function updateDashboard() {
+            // Update key metrics
+            document.getElementById('activeSignals').textContent = currentMetrics.activeSignals;
+            document.getElementById('avgConfidence').textContent = (currentMetrics.avgConfidence * 100).toFixed(1) + '%';
+            document.getElementById('longPositions').textContent = currentMetrics.longCount;
+            document.getElementById('shortPositions').textContent = currentMetrics.shortCount;
+            document.getElementById('diversification').textContent = currentMetrics.uniqueStocks + '/10';
 
-            return {
-                strategy_performance: strategies.reduce((acc, strategy) => {
-                    acc[strategy] = {
-                        win_rate: Math.random() * 0.4 + 0.4, // 40-80%
-                        total_return: Math.random() * 30 - 5, // -5% to 25%
-                        avg_return: Math.random() * 6 - 1, // -1% to 5%
-                        completed_predictions: Math.floor(Math.random() * 20 + 5)
-                    };
-                    return acc;
-                }, {}),
-                overall_stats: {
-                    overall_win_rate: 0.58,
-                    overall_avg_return: 3.2,
-                    best_strategy: 'ensemble',
-                    total_predictions_completed: 147
-                }
-            };
+            const sentimentEl = document.getElementById('marketSentiment');
+            sentimentEl.textContent = currentMetrics.sentiment;
+            sentimentEl.className = `metric-value ${currentMetrics.sentimentClass}`;
+
+            document.getElementById('totalPredictions').textContent = currentMetrics.totalPredictions;
+            document.getElementById('lastUpdate').textContent = currentMetrics.lastUpdate;
+
+            // Update strategy confidence panel
+            updateStrategyConfidence();
+
+            // Update current predictions
+            updateCurrentPredictions();
+
+            // Update stock distribution
+            updateStockDistribution();
+
+            // Update position analysis
+            updatePositionAnalysis();
         }
 
-        function updateMetrics() {
-            const metricsGrid = document.getElementById('metricsGrid');
-            const overall = performanceData.overall_stats;
+        function updateStrategyConfidence() {
+            const latestPredictions = predictionsData.predictions[0].predictions;
+            const strategies = Object.keys(latestPredictions);
 
-            metricsGrid.innerHTML = `
-                <div class="metric-card">
-                    <div class="metric-label">TOTAL_PREDICTIONS</div>
-                    <div class="metric-value">${overall.total_predictions_completed || 147}</div>
+            let html = '';
+            strategies.forEach(strategy => {
+                const pred = latestPredictions[strategy];
+                const confidence = (pred.confidence || 0) * 100;
+                const position = pred.position;
+
+                html += `
+                    <div class="strategy-item">
+                        <div class="strategy-name">${strategy.replace('_', ' ').toUpperCase()}</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: ${confidence}%"></div>
+                            <div class="confidence-text">${confidence.toFixed(0)}%</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('strategyConfidence').innerHTML = html;
+        }
+
+        function updateCurrentPredictions() {
+            const latestPredictions = predictionsData.predictions[0].predictions;
+            const strategies = Object.keys(latestPredictions)
+                .filter(s => latestPredictions[s].position !== 'HOLD')
+                .sort((a, b) => (latestPredictions[b].confidence || 0) - (latestPredictions[a].confidence || 0));
+
+            let html = `
+                <div class="prediction-row" style="font-weight: bold; border-bottom: 2px solid #00ff00;">
+                    <div>STOCK</div>
+                    <div>POS</div>
+                    <div>CONF</div>
+                    <div>PROJECTED</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">WIN_RATE</div>
-                    <div class="metric-value">${(overall.overall_win_rate * 100).toFixed(1)}%</div>
+            `;
+
+            strategies.forEach(strategy => {
+                const pred = latestPredictions[strategy];
+                const positionClass = pred.position === 'LONG' ? 'position-long' :
+                                    pred.position === 'SHORT' ? 'position-short' : 'position-hold';
+
+                html += `
+                    <div class="prediction-row">
+                        <div class="strategy-name">${pred.stock}</div>
+                        <div class="${positionClass}">${pred.position}</div>
+                        <div>${((pred.confidence || 0) * 100).toFixed(0)}%</div>
+                        <div class="${positionClass}">${pred.projected || 'N/A'}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('currentPredictions').innerHTML = html;
+        }
+
+        function updateStockDistribution() {
+            const latestPredictions = predictionsData.predictions[0].predictions;
+            const stockCounts = {};
+
+            Object.values(latestPredictions)
+                .filter(p => p.position !== 'HOLD')
+                .forEach(pred => {
+                    stockCounts[pred.stock] = (stockCounts[pred.stock] || 0) + 1;
+                });
+
+            const sortedStocks = Object.entries(stockCounts)
+                .sort((a, b) => b[1] - a[1]);
+
+            let html = '';
+            sortedStocks.forEach(([stock, count]) => {
+                const percentage = (count / Object.keys(latestPredictions).length * 100).toFixed(1);
+                html += `
+                    <div class="strategy-item">
+                        <div class="strategy-name">${stock}</div>
+                        <div class="strategy-metric">${count} signals (${percentage}%)</div>
+                    </div>
+                `;
+            });
+
+            if (html === '') {
+                html = '<div class="strategy-item"><div class="strategy-name">No active positions</div></div>';
+            }
+
+            document.getElementById('stockDistribution').innerHTML = html;
+        }
+
+        function updatePositionAnalysis() {
+            const bull = currentMetrics.longCount;
+            const bear = currentMetrics.shortCount;
+            const neutral = currentMetrics.holdCount;
+            const total = bull + bear + neutral;
+
+            const bullPercent = total > 0 ? (bull / total * 100).toFixed(1) : 0;
+            const bearPercent = total > 0 ? (bear / total * 100).toFixed(1) : 0;
+            const neutralPercent = total > 0 ? (neutral / total * 100).toFixed(1) : 0;
+
+            const html = `
+                <div class="strategy-item">
+                    <div class="strategy-name">BULLISH SIGNALS</div>
+                    <div class="strategy-metric position-long">${bull} (${bullPercent}%)</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">AVG_RETURN</div>
-                    <div class="metric-value">${overall.overall_avg_return > 0 ? '+' : ''}${overall.overall_avg_return.toFixed(1)}%</div>
+                <div class="strategy-item">
+                    <div class="strategy-name">BEARISH SIGNALS</div>
+                    <div class="strategy-metric position-short">${bear} (${bearPercent}%)</div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-label">BEST_STRATEGY</div>
-                    <div class="metric-value">${overall.best_strategy || 'ENSEMBLE'}</div>
+                <div class="strategy-item">
+                    <div class="strategy-name">NEUTRAL/HOLD</div>
+                    <div class="strategy-metric position-hold">${neutral} (${neutralPercent}%)</div>
                 </div>
+                <div class="strategy-item">
+                    <div class="strategy-name">SIGNAL STRENGTH</div>
+                    <div class="strategy-metric">${currentMetrics.avgConfidence > 0.7 ? 'STRONG' : currentMetrics.avgConfidence > 0.5 ? 'MODERATE' : 'WEAK'}</div>
+                </div>
+            `;
+
+            document.getElementById('positionAnalysis').innerHTML = html;
+        }
+
+        function showErrorState() {
+            document.getElementById('metricsGrid').innerHTML = `
                 <div class="metric-card">
-                    <div class="metric-label">SHARPE_RATIO</div>
-                    <div class="metric-value">${(overall.overall_avg_return / 2.5).toFixed(2)}</div>
+                    <div class="metric-label">Status</div>
+                    <div class="metric-value negative">ERROR</div>
+                    <div class="metric-change">Unable to load data</div>
                 </div>
             `;
         }
 
-        function initializeCharts() {
-            createStrategyWinRateChart();
-            createCumulativeReturnsChart();
-            createAccuracyDistributionChart();
-            createAverageReturnsChart();
-            createRiskReturnChart();
-            createDailyAccuracyChart();
-        }
+        // Initialize dashboard
+        loadAnalyticsData();
 
-        function createStrategyWinRateChart() {
-            const ctx = document.getElementById('strategyWinRateChart').getContext('2d');
-            const strategies = Object.keys(performanceData.strategy_performance);
-            const winRates = strategies.map(s => performanceData.strategy_performance[s].win_rate * 100);
-
-            charts.strategyWinRate = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: strategies.map(s => s.replace('_', ' ').toUpperCase()),
-                    datasets: [{
-                        label: 'Win Rate (%)',
-                        data: winRates,
-                        backgroundColor: winRates.map(rate => rate > 60 ? '#00ff00' : rate > 50 ? '#ffff00' : '#ff4444'),
-                        borderColor: '#00ff00',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        },
-                        x: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00', maxRotation: 45 }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createCumulativeReturnsChart() {
-            const ctx = document.getElementById('cumulativeReturnsChart').getContext('2d');
-
-            // Generate cumulative returns data
-            const dates = predictionsData.predictions.map(p => p.date);
-            let cumulativeReturn = 0;
-            const cumulativeReturns = dates.map((date, index) => {
-                cumulativeReturn += Math.random() * 4 - 1; // Simulate daily returns
-                return cumulativeReturn;
-            });
-
-            charts.cumulativeReturns = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Cumulative Return (%)',
-                        data: cumulativeReturns,
-                        borderColor: '#00ff00',
-                        backgroundColor: 'rgba(0, 255, 0, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } }
-                    },
-                    scales: {
-                        y: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        },
-                        x: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00', maxRotation: 45 }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createAccuracyDistributionChart() {
-            const ctx = document.getElementById('accuracyDistributionChart').getContext('2d');
-
-            charts.accuracyDistribution = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Correct Direction', 'Wrong Direction'],
-                    datasets: [{
-                        data: [58, 42],
-                        backgroundColor: ['#00ff00', '#ff4444'],
-                        borderColor: ['#00ff00', '#ff4444'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } }
-                    }
-                }
-            });
-        }
-
-        function createAverageReturnsChart() {
-            const ctx = document.getElementById('averageReturnsChart').getContext('2d');
-            const strategies = Object.keys(performanceData.strategy_performance);
-            const avgReturns = strategies.map(s => performanceData.strategy_performance[s].avg_return);
-
-            charts.averageReturns = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: strategies.map(s => s.replace('_', ' ').toUpperCase()),
-                    datasets: [{
-                        label: 'Avg Return (%)',
-                        data: avgReturns,
-                        backgroundColor: avgReturns.map(ret => ret > 0 ? '#00ff00' : '#ff4444'),
-                        borderColor: '#00ff00',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } }
-                    },
-                    scales: {
-                        y: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        },
-                        x: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createRiskReturnChart() {
-            const ctx = document.getElementById('riskReturnChart').getContext('2d');
-            const strategies = Object.keys(performanceData.strategy_performance);
-
-            const data = strategies.map(s => ({
-                x: Math.random() * 10 + 5, // Risk (volatility)
-                y: performanceData.strategy_performance[s].avg_return, // Return
-                label: s.replace('_', ' ')
-            }));
-
-            charts.riskReturn = new Chart(ctx, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Strategies',
-                        data: data,
-                        backgroundColor: '#00ff00',
-                        borderColor: '#00ff00',
-                        pointRadius: 8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${data[context.dataIndex].label}: Risk ${context.parsed.x.toFixed(1)}%, Return ${context.parsed.y.toFixed(1)}%`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            title: { display: true, text: 'Return (%)', color: '#00ff00' },
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        },
-                        x: {
-                            title: { display: true, text: 'Risk (Volatility %)', color: '#00ff00' },
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        }
-                    }
-                }
-            });
-        }
-
-        function createDailyAccuracyChart() {
-            const ctx = document.getElementById('dailyAccuracyChart').getContext('2d');
-            const dates = predictionsData.predictions.map(p => p.date);
-            const accuracies = dates.map(() => Math.random() * 40 + 40); // 40-80% accuracy
-
-            charts.dailyAccuracy = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: 'Daily Accuracy (%)',
-                        data: accuracies,
-                        borderColor: '#00ff00',
-                        backgroundColor: 'rgba(0, 255, 0, 0.2)',
-                        fill: false,
-                        tension: 0.4,
-                        pointBackgroundColor: accuracies.map(acc => acc > 60 ? '#00ff00' : '#ffff00')
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { labels: { color: '#00ff00' } }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00' }
-                        },
-                        x: {
-                            grid: { color: '#003300' },
-                            ticks: { color: '#00ff00', maxRotation: 45 }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', loadData);
+        // Auto-refresh every 5 minutes
+        setInterval(loadAnalyticsData, 300000);
     </script>
 </body>
 </html>
