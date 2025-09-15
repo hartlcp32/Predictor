@@ -1,0 +1,1 @@
+Test change at 2025-01-13 to verify Git is detecting changes
