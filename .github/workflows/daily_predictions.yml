@@ -1,4 +1,4 @@
-name: Daily Stock Predictions
+name: Generate Daily Predictions
 
 on:
   schedule:
