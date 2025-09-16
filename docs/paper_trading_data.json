@@ -1,0 +1,19 @@
+{
+  "last_updated": "2025-09-16T16:59:38.295014",
+  "portfolio": {
+    "total_value": 10000.0,
+    "cash": 10000.0,
+    "positions_value": 0.0,
+    "daily_return": 0.0,
+    "total_return": 0.0
+  },
+  "positions": [],
+  "trades": [],
+  "stats": {},
+  "equity_curve": [
+    {
+      "date": "2025-09-16",
+      "value": 10000.0
+    }
+  ]
+}
