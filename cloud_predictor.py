@@ -75,34 +75,95 @@ def calculate_rsi(prices, period=14):
 
 def generate_prediction(features, strategy):
     """Generate prediction based on features and strategy"""
-    
+    import random
+
     score = 0
-    
+
     if strategy == 'momentum':
-        if features['price_change'] > 0.02:
-            score += 0.6
+        score += features['price_change'] * 10  # Scale price change
         if features['volume_ratio'] > 1.5:
             score += 0.3
-            
+        if features['volatility'] < 0.02:
+            score += 0.2
+
     elif strategy == 'mean_reversion':
+        # Strong mean reversion signals
         if features['rsi'] < 30:
             score += 0.7
         elif features['rsi'] > 70:
             score -= 0.7
-            
+        # Check if oversold/overbought
+        if features['sma_ratio'] < 0.97:
+            score += 0.4
+        elif features['sma_ratio'] > 1.03:
+            score -= 0.4
+
     elif strategy == 'volume_breakout':
         if features['volume_ratio'] > 2.0:
             score += 0.8
-            
+        elif features['volume_ratio'] > 1.5:
+            score += 0.4
+        # Volume with price movement
+        if features['volume_ratio'] > 1.2 and features['price_change'] > 0:
+            score += 0.3
+
     elif strategy == 'technical_indicators':
-        if features['sma_ratio'] > 1.02:
-            score += 0.5
-        elif features['sma_ratio'] < 0.98:
-            score -= 0.5
-            
-    else:
-        # Random for other strategies (simplified)
-        score = random.uniform(-0.5, 0.5)
+        # Moving average signals
+        if features['sma_ratio'] > 1.01:
+            score += 0.4
+        elif features['sma_ratio'] < 0.99:
+            score -= 0.4
+        # RSI signals
+        if 40 < features['rsi'] < 60:
+            score += random.uniform(-0.2, 0.2)  # Neutral zone
+        elif features['rsi'] < 40:
+            score += 0.3
+        elif features['rsi'] > 60:
+            score -= 0.3
+
+    elif strategy == 'pattern_recognition':
+        # Simplified patterns based on volatility and price
+        if features['volatility'] < 0.015:  # Low volatility breakout
+            score += features['price_change'] * 5
+        else:
+            score += random.uniform(-0.4, 0.4)
+
+    elif strategy == 'volatility_arbitrage':
+        # Trade based on volatility levels
+        if features['volatility'] > 0.03:
+            score -= 0.5  # High vol = expect reversal
+        elif features['volatility'] < 0.01:
+            score += features['price_change'] * 10  # Low vol trend
+
+    elif strategy == 'moving_average_crossover':
+        # Check SMA position
+        if features['sma_ratio'] > 1.0:
+            score += min(features['sma_ratio'] - 1.0, 0.5) * 2
+        else:
+            score -= min(1.0 - features['sma_ratio'], 0.5) * 2
+
+    elif strategy == 'support_resistance':
+        # Price extremes
+        if features['price_change'] > 0.03:
+            score -= 0.4  # At resistance
+        elif features['price_change'] < -0.03:
+            score += 0.4  # At support
+        else:
+            score += random.uniform(-0.3, 0.3)
+
+    elif strategy == 'market_sentiment':
+        # Volume-weighted momentum
+        score += features['price_change'] * features['volume_ratio'] * 3
+
+    else:  # ensemble
+        # Mix of signals
+        score += features['price_change'] * 5
+        if features['rsi'] < 40:
+            score += 0.2
+        elif features['rsi'] > 60:
+            score -= 0.2
+        if features['volume_ratio'] > 1.3:
+            score += 0.2
     
     # Determine position
     if score > 0.3:
@@ -141,22 +202,25 @@ def main():
     # Generate predictions for each strategy
     predictions = {}
     used_stocks = set()
-    
+
     for strategy in STRATEGIES:
         # Find best stock for this strategy
         best_stock = None
-        best_score = -999
-        
+        best_score = 0
+        best_prediction = None
+
         for symbol, features in stock_features.items():
             if symbol not in used_stocks:
                 pred = generate_prediction(features, strategy)
-                
+
+                # Pick the stock with highest absolute score
                 if abs(pred['score']) > abs(best_score):
                     best_score = pred['score']
                     best_stock = symbol
                     best_prediction = pred
-        
-        if best_stock:
+
+        # If we found a good prediction, use it
+        if best_stock and best_prediction:
             predictions[strategy] = {
                 'stock': best_stock,
                 'position': best_prediction['position'],
@@ -166,14 +230,31 @@ def main():
             }
             used_stocks.add(best_stock)
         else:
-            # Fallback if no stock available
-            predictions[strategy] = {
-                'stock': 'SPY',
-                'position': 'HOLD',
-                'confidence': 0.5,
-                'projected': '+0.0%',
-                'score': 0
-            }
+            # If no unique stock, pick any available stock
+            for symbol in stock_features:
+                if symbol not in used_stocks:
+                    pred = generate_prediction(stock_features[symbol], strategy)
+                    predictions[strategy] = {
+                        'stock': symbol,
+                        'position': pred['position'],
+                        'confidence': pred['confidence'],
+                        'projected': pred['projected'],
+                        'score': pred['score']
+                    }
+                    used_stocks.add(symbol)
+                    break
+            else:
+                # Last resort - use a random stock with random prediction
+                import random
+                fallback_stock = random.choice(list(stock_features.keys()))
+                pred = generate_prediction(stock_features[fallback_stock], strategy)
+                predictions[strategy] = {
+                    'stock': fallback_stock,
+                    'position': pred['position'],
+                    'confidence': pred['confidence'],
+                    'projected': pred['projected'],
+                    'score': pred['score']
+                }
     
     # Save predictions
     output = {

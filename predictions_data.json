@@ -4,6 +4,81 @@
       "date": "2025-09-16",
       "predictions": {
         "momentum": {
+          "stock": "META",
+          "position": "LONG",
+          "confidence": 0.5709008930990845,
+          "projected": "+3.9%",
+          "score": 0.3870012758558351
+        },
+        "mean_reversion": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 1.0,
+          "projected": "-11.0%",
+          "score": -1.1
+        },
+        "volume_breakout": {
+          "stock": "AAPL",
+          "position": "HOLD",
+          "confidence": 0.51,
+          "projected": "+3.0%",
+          "score": 0.3
+        },
+        "technical_indicators": {
+          "stock": "AMZN",
+          "position": "LONG",
+          "confidence": 0.6331074511546302,
+          "projected": "+4.8%",
+          "score": 0.47586778736375746
+        },
+        "pattern_recognition": {
+          "stock": "AMD",
+          "position": "SHORT",
+          "confidence": 0.5315938419079886,
+          "projected": "-3.3%",
+          "score": -0.3308483455828409
+        },
+        "volatility_arbitrage": {
+          "stock": "MSFT",
+          "position": "HOLD",
+          "confidence": 0.3858425933404692,
+          "projected": "-1.2%",
+          "score": -0.12263227620067038
+        },
+        "moving_average_crossover": {
+          "stock": "GOOGL",
+          "position": "HOLD",
+          "confidence": 0.47749298125577155,
+          "projected": "+2.5%",
+          "score": 0.25356140179395936
+        },
+        "support_resistance": {
+          "stock": "QQQ",
+          "position": "HOLD",
+          "confidence": 0.48504018638639945,
+          "projected": "+2.6%",
+          "score": 0.26434312340914207
+        },
+        "market_sentiment": {
+          "stock": "NVDA",
+          "position": "HOLD",
+          "confidence": 0.3249623870292151,
+          "projected": "-0.4%",
+          "score": -0.03566055289887869
+        },
+        "ensemble": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.44513670181853204,
+          "projected": "-2.1%",
+          "score": -0.20733814545504584
+        }
+      }
+    },
+    {
+      "date": "2025-09-16",
+      "predictions": {
+        "momentum": {
           "stock": "SPY",
           "position": "HOLD",
           "confidence": 0.5,
@@ -226,5 +301,5 @@
       }
     }
   ],
-  "last_updated": "2025-09-16T13:52:58.416394"
+  "last_updated": "2025-09-16T15:03:47.310686"
 }
