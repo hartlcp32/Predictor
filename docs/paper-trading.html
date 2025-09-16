@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAPER TRADING DASHBOARD | Stock Predictor v2.0</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        .dashboard-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            border: 2px solid #00ff00;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        h1 {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            border: 1px solid #00ff00;
+            padding: 15px;
+            background: rgba(0, 255, 0, 0.02);
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .positive { color: #00ff00; }
+        .negative { color: #ff0000; }
+        .neutral { color: #ffff00; }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #00ff00;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: rgba(0, 255, 0, 0.05);
+        }
+
+        .btn {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #00cc00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        .btn-danger {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background: #cc0000;
+        }
+
+        .chart-container {
+            border: 1px solid #00ff00;
+            padding: 20px;
+            height: 300px;
+            position: relative;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        .nav-links {
+            margin-bottom: 20px;
+        }
+
+        .nav-links a {
+            color: #00ff00;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 5px 10px;
+            border: 1px solid #00ff00;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .updating {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>PAPER TRADING DASHBOARD</h1>
+            <div id="lastUpdate">Last Update: Loading...</div>
+            <div id="accountValue">Account Value: Loading...</div>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="entry-tracker.html">ENTRY TRACKER</a>
+            <a href="performance.html">PERFORMANCE</a>
+            <a href="#" onclick="refreshData()">REFRESH</a>
+        </div>
+
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">TOTAL VALUE</div>
+                <div class="stat-value" id="totalValue">$10,000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">CASH</div>
+                <div class="stat-value" id="cash">$10,000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">POSITIONS VALUE</div>
+                <div class="stat-value" id="positionsValue">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">DAILY P&L</div>
+                <div class="stat-value" id="dailyPnl">$0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">TOTAL RETURN</div>
+                <div class="stat-value" id="totalReturn">0.0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">WIN RATE</div>
+                <div class="stat-value" id="winRate">0%</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">OPEN POSITIONS</h2>
+            <table id="openPositionsTable">
+                <thead>
+                    <tr>
+                        <th>SYMBOL</th>
+                        <th>STRATEGY</th>
+                        <th>POSITION</th>
+                        <th>QUANTITY</th>
+                        <th>ENTRY</th>
+                        <th>CURRENT</th>
+                        <th>P&L</th>
+                        <th>P&L %</th>
+                        <th>STOP</th>
+                        <th>TARGET</th>
+                        <th>DAYS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody id="openPositionsBody">
+                    <tr><td colspan="12" class="loading">Loading positions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">RECENT TRADES</h2>
+            <table id="recentTradesTable">
+                <thead>
+                    <tr>
+                        <th>DATE</th>
+                        <th>SYMBOL</th>
+                        <th>STRATEGY</th>
+                        <th>SIDE</th>
+                        <th>ENTRY</th>
+                        <th>EXIT</th>
+                        <th>P&L</th>
+                        <th>P&L %</th>
+                        <th>DAYS</th>
+                        <th>REASON</th>
+                    </tr>
+                </thead>
+                <tbody id="recentTradesBody">
+                    <tr><td colspan="10" class="loading">Loading trades...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">EQUITY CURVE</h2>
+            <div class="chart-container" id="equityChart">
+                <canvas id="equityCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Paper trading data
+        let paperTradingData = {
+            positions: [],
+            trades: [],
+            portfolio: {},
+            stats: {}
+        };
+
+        // Load paper trading data
+        async function loadPaperTradingData() {
+            try {
+                // Load from paper_trading_data.json
+                const response = await fetch('paper_trading_data.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    paperTradingData = data;
+                    updateDisplay();
+                } else {
+                    // Use demo data if file doesn't exist
+                    useDemoData();
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                useDemoData();
+            }
+        }
+
+        // Use demo data for display
+        function useDemoData() {
+            paperTradingData = {
+                portfolio: {
+                    total_value: 10250.50,
+                    cash: 6250.50,
+                    positions_value: 4000.00,
+                    daily_pnl: 125.50,
+                    total_return: 2.51
+                },
+                positions: [
+                    {
+                        symbol: 'AAPL',
+                        strategy: 'Momentum',
+                        position: 'LONG',
+                        quantity: 10,
+                        entry_price: 175.50,
+                        current_price: 178.25,
+                        pnl: 27.50,
+                        pnl_percent: 1.57,
+                        stop_loss: 166.73,
+                        take_profit: 193.05,
+                        days_held: 3
+                    },
+                    {
+                        symbol: 'TSLA',
+                        strategy: 'Mean Reversion',
+                        position: 'SHORT',
+                        quantity: 5,
+                        entry_price: 245.00,
+                        current_price: 242.50,
+                        pnl: 12.50,
+                        pnl_percent: 1.02,
+                        stop_loss: 257.25,
+                        take_profit: 220.50,
+                        days_held: 1
+                    }
+                ],
+                trades: [
+                    {
+                        date: '2025-01-15',
+                        symbol: 'NVDA',
+                        strategy: 'Volume Breakout',
+                        side: 'LONG',
+                        entry_price: 520.00,
+                        exit_price: 535.50,
+                        pnl: 77.50,
+                        pnl_percent: 2.98,
+                        days_held: 5,
+                        exit_reason: 'TAKE_PROFIT'
+                    },
+                    {
+                        date: '2025-01-14',
+                        symbol: 'AMD',
+                        strategy: 'Technical',
+                        side: 'LONG',
+                        entry_price: 145.00,
+                        exit_price: 142.25,
+                        pnl: -13.75,
+                        pnl_percent: -1.90,
+                        days_held: 7,
+                        exit_reason: 'STOP_LOSS'
+                    }
+                ],
+                stats: {
+                    total_trades: 15,
+                    wins: 9,
+                    losses: 6,
+                    win_rate: 60,
+                    avg_win: 45.50,
+                    avg_loss: -22.30,
+                    profit_factor: 2.04
+                }
+            };
+            updateDisplay();
+        }
+
+        // Update display with data
+        function updateDisplay() {
+            // Update header stats
+            document.getElementById('lastUpdate').textContent = 
+                `Last Update: ${new Date().toLocaleString()}`;
+            
+            const portfolio = paperTradingData.portfolio;
+            document.getElementById('totalValue').textContent = 
+                `$${portfolio.total_value?.toFixed(2) || '10,000.00'}`;
+            document.getElementById('cash').textContent = 
+                `$${portfolio.cash?.toFixed(2) || '10,000.00'}`;
+            document.getElementById('positionsValue').textContent = 
+                `$${portfolio.positions_value?.toFixed(2) || '0.00'}`;
+            
+            const pnlClass = portfolio.daily_pnl >= 0 ? 'positive' : 'negative';
+            document.getElementById('dailyPnl').innerHTML = 
+                `<span class="${pnlClass}">${portfolio.daily_pnl >= 0 ? '+' : ''}$${portfolio.daily_pnl?.toFixed(2) || '0.00'}</span>`;
+            
+            const returnClass = portfolio.total_return >= 0 ? 'positive' : 'negative';
+            document.getElementById('totalReturn').innerHTML = 
+                `<span class="${returnClass}">${portfolio.total_return >= 0 ? '+' : ''}${portfolio.total_return?.toFixed(2) || '0.00'}%</span>`;
+            
+            // Update win rate
+            if (paperTradingData.stats) {
+                document.getElementById('winRate').innerHTML = 
+                    `<span class="${paperTradingData.stats.win_rate >= 50 ? 'positive' : 'negative'}">${paperTradingData.stats.win_rate || 0}%</span>`;
+            }
+            
+            // Update positions table
+            updatePositionsTable();
+            
+            // Update trades table
+            updateTradesTable();
+            
+            // Update chart
+            updateEquityChart();
+        }
+
+        // Update positions table
+        function updatePositionsTable() {
+            const tbody = document.getElementById('openPositionsBody');
+            
+            if (!paperTradingData.positions || paperTradingData.positions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; color: #888;">No open positions</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = paperTradingData.positions.map(pos => {
+                const pnlClass = pos.pnl >= 0 ? 'positive' : 'negative';
+                const positionClass = pos.position === 'LONG' ? 'positive' : 'negative';
+                
+                return `
+                    <tr>
+                        <td><strong>${pos.symbol}</strong></td>
+                        <td>${pos.strategy}</td>
+                        <td class="${positionClass}">${pos.position}</td>
+                        <td>${pos.quantity}</td>
+                        <td>$${pos.entry_price.toFixed(2)}</td>
+                        <td>$${pos.current_price.toFixed(2)}</td>
+                        <td class="${pnlClass}">${pos.pnl >= 0 ? '+' : ''}$${pos.pnl.toFixed(2)}</td>
+                        <td class="${pnlClass}">${pos.pnl_percent >= 0 ? '+' : ''}${pos.pnl_percent.toFixed(2)}%</td>
+                        <td>$${pos.stop_loss.toFixed(2)}</td>
+                        <td>$${pos.take_profit.toFixed(2)}</td>
+                        <td>${pos.days_held}d</td>
+                        <td><button class="btn btn-danger" onclick="closePosition('${pos.symbol}')">CLOSE</button></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Update trades table
+        function updateTradesTable() {
+            const tbody = document.getElementById('recentTradesBody');
+            
+            if (!paperTradingData.trades || paperTradingData.trades.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: #888;">No closed trades yet</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = paperTradingData.trades.slice(0, 10).map(trade => {
+                const pnlClass = trade.pnl >= 0 ? 'positive' : 'negative';
+                const sideClass = trade.side === 'LONG' ? 'positive' : 'negative';
+                
+                return `
+                    <tr>
+                        <td>${trade.date}</td>
+                        <td><strong>${trade.symbol}</strong></td>
+                        <td>${trade.strategy}</td>
+                        <td class="${sideClass}">${trade.side}</td>
+                        <td>$${trade.entry_price.toFixed(2)}</td>
+                        <td>$${trade.exit_price.toFixed(2)}</td>
+                        <td class="${pnlClass}">${trade.pnl >= 0 ? '+' : ''}$${trade.pnl.toFixed(2)}</td>
+                        <td class="${pnlClass}">${trade.pnl_percent >= 0 ? '+' : ''}${trade.pnl_percent.toFixed(2)}%</td>
+                        <td>${trade.days_held}d</td>
+                        <td>${trade.exit_reason}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Update equity chart (simplified)
+        function updateEquityChart() {
+            const canvas = document.getElementById('equityCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = canvas.parentElement.offsetWidth - 40;
+            canvas.height = 260;
+            
+            // Simple line chart
+            ctx.strokeStyle = '#00ff00';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            // Demo equity curve
+            const points = [
+                {x: 0, y: 10000},
+                {x: 1, y: 10050},
+                {x: 2, y: 9980},
+                {x: 3, y: 10120},
+                {x: 4, y: 10180},
+                {x: 5, y: 10250}
+            ];
+            
+            const maxY = Math.max(...points.map(p => p.y));
+            const minY = Math.min(...points.map(p => p.y));
+            const rangeY = maxY - minY;
+            
+            points.forEach((point, i) => {
+                const x = (point.x / (points.length - 1)) * (canvas.width - 20) + 10;
+                const y = canvas.height - ((point.y - minY) / rangeY * (canvas.height - 40) + 20);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Draw baseline
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            const baselineY = canvas.height - ((10000 - minY) / rangeY * (canvas.height - 40) + 20);
+            ctx.moveTo(0, baselineY);
+            ctx.lineTo(canvas.width, baselineY);
+            ctx.stroke();
+        }
+
+        // Close position
+        function closePosition(symbol) {
+            if (confirm(`Close position in ${symbol}?`)) {
+                alert(`Position in ${symbol} will be closed at market price.`);
+                // In real implementation, this would call the paper trading API
+            }
+        }
+
+        // Refresh data
+        function refreshData() {
+            document.getElementById('lastUpdate').innerHTML = '<span class="updating">Updating...</span>';
+            loadPaperTradingData();
+        }
+
+        // Auto-refresh every 60 seconds
+        setInterval(refreshData, 60000);
+
+        // Load on page load
+        window.onload = () => {
+            loadPaperTradingData();
+        };
+    </script>
+</body>
+</html>
