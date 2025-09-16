@@ -1,6 +1,81 @@
 {
   "predictions": [
     {
+      "date": "2025-09-16",
+      "predictions": {
+        "momentum": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "mean_reversion": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "volume_breakout": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "technical_indicators": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "pattern_recognition": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "volatility_arbitrage": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "moving_average_crossover": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "support_resistance": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "market_sentiment": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "ensemble": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.5,
+          "projected": "+0.0%",
+          "score": 0
+        }
+      }
+    },
+    {
       "date": "2025-01-13",
       "predictions": {
         "ensemble": {
@@ -151,6 +226,5 @@
       }
     }
   ],
-  "last_updated": "2025-09-16T13:40:07.643506",
-  "source": "database"
+  "last_updated": "2025-09-16T13:52:58.416394"
 }

@@ -30,9 +30,9 @@ class ImprovedPredictionGenerator:
         if use_historical_universe:
             try:
                 self.volume_universe = VolumeUniverse()
-                print("✅ Historical volume universe loaded")
+                print("Historical volume universe loaded")
             except Exception as e:
-                print(f"⚠️ Could not load volume universe: {e}")
+                print(f"Could not load volume universe: {e}")
                 self.use_historical_universe = False
                 self.volume_universe = None
         else:

@@ -101,33 +101,45 @@ class MomentumStrategy(BaseStrategy):
 
 class MeanReversionStrategy(BaseStrategy):
     """Strategy 2: Betting on return to average"""
-    
+
     def __init__(self):
         super().__init__("Mean Reversion")
-    
+
+    def get_exit_condition(self, position, features):
+        """Exit when price returns to mean"""
+        if position == 'LONG':
+            # Exit long when RSI normalizes or price above SMA
+            if features.get('rsi', 50) > 50 or features.get('price_to_sma20', 1) > 1.0:
+                return True
+        elif position == 'SHORT':
+            # Exit short when RSI normalizes or price below SMA
+            if features.get('rsi', 50) < 50 or features.get('price_to_sma20', 1) < 1.0:
+                return True
+        return False
+
     def predict(self, features):
         score = 0
-        
+
         # Oversold conditions
         if features.get('rsi', 50) < 30:
             score += 0.4
         elif features.get('rsi', 50) > 70:
             score -= 0.4
-        
+
         # Price deviation from moving average
         price_to_sma = features.get('price_to_sma20', 1)
         if price_to_sma < 0.95:  # 5% below MA
             score += 0.3
         elif price_to_sma > 1.05:  # 5% above MA
             score -= 0.3
-        
+
         # Bollinger band position
         bb_pos = features.get('bb_position', 0.5)
         if bb_pos < 0.2:  # Near lower band
             score += 0.3
         elif bb_pos > 0.8:  # Near upper band
             score -= 0.3
-        
+
         return {
             'position': self.get_position(score),
             'confidence': self.get_confidence(score),
@@ -141,6 +153,12 @@ class VolumeBreakoutStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Volume Breakout")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -174,6 +192,12 @@ class TechnicalIndicatorStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Technical Indicators")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -213,6 +237,12 @@ class PatternRecognitionStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Pattern Recognition")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -250,6 +280,12 @@ class VolatilityArbitrageStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Volatility Arbitrage")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -287,6 +323,12 @@ class MovingAverageCrossoverStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Moving Average Crossover")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -326,6 +368,12 @@ class SupportResistanceStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Support/Resistance")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -369,6 +417,12 @@ class MarketSentimentStrategy(BaseStrategy):
     def __init__(self):
         super().__init__("Market Sentiment")
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         score = 0
         
@@ -425,6 +479,12 @@ class EnsembleStrategy(BaseStrategy):
         # Weights based on hypothetical backtesting performance
         self.weights = [0.15, 0.10, 0.08, 0.13, 0.07, 0.09, 0.12, 0.11, 0.15]
     
+    
+    def get_exit_condition(self, position, features):
+        """Default exit condition based on holding period"""
+        # Exit after standard holding period or on stop loss
+        return False  # Let position manager handle exits
+
     def predict(self, features):
         weighted_score = 0
         predictions = []

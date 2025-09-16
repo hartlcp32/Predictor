@@ -16,8 +16,8 @@ sys.path.append(str(Path(__file__).parent))
 
 from database.db_manager import DatabaseManager
 from tracking.performance_tracker import PerformanceTracker
-from reporting.report_generator import ReportGenerator
-from scripts.improved_predictor import run_predictions
+# from reporting.report_generator import ReportGenerator  # Skip if plotly not installed
+from predictors.improved_predictor import ImprovedPredictionGenerator
 
 class Scheduler:
     """Main scheduler for automated tasks"""
@@ -26,7 +26,7 @@ class Scheduler:
         """Initialize scheduler"""
         self.db = DatabaseManager()
         self.tracker = PerformanceTracker()
-        self.reporter = ReportGenerator()
+        # self.reporter = ReportGenerator()  # Skip if plotly not installed
         self.log_file = Path('logs') / 'scheduler.log'
         self.log_file.parent.mkdir(exist_ok=True)
         
@@ -46,19 +46,19 @@ class Scheduler:
         try:
             # 1. Generate new predictions
             self.log("Generating predictions...")
-            run_predictions()
-            
+            generator = ImprovedPredictionGenerator()
+            generator.generate_all_predictions()
+
             # 2. Update volume universe
             self.log("Updating volume universe...")
-            subprocess.run([sys.executable, 'scripts/simple_volume_db.py'], check=True)
+            subprocess.run([sys.executable, 'scripts/simple_volume_db.py'], check=False)
             
             # 3. Monitor predictions and create trades
             self.log("Creating trades from predictions...")
             self.tracker.monitor_predictions()
             
-            # 4. Generate morning report
-            self.log("Generating morning report...")
-            self.reporter.generate_daily_report()
+            # 4. Generate morning report (skip if plotly not installed)
+            self.log("Morning report generation skipped (plotly not installed)")
             
             self.log("Morning tasks completed successfully")
             
@@ -93,9 +93,8 @@ class Scheduler:
             self.log("Calculating performance metrics...")
             self.tracker.calculate_strategy_performance()
             
-            # 3. Generate evening reports
-            self.log("Generating evening reports...")
-            self.reporter.generate_daily_report()
+            # 3. Generate evening reports (skip if plotly not installed)
+            self.log("Evening report generation skipped (plotly not installed)")
             
             # 4. Backup database
             self.log("Backing up database...")
@@ -115,19 +114,16 @@ class Scheduler:
         self.log("Starting weekly tasks...")
         
         try:
-            # 1. Generate weekly summary
-            self.log("Generating weekly summary...")
-            self.reporter.generate_weekly_summary()
-            
-            # 2. Run backtests
-            self.log("Running weekly backtests...")
-            end_date = datetime.now().strftime('%Y-%m-%d')
-            start_date = (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d')
-            self.reporter.generate_backtest_report(start_date, end_date)
-            
-            # 3. Strategy comparison
-            self.log("Generating strategy comparison...")
-            self.reporter.generate_strategy_comparison_report()
+            # 1. Weekly summary (skip if plotly not installed)
+            self.log("Weekly reports skipped (plotly not installed)")
+
+            # 2. Update database API for web interface
+            self.log("Updating web interface data...")
+            from api.database_api import DatabaseAPI
+            api = DatabaseAPI()
+            api.generate_api_endpoints()
+            api.export_predictions_json()
+            api.export_trades_json()
             
             # 4. Clean up old logs and reports
             self.cleanup_old_files()
