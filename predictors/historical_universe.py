@@ -1,7 +1,8 @@
-#!/usr/bin/env python3
 """
-Historical stock universe tracker - Maintains accurate top 10 by market cap over time
-Prevents survivorship bias in backtesting
+Historical Universe Manager
+
+Provides historically accurate stock universes based on actual volume data.
+Replaces static stock lists with dynamic volume leaders from specific time periods.
 """
 
 import json

@@ -1,0 +1,248 @@
+{
+  "by_volume": [
+    {
+      "symbol": "NVDA",
+      "avg_daily_volume": 183421030,
+      "avg_price": 175.63,
+      "dollar_volume": 32214253475,
+      "latest_price": 177.75,
+      "market_cap": 4327679459328
+    },
+    {
+      "symbol": "INTC",
+      "avg_daily_volume": 99325762,
+      "avg_price": 24.42,
+      "dollar_volume": 2425038493,
+      "latest_price": 24.77,
+      "market_cap": 115682344960
+    },
+    {
+      "symbol": "TSLA",
+      "avg_daily_volume": 84523621,
+      "avg_price": 347.25,
+      "dollar_volume": 29350743244,
+      "latest_price": 410.04,
+      "market_cap": 1322563534848
+    },
+    {
+      "symbol": "AAL",
+      "avg_daily_volume": 75686987,
+      "avg_price": 13.04,
+      "dollar_volume": 987336741,
+      "latest_price": 12.53,
+      "market_cap": 8267657216
+    },
+    {
+      "symbol": "SPY",
+      "avg_daily_volume": 67256623,
+      "avg_price": 646.9,
+      "dollar_volume": 43508309396,
+      "latest_price": 660.91,
+      "market_cap": 606571266048
+    },
+    {
+      "symbol": "F",
+      "avg_daily_volume": 47540977,
+      "avg_price": 11.66,
+      "dollar_volume": 554161404,
+      "latest_price": 11.68,
+      "market_cap": 46484766720
+    },
+    {
+      "symbol": "AAPL",
+      "avg_daily_volume": 47339936,
+      "avg_price": 231.96,
+      "dollar_volume": 10981113665,
+      "latest_price": 236.7,
+      "market_cap": 3512722522112
+    },
+    {
+      "symbol": "AMD",
+      "avg_daily_volume": 44304293,
+      "avg_price": 162.36,
+      "dollar_volume": 7193311680,
+      "latest_price": 161.16,
+      "market_cap": 261536907264
+    },
+    {
+      "symbol": "PFE",
+      "avg_daily_volume": 39992308,
+      "avg_price": 24.88,
+      "dollar_volume": 995008638,
+      "latest_price": 23.97,
+      "market_cap": 136282628096
+    },
+    {
+      "symbol": "GOOGL",
+      "avg_daily_volume": 37872908,
+      "avg_price": 220.51,
+      "dollar_volume": 8351295429,
+      "latest_price": 251.61,
+      "market_cap": 3046267420672
+    },
+    {
+      "symbol": "BAC",
+      "avg_daily_volume": 36769466,
+      "avg_price": 49.63,
+      "dollar_volume": 1824748772,
+      "latest_price": 50.59,
+      "market_cap": 374717612032
+    },
+    {
+      "symbol": "AMZN",
+      "avg_daily_volume": 34297591,
+      "avg_price": 229.69,
+      "dollar_volume": 7877727987,
+      "latest_price": 231.43,
+      "market_cap": 2468177510400
+    },
+    {
+      "symbol": "T",
+      "avg_daily_volume": 28890168,
+      "avg_price": 29.17,
+      "dollar_volume": 842827344,
+      "latest_price": 29.62,
+      "market_cap": 211794542592
+    },
+    {
+      "symbol": "MSFT",
+      "avg_daily_volume": 20935699,
+      "avg_price": 505.38,
+      "dollar_volume": 10580488757,
+      "latest_price": 515.36,
+      "market_cap": 3830758244352
+    },
+    {
+      "symbol": "WMT",
+      "avg_daily_volume": 18314675,
+      "avg_price": 99.71,
+      "dollar_volume": 1826137948,
+      "latest_price": 103.69,
+      "market_cap": 826704855040
+    }
+  ],
+  "by_dollar_volume": [
+    {
+      "symbol": "SPY",
+      "avg_daily_volume": 67256623,
+      "avg_price": 646.9,
+      "dollar_volume": 43508309396,
+      "latest_price": 660.91,
+      "market_cap": 606571266048
+    },
+    {
+      "symbol": "NVDA",
+      "avg_daily_volume": 183421030,
+      "avg_price": 175.63,
+      "dollar_volume": 32214253475,
+      "latest_price": 177.75,
+      "market_cap": 4327679459328
+    },
+    {
+      "symbol": "TSLA",
+      "avg_daily_volume": 84523621,
+      "avg_price": 347.25,
+      "dollar_volume": 29350743244,
+      "latest_price": 410.04,
+      "market_cap": 1322563534848
+    },
+    {
+      "symbol": "AAPL",
+      "avg_daily_volume": 47339936,
+      "avg_price": 231.96,
+      "dollar_volume": 10981113665,
+      "latest_price": 236.7,
+      "market_cap": 3512722522112
+    },
+    {
+      "symbol": "MSFT",
+      "avg_daily_volume": 20935699,
+      "avg_price": 505.38,
+      "dollar_volume": 10580488757,
+      "latest_price": 515.36,
+      "market_cap": 3830758244352
+    },
+    {
+      "symbol": "GOOGL",
+      "avg_daily_volume": 37872908,
+      "avg_price": 220.51,
+      "dollar_volume": 8351295429,
+      "latest_price": 251.61,
+      "market_cap": 3046267420672
+    },
+    {
+      "symbol": "AMZN",
+      "avg_daily_volume": 34297591,
+      "avg_price": 229.69,
+      "dollar_volume": 7877727987,
+      "latest_price": 231.43,
+      "market_cap": 2468177510400
+    },
+    {
+      "symbol": "META",
+      "avg_daily_volume": 10035249,
+      "avg_price": 750.97,
+      "dollar_volume": 7536211267,
+      "latest_price": 764.7,
+      "market_cap": 1921033568256
+    },
+    {
+      "symbol": "AMD",
+      "avg_daily_volume": 44304293,
+      "avg_price": 162.36,
+      "dollar_volume": 7193311680,
+      "latest_price": 161.16,
+      "market_cap": 261536907264
+    },
+    {
+      "symbol": "UNH",
+      "avg_daily_volume": 16696855,
+      "avg_price": 317.8,
+      "dollar_volume": 5306327606,
+      "latest_price": 347.89,
+      "market_cap": 315074936832
+    },
+    {
+      "symbol": "NFLX",
+      "avg_daily_volume": 2718441,
+      "avg_price": 1224.14,
+      "dollar_volume": 3327757077,
+      "latest_price": 1202.26,
+      "market_cap": 510871568384
+    },
+    {
+      "symbol": "CRM",
+      "avg_daily_volume": 10080510,
+      "avg_price": 248.28,
+      "dollar_volume": 2502804369,
+      "latest_price": 242.52,
+      "market_cap": 230879051776
+    },
+    {
+      "symbol": "INTC",
+      "avg_daily_volume": 99325762,
+      "avg_price": 24.42,
+      "dollar_volume": 2425038493,
+      "latest_price": 24.77,
+      "market_cap": 115682344960
+    },
+    {
+      "symbol": "BRK-B",
+      "avg_daily_volume": 4325950,
+      "avg_price": 493.76,
+      "dollar_volume": 2135966314,
+      "latest_price": 491.54,
+      "market_cap": 1060266508288
+    },
+    {
+      "symbol": "JPM",
+      "avg_daily_volume": 7075779,
+      "avg_price": 298.37,
+      "dollar_volume": 2111221664,
+      "latest_price": 308.9,
+      "market_cap": 849397743616
+    }
+  ],
+  "period": "2025-08-16 to 2025-09-15",
+  "methodology": "Average daily volume over past 30 days"
+}

@@ -86,10 +86,19 @@ class StockDataFetcher:
         
         return df.dropna()
     
-    def get_latest_features(self):
+    def get_latest_features(self, stock_symbols=None):
         """Get the latest features for all stocks"""
         features_dict = {}
-        stock_data = self.fetch_all_stocks()
+
+        # Use custom symbols if provided, otherwise use default
+        if stock_symbols is not None:
+            # Temporarily override the stock list
+            original_stocks = self.stocks
+            self.stocks = stock_symbols
+            stock_data = self.fetch_all_stocks()
+            self.stocks = original_stocks  # Restore original
+        else:
+            stock_data = self.fetch_all_stocks()
         
         for symbol, data in stock_data.items():
             features = self.prepare_features(data)

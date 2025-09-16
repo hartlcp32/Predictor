@@ -395,12 +395,11 @@
                         <th>STRATEGY</th>
                         <th>TICKER</th>
                         <th>POSITION</th>
-                        <th>CONFIDENCE</th>
-                        <th>TARGET_1W</th>
+                        <th>TARGET_1W/<span style="color: #ffff00;">CONFIDENCE</span></th>
                     </tr>
                 </thead>
                 <tbody id="predictionsTableBody">
-                    <tr><td colspan="5" class="loading">LOADING PREDICTIONS</td></tr>
+                    <tr><td colspan="4" class="loading">LOADING PREDICTIONS</td></tr>
                 </tbody>
             </table>
             
@@ -468,18 +467,20 @@
             if (Array.isArray(predictions)) {
                 // Handle array format
                 tbody.innerHTML = predictions.map(p => {
-                    const confClass = p.confidence > 0.7 ? 'confidence-high' : 
+                    const confClass = p.confidence > 0.7 ? 'confidence-high' :
                                      p.confidence > 0.5 ? 'confidence-medium' : 'confidence-low';
-                    const posClass = p.position === 'LONG' ? 'position-long' : 
+                    const posClass = p.position === 'LONG' ? 'position-long' :
                                     p.position === 'SHORT' ? 'position-short' : '';
-                    
+
+                    // Check if target is negative for red styling
+                    const targetColor = p.target.startsWith('-') ? 'color: #ff4444;' : '';
+
                     return `
                         <tr>
                             <td>${p.strategy}</td>
                             <td>${p.ticker}</td>
                             <td class="${posClass}">${p.position}</td>
-                            <td class="${confClass}">${(p.confidence * 100).toFixed(0)}%</td>
-                            <td>${p.target}</td>
+                            <td class="${confClass}"><span style="${targetColor}">${p.target}</span>/<span style="color: #ffff00;">${(p.confidence * 100).toFixed(0)}%</span></td>
                         </tr>
                     `;
                 }).join('');
@@ -487,18 +488,20 @@
                 // Handle object format from improved predictor
                 tbody.innerHTML = Object.entries(predictions).map(([strategy, p]) => {
                     if (p.stock === 'NONE') return '';
-                    const confClass = p.confidence > 0.7 ? 'confidence-high' : 
+                    const confClass = p.confidence > 0.7 ? 'confidence-high' :
                                      p.confidence > 0.5 ? 'confidence-medium' : 'confidence-low';
-                    const posClass = p.position === 'LONG' ? 'position-long' : 
+                    const posClass = p.position === 'LONG' ? 'position-long' :
                                     p.position === 'SHORT' ? 'position-short' : '';
-                    
+
+                    // Check if projected is negative for red styling
+                    const targetColor = p.projected.startsWith('-') ? 'color: #ff4444;' : '';
+
                     return `
                         <tr>
                             <td>${strategy.toUpperCase()}</td>
                             <td>${p.stock}</td>
                             <td class="${posClass}">${p.position}</td>
-                            <td class="${confClass}">${(p.confidence * 100).toFixed(0)}%</td>
-                            <td>${p.projected}</td>
+                            <td class="${confClass}"><span style="${targetColor}">${p.projected}</span>/<span style="color: #ffff00;">${(p.confidence * 100).toFixed(0)}%</span></td>
                         </tr>
                     `;
                 }).filter(row => row).join('');

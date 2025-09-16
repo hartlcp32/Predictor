@@ -26,3 +26,20 @@ Thumbs.db
 
 # Logs
 *.log
+logs/
+
+# Database files
+*.db
+*.db.backup*
+*.sqlite
+*.sqlite3
+
+# Generated reports and data
+reports/
+backtest_results/
+api_data/
+
+# Temporary files
+*.tmp
+*.bak
+*.old

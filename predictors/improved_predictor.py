@@ -7,14 +7,36 @@ import json
 import os
 from datetime import datetime
 import numpy as np
-from predictors.data_fetcher import StockDataFetcher
-from predictors.strategies import get_all_strategies
+try:
+    from predictors.data_fetcher import StockDataFetcher
+    from predictors.strategies import get_all_strategies
+    from predictors.volume_universe import VolumeUniverse
+except ImportError:
+    # Handle relative imports when running directly
+    import sys
+    sys.path.append('.')
+    from data_fetcher import StockDataFetcher
+    from strategies import get_all_strategies
+    from volume_universe import VolumeUniverse
 
 class ImprovedPredictionGenerator:
-    def __init__(self):
+    def __init__(self, use_historical_universe=True):
         self.fetcher = StockDataFetcher()
         self.strategies = get_all_strategies()
         self.output_dir = 'docs'
+
+        # Initialize volume universe for historical accuracy
+        self.use_historical_universe = use_historical_universe
+        if use_historical_universe:
+            try:
+                self.volume_universe = VolumeUniverse()
+                print("✅ Historical volume universe loaded")
+            except Exception as e:
+                print(f"⚠️ Could not load volume universe: {e}")
+                self.use_historical_universe = False
+                self.volume_universe = None
+        else:
+            self.volume_universe = None
         
     def rank_all_stocks(self, strategy, stock_features):
         """Rank all stocks for a given strategy"""
@@ -45,12 +67,34 @@ class ImprovedPredictionGenerator:
         rankings.sort(key=lambda x: abs(x['combined_score']), reverse=True)
         return rankings
     
+    def get_stock_universe_for_date(self, date_str=None):
+        """Get appropriate stock universe for a given date"""
+        if not self.use_historical_universe or not self.volume_universe:
+            # Fallback to default universe
+            return ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK-B', 'JPM', 'JNJ']
+
+        if date_str is None:
+            date_str = datetime.now().strftime('%Y-%m-%d')
+
+        try:
+            # Use weekly volume leaders as the most stable choice
+            universe = self.volume_universe.get_universe_for_date(date_str, 'weekly')
+            print(f"📊 Using historical volume universe for {date_str}: {universe[:5]}...")
+            return universe
+        except Exception as e:
+            print(f"⚠️ Error getting historical universe, using fallback: {e}")
+            return ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK-B', 'JPM', 'JNJ']
+
     def generate_diverse_predictions(self):
         """Generate predictions ensuring each strategy picks a different stock when possible"""
-        print(f"Generating diverse predictions for {datetime.now().strftime('%Y-%m-%d')}...")
-        
-        # Fetch latest data
-        stock_features = self.fetcher.get_latest_features()
+        today = datetime.now().strftime('%Y-%m-%d')
+        print(f"Generating diverse predictions for {today}...")
+
+        # Get historically accurate stock universe
+        stock_universe = self.get_stock_universe_for_date(today)
+
+        # Fetch latest data for the appropriate universe
+        stock_features = self.fetcher.get_latest_features(stock_symbols=stock_universe)
         
         # Track which stocks have been picked
         picked_stocks = set()
@@ -104,8 +148,12 @@ class ImprovedPredictionGenerator:
     def generate_concentrated_predictions(self):
         """Alternative: All strategies pick from their top 3, may overlap"""
         print(f"Generating concentrated predictions...")
-        
-        stock_features = self.fetcher.get_latest_features()
+
+        # Get historically accurate stock universe
+        today = datetime.now().strftime('%Y-%m-%d')
+        stock_universe = self.get_stock_universe_for_date(today)
+
+        stock_features = self.fetcher.get_latest_features(stock_symbols=stock_universe)
         strategy_predictions = {}
         stock_votes = {}  # Track how many strategies like each stock
         

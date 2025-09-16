@@ -1,0 +1,50 @@
+{
+  "created_at": "2025-09-15T16:46:01.622708",
+  "databases": {
+    "daily": {
+      "periods": 30,
+      "description": "Top 10 volume leaders by trading day"
+    },
+    "weekly": {
+      "periods": 20,
+      "description": "Top 10 volume leaders by week"
+    },
+    "monthly": {
+      "periods": 7,
+      "description": "Top 10 volume leaders by month"
+    }
+  },
+  "stock_universe": [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "AMZN",
+    "NVDA",
+    "META",
+    "TSLA",
+    "SPY",
+    "INTC",
+    "AMD",
+    "F",
+    "GE",
+    "AAL",
+    "BAC",
+    "JPM",
+    "PFE",
+    "XOM",
+    "SIRI",
+    "SNAP",
+    "UBER",
+    "QQQ",
+    "IWM",
+    "XLF",
+    "PLTR",
+    "GME"
+  ],
+  "methodology": "Average volume ranking, min $10 price",
+  "files": [
+    "data\\volume_leaders_daily.json",
+    "data\\volume_leaders_weekly.json",
+    "data\\volume_leaders_monthly.json"
+  ]
+}

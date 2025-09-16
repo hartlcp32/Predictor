@@ -1,0 +1,1562 @@
+{
+  "2025-09-09": {
+    "week_start": "2025-09-09",
+    "week_end": "2025-09-15",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "AAL",
+      "SPY",
+      "AAPL",
+      "INTC",
+      "PLTR",
+      "F",
+      "PFE",
+      "QQQ"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 161094880,
+        "avg_price": 176.16,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 112078687,
+        "avg_price": 373.91,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 88984588,
+        "avg_price": 12.79,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 70044654,
+        "avg_price": 655.7,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 59664705,
+        "avg_price": 232.39,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 59095929,
+        "avg_price": 24.53,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 53021096,
+        "avg_price": 167.22,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 49443750,
+        "avg_price": 11.61,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PFE",
+        "avg_volume": 46855715,
+        "avg_price": 24.4,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 46078806,
+        "avg_price": 584.73,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-09-02": {
+    "week_start": "2025-09-02",
+    "week_end": "2025-09-08",
+    "top_10_symbols": [
+      "NVDA",
+      "AAL",
+      "TSLA",
+      "SPY",
+      "PLTR",
+      "QQQ",
+      "GOOGL",
+      "INTC",
+      "AAPL",
+      "F"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 185094080,
+        "avg_price": 169.67,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 87685120,
+        "avg_price": 13.14,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 78406880,
+        "avg_price": 339.84,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 73267120,
+        "avg_price": 645.84,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 62855700,
+        "avg_price": 155.47,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 56469440,
+        "avg_price": 573.17,
+        "trading_days": 5
+      },
+      {
+        "symbol": "GOOGL",
+        "avg_volume": 56321380,
+        "avg_price": 228.51,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 54327720,
+        "avg_price": 24.36,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 52384540,
+        "avg_price": 237.11,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 45170380,
+        "avg_price": 11.69,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-08-26": {
+    "week_start": "2025-08-26",
+    "week_end": "2025-09-01",
+    "top_10_symbols": [
+      "NVDA",
+      "INTC",
+      "TSLA",
+      "PLTR",
+      "AAL",
+      "SPY",
+      "F",
+      "QQQ",
+      "AAPL",
+      "AMD"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 232313200,
+        "avg_price": 179.42,
+        "trading_days": 4
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 73315525,
+        "avg_price": 24.62,
+        "trading_days": 4
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 72804875,
+        "avg_price": 345.28,
+        "trading_days": 4
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 66527500,
+        "avg_price": 158.1,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 62671300,
+        "avg_price": 13.22,
+        "trading_days": 4
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 58991100,
+        "avg_price": 646.44,
+        "trading_days": 4
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 45197050,
+        "avg_price": 11.81,
+        "trading_days": 4
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 43462100,
+        "avg_price": 573.4,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 40831925,
+        "avg_price": 231.12,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 40742900,
+        "avg_price": 166.24,
+        "trading_days": 4
+      }
+    ]
+  },
+  "2025-08-19": {
+    "week_start": "2025-08-19",
+    "week_end": "2025-08-25",
+    "top_10_symbols": [
+      "INTC",
+      "NVDA",
+      "PLTR",
+      "TSLA",
+      "SPY",
+      "AAL",
+      "QQQ",
+      "F",
+      "AMD",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "INTC",
+        "avg_volume": 182723860,
+        "avg_price": 24.34,
+        "trading_days": 5
+      },
+      {
+        "symbol": "NVDA",
+        "avg_volume": 175243000,
+        "avg_price": 176.75,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 128383340,
+        "avg_price": 157.17,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 77973700,
+        "avg_price": 331.99,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 69760860,
+        "avg_price": 640.25,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 65345280,
+        "avg_price": 13.03,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 52503480,
+        "avg_price": 568.15,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 51969380,
+        "avg_price": 11.59,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 48540400,
+        "avg_price": 165.32,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 37149720,
+        "avg_price": 227.28,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-08-12": {
+    "week_start": "2025-08-12",
+    "week_end": "2025-08-18",
+    "top_10_symbols": [
+      "INTC",
+      "NVDA",
+      "TSLA",
+      "AAL",
+      "AMD",
+      "SPY",
+      "PLTR",
+      "AAPL",
+      "F",
+      "QQQ"
+    ],
+    "rankings": [
+      {
+        "symbol": "INTC",
+        "avg_volume": 186181440,
+        "avg_price": 23.22,
+        "trading_days": 5
+      },
+      {
+        "symbol": "NVDA",
+        "avg_volume": 148704320,
+        "avg_price": 181.84,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 70927620,
+        "avg_price": 336.3,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 68123160,
+        "avg_price": 13.05,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 62867600,
+        "avg_price": 178.79,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 59309700,
+        "avg_price": 643.85,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 56969440,
+        "avg_price": 180.71,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 54187180,
+        "avg_price": 231.65,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 52698360,
+        "avg_price": 11.41,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 41617760,
+        "avg_price": 578.95,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-08-05": {
+    "week_start": "2025-08-05",
+    "week_end": "2025-08-11",
+    "top_10_symbols": [
+      "NVDA",
+      "INTC",
+      "AMD",
+      "AAPL",
+      "PLTR",
+      "TSLA",
+      "SPY",
+      "F",
+      "PFE",
+      "AAL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 141439640,
+        "avg_price": 180.63,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 109351160,
+        "avg_price": 20.19,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 91483260,
+        "avg_price": 170.97,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 83704620,
+        "avg_price": 218.35,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 82091000,
+        "avg_price": 180.93,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 79932820,
+        "avg_price": 323.92,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 65881720,
+        "avg_price": 633.22,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 64591480,
+        "avg_price": 11.08,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PFE",
+        "avg_volume": 59926280,
+        "avg_price": 24.41,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 53300860,
+        "avg_price": 11.66,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-07-29": {
+    "week_start": "2025-07-29",
+    "week_end": "2025-08-04",
+    "top_10_symbols": [
+      "NVDA",
+      "SPY",
+      "TSLA",
+      "INTC",
+      "AMD",
+      "AAL",
+      "AMZN",
+      "F",
+      "AAPL",
+      "PLTR"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 180555740,
+        "avg_price": 177.26,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 91536400,
+        "avg_price": 630.94,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 84873400,
+        "avg_price": 312.08,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 82932500,
+        "avg_price": 19.87,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 74617500,
+        "avg_price": 176.35,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 74245920,
+        "avg_price": 11.34,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMZN",
+        "avg_volume": 74243140,
+        "avg_price": 224.34,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 73913520,
+        "avg_price": 10.81,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 71433280,
+        "avg_price": 206.49,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 54462420,
+        "avg_price": 157.63,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-07-22": {
+    "week_start": "2025-07-22",
+    "week_end": "2025-07-28",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "INTC",
+      "AAL",
+      "F",
+      "SPY",
+      "AMD",
+      "PLTR",
+      "GOOGL",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 147704280,
+        "avg_price": 172.35,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 117558200,
+        "avg_price": 322.32,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 117165620,
+        "avg_price": 22.15,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 76880800,
+        "avg_price": 11.94,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 65122140,
+        "avg_price": 11.17,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 62729380,
+        "avg_price": 634.31,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 52135820,
+        "avg_price": 163.12,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 51745540,
+        "avg_price": 155.05,
+        "trading_days": 5
+      },
+      {
+        "symbol": "GOOGL",
+        "avg_volume": 51229840,
+        "avg_price": 191.73,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 43508560,
+        "avg_price": 213.81,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-07-15": {
+    "week_start": "2025-07-15",
+    "week_end": "2025-07-21",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "F",
+      "SPY",
+      "AAL",
+      "INTC",
+      "AMD",
+      "PLTR",
+      "BAC",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 163976500,
+        "avg_price": 171.76,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 83757560,
+        "avg_price": 322.0,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 75550700,
+        "avg_price": 11.14,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 72237420,
+        "avg_price": 626.15,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 67190320,
+        "avg_price": 12.34,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 59240580,
+        "avg_price": 22.95,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 58269780,
+        "avg_price": 158.02,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 53537280,
+        "avg_price": 151.76,
+        "trading_days": 5
+      },
+      {
+        "symbol": "BAC",
+        "avg_volume": 50687240,
+        "avg_price": 46.54,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 47641380,
+        "avg_price": 210.35,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-07-08": {
+    "week_start": "2025-07-08",
+    "week_end": "2025-07-14",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "AAL",
+      "INTC",
+      "F",
+      "PLTR",
+      "SPY",
+      "BAC",
+      "AMD",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 164020520,
+        "avg_price": 163.18,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 88095720,
+        "avg_price": 306.79,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 82144180,
+        "avg_price": 12.12,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 68436280,
+        "avg_price": 23.52,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 66555780,
+        "avg_price": 11.66,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 65324540,
+        "avg_price": 143.32,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 59647120,
+        "avg_price": 623.73,
+        "trading_days": 5
+      },
+      {
+        "symbol": "BAC",
+        "avg_volume": 49314720,
+        "avg_price": 46.69,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 45801400,
+        "avg_price": 142.61,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 42929560,
+        "avg_price": 210.43,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-07-01": {
+    "week_start": "2025-07-01",
+    "week_end": "2025-07-07",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "F",
+      "INTC",
+      "PLTR",
+      "SPY",
+      "AAPL",
+      "AAL",
+      "QQQ",
+      "AMD"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 167055700,
+        "avg_price": 157.02,
+        "trading_days": 4
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 113447400,
+        "avg_price": 306.41,
+        "trading_days": 4
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 99158975,
+        "avg_price": 11.48,
+        "trading_days": 4
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 89810350,
+        "avg_price": 22.3,
+        "trading_days": 4
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 66245975,
+        "avg_price": 134.07,
+        "trading_days": 4
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 65605200,
+        "avg_price": 621.03,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 57978875,
+        "avg_price": 210.7,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 43925775,
+        "avg_price": 11.61,
+        "trading_days": 4
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 41124450,
+        "avg_price": 551.51,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 40131550,
+        "avg_price": 136.84,
+        "trading_days": 4
+      }
+    ]
+  },
+  "2025-06-24": {
+    "week_start": "2025-06-24",
+    "week_end": "2025-06-30",
+    "top_10_symbols": [
+      "NVDA",
+      "F",
+      "PLTR",
+      "TSLA",
+      "INTC",
+      "SPY",
+      "AMD",
+      "AAPL",
+      "AMZN",
+      "GOOGL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 222534620,
+        "avg_price": 154.59,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 105613700,
+        "avg_price": 10.56,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 97870840,
+        "avg_price": 139.49,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 96156860,
+        "avg_price": 327.02,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 86243580,
+        "avg_price": 22.47,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 77431880,
+        "avg_price": 611.71,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 63253940,
+        "avg_price": 142.24,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 61898040,
+        "avg_price": 201.59,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMZN",
+        "avg_volume": 59744040,
+        "avg_price": 216.91,
+        "trading_days": 5
+      },
+      {
+        "symbol": "GOOGL",
+        "avg_volume": 55863820,
+        "avg_price": 173.0,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-06-17": {
+    "week_start": "2025-06-17",
+    "week_end": "2025-06-23",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "INTC",
+      "F",
+      "SPY",
+      "PLTR",
+      "AMD",
+      "AAL",
+      "AAPL",
+      "QQQ"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 174466800,
+        "avg_price": 144.4,
+        "trading_days": 4
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 120706300,
+        "avg_price": 327.31,
+        "trading_days": 4
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 99161650,
+        "avg_price": 21.14,
+        "trading_days": 4
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 94514875,
+        "avg_price": 10.41,
+        "trading_days": 4
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 85072950,
+        "avg_price": 596.47,
+        "trading_days": 4
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 71576850,
+        "avg_price": 138.85,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 70333725,
+        "avg_price": 127.93,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 63598325,
+        "avg_price": 10.66,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 59219675,
+        "avg_price": 198.45,
+        "trading_days": 4
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 49618500,
+        "avg_price": 528.69,
+        "trading_days": 4
+      }
+    ]
+  },
+  "2025-06-10": {
+    "week_start": "2025-06-10",
+    "week_end": "2025-06-16",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "INTC",
+      "F",
+      "PLTR",
+      "SPY",
+      "AAL",
+      "GME",
+      "AMD",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 169979040,
+        "avg_price": 143.68,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 118377120,
+        "avg_price": 325.21,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 114163680,
+        "avg_price": 20.88,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 84549020,
+        "avg_price": 10.43,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 79444380,
+        "avg_price": 136.64,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 74704860,
+        "avg_price": 599.8,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 60388500,
+        "avg_price": 11.01,
+        "trading_days": 5
+      },
+      {
+        "symbol": "GME",
+        "avg_volume": 58742140,
+        "avg_price": 25.26,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 51868680,
+        "avg_price": 121.09,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 50807020,
+        "avg_price": 198.88,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-06-03": {
+    "week_start": "2025-06-03",
+    "week_end": "2025-06-09",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "F",
+      "PLTR",
+      "INTC",
+      "SPY",
+      "AAPL",
+      "AAL",
+      "QQQ",
+      "AMZN"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 192639640,
+        "avg_price": 141.48,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 158278600,
+        "avg_price": 312.95,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 109504500,
+        "avg_price": 10.09,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 96324120,
+        "avg_price": 128.57,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 77398700,
+        "avg_price": 20.21,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 66560840,
+        "avg_price": 595.02,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 52916400,
+        "avg_price": 202.19,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 46039680,
+        "avg_price": 11.54,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 44523300,
+        "avg_price": 527.7,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMZN",
+        "avg_volume": 38570780,
+        "avg_price": 210.28,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-05-27": {
+    "week_start": "2025-05-27",
+    "week_end": "2025-06-02",
+    "top_10_symbols": [
+      "NVDA",
+      "F",
+      "TSLA",
+      "PLTR",
+      "INTC",
+      "SPY",
+      "AAL",
+      "QQQ",
+      "AAPL",
+      "BAC"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 279410120,
+        "avg_price": 136.38,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 123115400,
+        "avg_price": 10.08,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 100997440,
+        "avg_price": 353.47,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 98673320,
+        "avg_price": 126.66,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 72828140,
+        "avg_price": 20.09,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 72647800,
+        "avg_price": 588.47,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 61060200,
+        "avg_price": 11.45,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 52960480,
+        "avg_price": 519.89,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 51853640,
+        "avg_price": 200.4,
+        "trading_days": 5
+      },
+      {
+        "symbol": "BAC",
+        "avg_volume": 39132200,
+        "avg_price": 43.64,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-05-20": {
+    "week_start": "2025-05-20",
+    "week_end": "2025-05-26",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "F",
+      "SPY",
+      "PLTR",
+      "INTC",
+      "GOOGL",
+      "QQQ",
+      "AAPL",
+      "AAL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 204572050,
+        "avg_price": 132.56,
+        "trading_days": 4
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 103959625,
+        "avg_price": 339.71,
+        "trading_days": 4
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 81188600,
+        "avg_price": 10.36,
+        "trading_days": 4
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 75675400,
+        "avg_price": 582.75,
+        "trading_days": 4
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 70831775,
+        "avg_price": 122.94,
+        "trading_days": 4
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 58921425,
+        "avg_price": 20.64,
+        "trading_days": 4
+      },
+      {
+        "symbol": "GOOGL",
+        "avg_volume": 57524875,
+        "avg_price": 167.62,
+        "trading_days": 4
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 56946425,
+        "avg_price": 513.56,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 56720925,
+        "avg_price": 201.17,
+        "trading_days": 4
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 50067700,
+        "avg_price": 11.37,
+        "trading_days": 4
+      }
+    ]
+  },
+  "2025-05-13": {
+    "week_start": "2025-05-13",
+    "week_end": "2025-05-19",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "PLTR",
+      "F",
+      "INTC",
+      "SPY",
+      "AAL",
+      "AMD",
+      "QQQ",
+      "AAPL"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 251588120,
+        "avg_price": 134.2,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 111327620,
+        "avg_price": 343.33,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 88555500,
+        "avg_price": 128.45,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 72865860,
+        "avg_price": 10.57,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 71042980,
+        "avg_price": 21.73,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 69943880,
+        "avg_price": 589.05,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 61362500,
+        "avg_price": 11.92,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 53480700,
+        "avg_price": 115.42,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 50273640,
+        "avg_price": 518.83,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 49428600,
+        "avg_price": 211.11,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-05-06": {
+    "week_start": "2025-05-06",
+    "week_end": "2025-05-12",
+    "top_10_symbols": [
+      "NVDA",
+      "PLTR",
+      "F",
+      "TSLA",
+      "INTC",
+      "AAL",
+      "SPY",
+      "GOOGL",
+      "PFE",
+      "AMD"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 184341600,
+        "avg_price": 117.51,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 119770200,
+        "avg_price": 114.85,
+        "trading_days": 5
+      },
+      {
+        "symbol": "F",
+        "avg_volume": 106851800,
+        "avg_price": 10.14,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 98212460,
+        "avg_price": 290.61,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 66066480,
+        "avg_price": 20.97,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 60006800,
+        "avg_price": 10.96,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 57116100,
+        "avg_price": 564.8,
+        "trading_days": 5
+      },
+      {
+        "symbol": "GOOGL",
+        "avg_volume": 56568020,
+        "avg_price": 155.69,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PFE",
+        "avg_volume": 56270720,
+        "avg_price": 22.16,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMD",
+        "avg_volume": 55443560,
+        "avg_price": 102.33,
+        "trading_days": 5
+      }
+    ]
+  },
+  "2025-04-29": {
+    "week_start": "2025-04-29",
+    "week_end": "2025-05-05",
+    "top_10_symbols": [
+      "NVDA",
+      "TSLA",
+      "PLTR",
+      "AAL",
+      "INTC",
+      "AAPL",
+      "SPY",
+      "AMZN",
+      "PFE",
+      "QQQ"
+    ],
+    "rankings": [
+      {
+        "symbol": "NVDA",
+        "avg_volume": 192993680,
+        "avg_price": 111.56,
+        "trading_days": 5
+      },
+      {
+        "symbol": "TSLA",
+        "avg_volume": 109320060,
+        "avg_price": 284.44,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PLTR",
+        "avg_volume": 103780780,
+        "avg_price": 119.75,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAL",
+        "avg_volume": 67721100,
+        "avg_price": 10.21,
+        "trading_days": 5
+      },
+      {
+        "symbol": "INTC",
+        "avg_volume": 63694440,
+        "avg_price": 20.26,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AAPL",
+        "avg_volume": 63301780,
+        "avg_price": 207.75,
+        "trading_days": 5
+      },
+      {
+        "symbol": "SPY",
+        "avg_volume": 60687840,
+        "avg_price": 557.87,
+        "trading_days": 5
+      },
+      {
+        "symbol": "AMZN",
+        "avg_volume": 56846160,
+        "avg_price": 187.67,
+        "trading_days": 5
+      },
+      {
+        "symbol": "PFE",
+        "avg_volume": 56374240,
+        "avg_price": 23.19,
+        "trading_days": 5
+      },
+      {
+        "symbol": "QQQ",
+        "avg_volume": 37653560,
+        "avg_price": 480.95,
+        "trading_days": 5
+      }
+    ]
+  }
+}
