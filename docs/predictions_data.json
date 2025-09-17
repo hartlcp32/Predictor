@@ -1,8 +1,8 @@
 {
-  "last_updated": "2025-09-16T17:02:52.351707",
+  "last_updated": "2025-09-17T13:42:23.468296",
   "predictions": [
     {
-      "date": "2025-09-16",
+      "date": "2025-09-17",
       "predictions": {
         "ml_momentum": {
           "stock": "META",
@@ -69,6 +69,36 @@
           "model": "ML Enhanced Predictor",
           "current_price": 174.88,
           "target_price": 195.04
+        },
+        "momentum": {
+          "stock": "AAPL",
+          "position": "BUY",
+          "confidence": 0.709,
+          "score": 0.709,
+          "projected": "+3.4%",
+          "timeframe": "1W",
+          "current_price": 238.15,
+          "target_price": 246.14
+        },
+        "mean_reversion": {
+          "stock": "GOOGL",
+          "position": "SELL",
+          "confidence": 0.755,
+          "score": -0.755,
+          "projected": "-4.0%",
+          "timeframe": "1W",
+          "current_price": 251.16,
+          "target_price": 241.0
+        },
+        "volume_breakout": {
+          "stock": "MSFT",
+          "position": "BUY",
+          "confidence": 0.814,
+          "score": 0.814,
+          "projected": "+11.4%",
+          "timeframe": "1W",
+          "current_price": 509.04,
+          "target_price": 567.25
         }
       }
     }
@@ -79,41 +109,41 @@
         "symbol": "JPM",
         "action": "BUY",
         "confidence": 0.843,
-        "expected_return": 0.08704380715500466,
-        "current_price": 309.19000244140625,
-        "target_price": 336.1030773881714
+        "expected_return": 0.087,
+        "current_price": 309.19,
+        "target_price": 336.1
       },
       {
         "symbol": "MSFT",
         "action": "BUY",
         "confidence": 0.814,
-        "expected_return": 0.1143617504183453,
-        "current_price": 509.0400085449219,
-        "target_price": 567.2547149550886
+        "expected_return": 0.114,
+        "current_price": 509.04,
+        "target_price": 567.25
       },
       {
         "symbol": "GOOGL",
         "action": "SELL",
         "confidence": 0.755,
-        "expected_return": -0.040441461939639926,
-        "current_price": 251.16000366210938,
-        "target_price": 241.00272593324834
+        "expected_return": -0.040,
+        "current_price": 251.16,
+        "target_price": 241.0
       },
       {
         "symbol": "SPY",
         "action": "BUY",
         "confidence": 0.732,
-        "expected_return": 0.06916001424232458,
+        "expected_return": 0.069,
         "current_price": 660.0,
-        "target_price": 705.6456093999342
+        "target_price": 705.65
       },
       {
         "symbol": "AAPL",
         "action": "BUY",
         "confidence": 0.709,
-        "expected_return": 0.03356848187100657,
-        "current_price": 238.14999389648438,
-        "target_price": 246.14432764917882
+        "expected_return": 0.034,
+        "current_price": 238.15,
+        "target_price": 246.14
       }
     ],
     "total_signals": 9,
