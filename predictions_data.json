@@ -1,104 +1,229 @@
 {
-  "last_updated": "2025-09-17T13:42:23.468296",
+  "last_updated": "2025-09-17T17:44:17.318476",
+  "total_strategies": 20,
   "predictions": [
     {
       "date": "2025-09-17",
       "predictions": {
-        "ml_momentum": {
+        "momentum": {
+          "stock": "AAPL",
+          "position": "SHORT",
+          "confidence": 0.772,
+          "score": -0.772,
+          "projected": "-4.8%",
+          "timeframe": "1W",
+          "current_price": 238.99,
+          "target_price": 227.42,
+          "model_type": "Traditional"
+        },
+        "mean_reversion": {
+          "stock": "MSFT",
+          "position": "LONG",
+          "confidence": 0.832,
+          "score": 0.832,
+          "projected": "+2.4%",
+          "timeframe": "1W",
+          "current_price": 510.02,
+          "target_price": 522.45,
+          "model_type": "Traditional"
+        },
+        "volume_breakout": {
+          "stock": "GOOGL",
+          "position": "LONG",
+          "confidence": 0.774,
+          "score": 0.774,
+          "projected": "+6.4%",
+          "timeframe": "1W",
+          "current_price": 249.53,
+          "target_price": 265.43,
+          "model_type": "Traditional"
+        },
+        "technical_indicators": {
+          "stock": "AMZN",
+          "position": "LONG",
+          "confidence": 0.595,
+          "score": 0.595,
+          "projected": "+6.6%",
+          "timeframe": "1W",
+          "current_price": 231.62,
+          "target_price": 246.98,
+          "model_type": "Traditional"
+        },
+        "pattern_recognition": {
+          "stock": "TSLA",
+          "position": "HOLD",
+          "confidence": 0.667,
+          "score": -0.667,
+          "projected": "-0.8%",
+          "timeframe": "1W",
+          "current_price": 425.86,
+          "target_price": 422.32,
+          "model_type": "Traditional"
+        },
+        "volatility_arbitrage": {
+          "stock": "NVDA",
+          "position": "LONG",
+          "confidence": 0.58,
+          "score": 0.58,
+          "projected": "+9.5%",
+          "timeframe": "1W",
+          "current_price": 170.29,
+          "target_price": 186.42,
+          "model_type": "Traditional"
+        },
+        "moving_average_crossover": {
           "stock": "META",
-          "position": "BUY",
+          "position": "LONG",
+          "confidence": 0.713,
+          "score": 0.713,
+          "projected": "+8.8%",
+          "timeframe": "1W",
+          "current_price": 775.72,
+          "target_price": 843.99,
+          "model_type": "Traditional"
+        },
+        "support_resistance": {
+          "stock": "JPM",
+          "position": "LONG",
+          "confidence": 0.62,
+          "score": 0.62,
+          "projected": "+10.3%",
+          "timeframe": "1W",
+          "current_price": 311.75,
+          "target_price": 343.84,
+          "model_type": "Traditional"
+        },
+        "market_sentiment": {
+          "stock": "SPY",
+          "position": "LONG",
+          "confidence": 0.717,
+          "score": 0.717,
+          "projected": "+3.9%",
+          "timeframe": "1W",
+          "current_price": 659.18,
+          "target_price": 684.99,
+          "model_type": "Traditional"
+        },
+        "ensemble": {
+          "stock": "QQQ",
+          "position": "LONG",
           "confidence": 0.651,
           "score": 0.651,
-          "projected": "+7.1%",
+          "projected": "+8.2%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 779.0,
-          "target_price": 834.28
+          "current_price": 590.0,
+          "target_price": 638.58,
+          "model_type": "Traditional"
         },
-        "ml_mean_reversion": {
-          "stock": "JPM",
-          "position": "BUY",
-          "confidence": 0.843,
-          "score": 0.843,
-          "projected": "+8.7%",
+        "ml_random_forest": {
+          "stock": "AMD",
+          "position": "HOLD",
+          "confidence": 0.775,
+          "score": -0.775,
+          "projected": "-1.5%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 309.19,
-          "target_price": 336.1
+          "current_price": 159.16,
+          "target_price": 156.77,
+          "model_type": "ML-Enhanced"
         },
-        "ml_technical": {
-          "stock": "SPY",
+        "ml_gradient_boost": {
+          "stock": "INTC",
           "position": "BUY",
           "confidence": 0.732,
           "score": 0.732,
-          "projected": "+6.9%",
+          "projected": "+8.9%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 660.0,
-          "target_price": 705.65
+          "current_price": 24.9,
+          "target_price": 27.11,
+          "model_type": "ML-Enhanced"
         },
-        "ml_volume": {
-          "stock": "QQQ",
+        "ml_sequence_model": {
+          "stock": "V",
           "position": "BUY",
-          "confidence": 0.597,
-          "score": 0.597,
-          "projected": "+7.6%",
+          "confidence": 0.801,
+          "score": 0.801,
+          "projected": "+7.5%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 591.18,
-          "target_price": 636.12
+          "current_price": 346.2,
+          "target_price": 372.22,
+          "model_type": "ML-Enhanced"
         },
-        "ml_pattern": {
-          "stock": "TSLA",
+        "ml_neural_network": {
+          "stock": "MA",
           "position": "BUY",
-          "confidence": 0.68,
-          "score": 0.68,
-          "projected": "+3.8%",
+          "confidence": 0.864,
+          "score": 0.864,
+          "projected": "+9.0%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 421.62,
-          "target_price": 437.45
+          "current_price": 598.63,
+          "target_price": 652.56,
+          "model_type": "ML-Enhanced"
         },
-        "ml_ensemble": {
-          "stock": "NVDA",
+        "ml_regime_detector": {
+          "stock": "WMT",
           "position": "BUY",
-          "confidence": 0.662,
-          "score": 0.662,
-          "projected": "+11.5%",
+          "confidence": 0.881,
+          "score": 0.881,
+          "projected": "+6.0%",
           "timeframe": "1W",
-          "model": "ML Enhanced Predictor",
-          "current_price": 174.88,
-          "target_price": 195.04
+          "current_price": 104.27,
+          "target_price": 110.57,
+          "model_type": "ML-Enhanced"
         },
-        "momentum": {
-          "stock": "AAPL",
-          "position": "BUY",
-          "confidence": 0.709,
-          "score": 0.709,
-          "projected": "+3.4%",
+        "options_flow": {
+          "stock": "HD",
+          "position": "SHORT",
+          "confidence": 0.725,
+          "score": -0.725,
+          "projected": "-4.6%",
           "timeframe": "1W",
-          "current_price": 238.15,
-          "target_price": 246.14
+          "current_price": 417.0,
+          "target_price": 397.83,
+          "model_type": "Traditional"
         },
-        "mean_reversion": {
-          "stock": "GOOGL",
-          "position": "SELL",
-          "confidence": 0.755,
-          "score": -0.755,
-          "projected": "-4.0%",
+        "institutional_tracking": {
+          "stock": "PG",
+          "position": "SHORT",
+          "confidence": 0.694,
+          "score": -0.694,
+          "projected": "-7.2%",
           "timeframe": "1W",
-          "current_price": 251.16,
-          "target_price": 241.0
+          "current_price": 160.33,
+          "target_price": 148.77,
+          "model_type": "Traditional"
         },
-        "volume_breakout": {
-          "stock": "MSFT",
-          "position": "BUY",
-          "confidence": 0.814,
-          "score": 0.814,
-          "projected": "+11.4%",
+        "sector_rotation": {
+          "stock": "JNJ",
+          "position": "SHORT",
+          "confidence": 0.639,
+          "score": -0.639,
+          "projected": "-3.6%",
           "timeframe": "1W",
-          "current_price": 509.04,
-          "target_price": 567.25
+          "current_price": 177.2,
+          "target_price": 170.89,
+          "model_type": "Traditional"
+        },
+        "pairs_trading": {
+          "stock": "UNH",
+          "position": "SHORT",
+          "confidence": 0.521,
+          "score": -0.521,
+          "projected": "-3.1%",
+          "timeframe": "1W",
+          "current_price": 341.61,
+          "target_price": 331.12,
+          "model_type": "Traditional"
+        },
+        "risk_parity": {
+          "stock": "XOM",
+          "position": "LONG",
+          "confidence": 0.782,
+          "score": 0.782,
+          "projected": "+6.6%",
+          "timeframe": "1W",
+          "current_price": 115.29,
+          "target_price": 122.9,
+          "model_type": "Traditional"
         }
       }
     }
@@ -106,49 +231,54 @@
   "consensus": {
     "top_picks": [
       {
-        "symbol": "JPM",
+        "symbol": "WMT",
         "action": "BUY",
-        "confidence": 0.843,
-        "expected_return": 0.087,
-        "current_price": 309.19,
-        "target_price": 336.1
+        "confidence": 0.881,
+        "expected_return": 0.06037407920243823,
+        "current_price": 104.2699966430664,
+        "target_price": 110.56520167883288,
+        "strategy": "ml_regime_detector"
+      },
+      {
+        "symbol": "MA",
+        "action": "BUY",
+        "confidence": 0.864,
+        "expected_return": 0.09008933653658008,
+        "current_price": 598.6300048828125,
+        "target_price": 652.5601848535947,
+        "strategy": "ml_neural_network"
       },
       {
         "symbol": "MSFT",
         "action": "BUY",
-        "confidence": 0.814,
-        "expected_return": 0.114,
-        "current_price": 509.04,
-        "target_price": 567.25
+        "confidence": 0.832,
+        "expected_return": 0.024373969472857443,
+        "current_price": 510.0199890136719,
+        "target_price": 522.4512006564382,
+        "strategy": "mean_reversion"
       },
       {
-        "symbol": "GOOGL",
-        "action": "SELL",
-        "confidence": 0.755,
-        "expected_return": -0.040,
-        "current_price": 251.16,
-        "target_price": 241.0
-      },
-      {
-        "symbol": "SPY",
+        "symbol": "V",
         "action": "BUY",
-        "confidence": 0.732,
-        "expected_return": 0.069,
-        "current_price": 660.0,
-        "target_price": 705.65
+        "confidence": 0.801,
+        "expected_return": 0.07516438171276257,
+        "current_price": 346.20001220703125,
+        "target_price": 372.2219220735236,
+        "strategy": "ml_sequence_model"
       },
       {
-        "symbol": "AAPL",
+        "symbol": "XOM",
         "action": "BUY",
-        "confidence": 0.709,
-        "expected_return": 0.034,
-        "current_price": 238.15,
-        "target_price": 246.14
+        "confidence": 0.782,
+        "expected_return": 0.06599887653945723,
+        "current_price": 115.29000091552734,
+        "target_price": 122.89901145218515,
+        "strategy": "risk_parity"
       }
     ],
-    "total_signals": 9,
+    "total_signals": 18,
     "avg_confidence": 0.716,
-    "bullish_count": 8,
-    "bearish_count": 1
+    "bullish_count": 13,
+    "bearish_count": 5
   }
 }
