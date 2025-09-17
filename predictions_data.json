@@ -1,380 +1,124 @@
 {
+  "last_updated": "2025-09-16T17:02:52.351707",
   "predictions": [
     {
       "date": "2025-09-16",
       "predictions": {
-        "momentum": {
+        "ml_momentum": {
           "stock": "META",
-          "position": "LONG",
-          "confidence": 0.5709008930990845,
-          "projected": "+3.9%",
-          "score": 0.3870012758558351
+          "position": "BUY",
+          "confidence": 0.651,
+          "score": 0.651,
+          "projected": "+7.1%",
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 779.0,
+          "target_price": 834.28
         },
-        "mean_reversion": {
-          "stock": "TSLA",
-          "position": "SHORT",
-          "confidence": 1.0,
-          "projected": "-11.0%",
-          "score": -1.1
+        "ml_mean_reversion": {
+          "stock": "JPM",
+          "position": "BUY",
+          "confidence": 0.843,
+          "score": 0.843,
+          "projected": "+8.7%",
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 309.19,
+          "target_price": 336.1
         },
-        "volume_breakout": {
-          "stock": "AAPL",
-          "position": "HOLD",
-          "confidence": 0.51,
-          "projected": "+3.0%",
-          "score": 0.3
+        "ml_technical": {
+          "stock": "SPY",
+          "position": "BUY",
+          "confidence": 0.732,
+          "score": 0.732,
+          "projected": "+6.9%",
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 660.0,
+          "target_price": 705.65
         },
-        "technical_indicators": {
-          "stock": "AMZN",
-          "position": "LONG",
-          "confidence": 0.6331074511546302,
-          "projected": "+4.8%",
-          "score": 0.47586778736375746
-        },
-        "pattern_recognition": {
-          "stock": "AMD",
-          "position": "SHORT",
-          "confidence": 0.5315938419079886,
-          "projected": "-3.3%",
-          "score": -0.3308483455828409
-        },
-        "volatility_arbitrage": {
-          "stock": "MSFT",
-          "position": "HOLD",
-          "confidence": 0.3858425933404692,
-          "projected": "-1.2%",
-          "score": -0.12263227620067038
-        },
-        "moving_average_crossover": {
-          "stock": "GOOGL",
-          "position": "HOLD",
-          "confidence": 0.47749298125577155,
-          "projected": "+2.5%",
-          "score": 0.25356140179395936
-        },
-        "support_resistance": {
+        "ml_volume": {
           "stock": "QQQ",
-          "position": "HOLD",
-          "confidence": 0.48504018638639945,
-          "projected": "+2.6%",
-          "score": 0.26434312340914207
+          "position": "BUY",
+          "confidence": 0.597,
+          "score": 0.597,
+          "projected": "+7.6%",
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 591.18,
+          "target_price": 636.12
         },
-        "market_sentiment": {
-          "stock": "NVDA",
-          "position": "HOLD",
-          "confidence": 0.3249623870292151,
-          "projected": "-0.4%",
-          "score": -0.03566055289887869
-        },
-        "ensemble": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.44513670181853204,
-          "projected": "-2.1%",
-          "score": -0.20733814545504584
-        }
-      }
-    },
-    {
-      "date": "2025-09-16",
-      "predictions": {
-        "momentum": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "mean_reversion": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "volume_breakout": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "technical_indicators": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "pattern_recognition": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "volatility_arbitrage": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "moving_average_crossover": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "support_resistance": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "market_sentiment": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "ensemble": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        }
-      }
-    },
-    {
-      "date": "2025-09-16",
-      "predictions": {
-        "momentum": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "mean_reversion": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "volume_breakout": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "technical_indicators": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "pattern_recognition": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "volatility_arbitrage": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "moving_average_crossover": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "support_resistance": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "market_sentiment": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "ensemble": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.5,
-          "projected": "+0.0%",
-          "score": 0
-        }
-      }
-    },
-    {
-      "date": "2025-01-13",
-      "predictions": {
-        "ensemble": {
-          "stock": "JNJ",
-          "position": "LONG",
-          "confidence": 0.61,
-          "projected": "+3.2%",
-          "score": 0.61
-        },
-        "market_sentiment": {
-          "stock": "JPM",
-          "position": "SHORT",
-          "confidence": 0.73,
-          "projected": "-4.1%",
-          "score": -0.73
-        },
-        "mean_reversion": {
+        "ml_pattern": {
           "stock": "TSLA",
-          "position": "SHORT",
+          "position": "BUY",
           "confidence": 0.68,
-          "projected": "-3.1%",
-          "score": -0.68
-        },
-        "momentum": {
-          "stock": "AAPL",
-          "position": "LONG",
-          "confidence": 0.75,
-          "projected": "+4.2%",
-          "score": 0.75
-        },
-        "moving_average_crossover": {
-          "stock": "MSFT",
-          "position": "LONG",
-          "confidence": 0.66,
-          "projected": "+3.6%",
-          "score": 0.66
-        },
-        "pattern_recognition": {
-          "stock": "AMZN",
-          "position": "SHORT",
-          "confidence": 0.55,
-          "projected": "-2.4%",
-          "score": -0.55
-        },
-        "support_resistance": {
-          "stock": "BRK-B",
-          "position": "LONG",
-          "confidence": 0.58,
-          "projected": "+2.9%",
-          "score": 0.58
-        },
-        "technical_indicators": {
-          "stock": "GOOGL",
-          "position": "LONG",
-          "confidence": 0.71,
+          "score": 0.68,
           "projected": "+3.8%",
-          "score": 0.71
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 421.62,
+          "target_price": 437.45
         },
-        "volatility_arbitrage": {
-          "stock": "META",
-          "position": "SHORT",
-          "confidence": 0.79,
-          "projected": "-4.9%",
-          "score": -0.79
-        },
-        "volume_breakout": {
+        "ml_ensemble": {
           "stock": "NVDA",
-          "position": "LONG",
-          "confidence": 0.82,
-          "projected": "+5.7%",
-          "score": 0.82
-        }
-      }
-    },
-    {
-      "date": "2025-01-12",
-      "predictions": {
-        "ensemble": {
-          "stock": "JNJ",
-          "position": "SHORT",
-          "confidence": 0.59,
-          "projected": "-2.9%",
-          "score": -0.59
-        },
-        "market_sentiment": {
-          "stock": "JPM",
-          "position": "LONG",
-          "confidence": 0.68,
-          "projected": "+3.7%",
-          "score": 0.68
-        },
-        "mean_reversion": {
-          "stock": "TSLA",
-          "position": "SHORT",
-          "confidence": 0.72,
-          "projected": "-4.1%",
-          "score": -0.72
-        },
-        "momentum": {
-          "stock": "AAPL",
-          "position": "LONG",
-          "confidence": 0.69,
-          "projected": "+3.9%",
-          "score": 0.69
-        },
-        "moving_average_crossover": {
-          "stock": "MSFT",
-          "position": "LONG",
-          "confidence": 0.71,
-          "projected": "+3.9%",
-          "score": 0.71
-        },
-        "pattern_recognition": {
-          "stock": "AMZN",
-          "position": "LONG",
-          "confidence": 0.77,
-          "projected": "+4.7%",
-          "score": 0.77
-        },
-        "support_resistance": {
-          "stock": "BRK-B",
-          "position": "SHORT",
-          "confidence": 0.54,
-          "projected": "-2.6%",
-          "score": -0.54
-        },
-        "technical_indicators": {
-          "stock": "GOOGL",
-          "position": "LONG",
-          "confidence": 0.58,
-          "projected": "+2.8%",
-          "score": 0.58
-        },
-        "volatility_arbitrage": {
-          "stock": "META",
-          "position": "SHORT",
-          "confidence": 0.63,
-          "projected": "-3.2%",
-          "score": -0.63
-        },
-        "volume_breakout": {
-          "stock": "NVDA",
-          "position": "LONG",
-          "confidence": 0.64,
-          "projected": "+3.4%",
-          "score": 0.64
+          "position": "BUY",
+          "confidence": 0.662,
+          "score": 0.662,
+          "projected": "+11.5%",
+          "timeframe": "1W",
+          "model": "ML Enhanced Predictor",
+          "current_price": 174.88,
+          "target_price": 195.04
         }
       }
     }
   ],
-  "last_updated": "2025-09-16T19:58:41.601100"
+  "consensus": {
+    "top_picks": [
+      {
+        "symbol": "JPM",
+        "action": "BUY",
+        "confidence": 0.843,
+        "expected_return": 0.08704380715500466,
+        "current_price": 309.19000244140625,
+        "target_price": 336.1030773881714
+      },
+      {
+        "symbol": "MSFT",
+        "action": "BUY",
+        "confidence": 0.814,
+        "expected_return": 0.1143617504183453,
+        "current_price": 509.0400085449219,
+        "target_price": 567.2547149550886
+      },
+      {
+        "symbol": "GOOGL",
+        "action": "SELL",
+        "confidence": 0.755,
+        "expected_return": -0.040441461939639926,
+        "current_price": 251.16000366210938,
+        "target_price": 241.00272593324834
+      },
+      {
+        "symbol": "SPY",
+        "action": "BUY",
+        "confidence": 0.732,
+        "expected_return": 0.06916001424232458,
+        "current_price": 660.0,
+        "target_price": 705.6456093999342
+      },
+      {
+        "symbol": "AAPL",
+        "action": "BUY",
+        "confidence": 0.709,
+        "expected_return": 0.03356848187100657,
+        "current_price": 238.14999389648438,
+        "target_price": 246.14432764917882
+      }
+    ],
+    "total_signals": 9,
+    "avg_confidence": 0.716,
+    "bullish_count": 8,
+    "bearish_count": 1
+  }
 }
