@@ -1,7 +1,80 @@
 {
-  "last_updated": "2025-09-17T17:44:17.318476",
-  "total_strategies": 20,
   "predictions": [
+    {
+      "date": "2025-09-18",
+      "predictions": {
+        "momentum": {
+          "stock": "AMD",
+          "position": "SHORT",
+          "confidence": 0.6083065294692307,
+          "projected": "-4.4%",
+          "score": -0.44043789924175825
+        },
+        "mean_reversion": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 1.0,
+          "projected": "-11.0%",
+          "score": -1.1
+        },
+        "volume_breakout": {
+          "stock": "AAPL",
+          "position": "HOLD",
+          "confidence": 0.3,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "technical_indicators": {
+          "stock": "NVDA",
+          "position": "HOLD",
+          "confidence": 0.42642191569210197,
+          "projected": "+1.8%",
+          "score": 0.1806027367030028
+        },
+        "pattern_recognition": {
+          "stock": "GOOGL",
+          "position": "SHORT",
+          "confidence": 0.5596224431684685,
+          "projected": "-3.7%",
+          "score": -0.3708892045263837
+        },
+        "volatility_arbitrage": {
+          "stock": "QQQ",
+          "position": "HOLD",
+          "confidence": 0.34852574235301903,
+          "projected": "+0.7%",
+          "score": 0.06932248907574153
+        },
+        "moving_average_crossover": {
+          "stock": "META",
+          "position": "HOLD",
+          "confidence": 0.35370376418304283,
+          "projected": "+0.8%",
+          "score": 0.07671966311863265
+        },
+        "support_resistance": {
+          "stock": "MSFT",
+          "position": "HOLD",
+          "confidence": 0.47622739759938754,
+          "projected": "+2.5%",
+          "score": 0.25175342514198223
+        },
+        "market_sentiment": {
+          "stock": "AMZN",
+          "position": "HOLD",
+          "confidence": 0.30198885620755167,
+          "projected": "-0.0%",
+          "score": -0.002841223153645264
+        },
+        "ensemble": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.4288495884955609,
+          "projected": "-1.8%",
+          "score": -0.18407084070794413
+        }
+      }
+    },
     {
       "date": "2025-09-17",
       "predictions": {
@@ -228,57 +301,5 @@
       }
     }
   ],
-  "consensus": {
-    "top_picks": [
-      {
-        "symbol": "WMT",
-        "action": "BUY",
-        "confidence": 0.881,
-        "expected_return": 0.06037407920243823,
-        "current_price": 104.2699966430664,
-        "target_price": 110.56520167883288,
-        "strategy": "ml_regime_detector"
-      },
-      {
-        "symbol": "MA",
-        "action": "BUY",
-        "confidence": 0.864,
-        "expected_return": 0.09008933653658008,
-        "current_price": 598.6300048828125,
-        "target_price": 652.5601848535947,
-        "strategy": "ml_neural_network"
-      },
-      {
-        "symbol": "MSFT",
-        "action": "BUY",
-        "confidence": 0.832,
-        "expected_return": 0.024373969472857443,
-        "current_price": 510.0199890136719,
-        "target_price": 522.4512006564382,
-        "strategy": "mean_reversion"
-      },
-      {
-        "symbol": "V",
-        "action": "BUY",
-        "confidence": 0.801,
-        "expected_return": 0.07516438171276257,
-        "current_price": 346.20001220703125,
-        "target_price": 372.2219220735236,
-        "strategy": "ml_sequence_model"
-      },
-      {
-        "symbol": "XOM",
-        "action": "BUY",
-        "confidence": 0.782,
-        "expected_return": 0.06599887653945723,
-        "current_price": 115.29000091552734,
-        "target_price": 122.89901145218515,
-        "strategy": "risk_parity"
-      }
-    ],
-    "total_signals": 18,
-    "avg_confidence": 0.716,
-    "bullish_count": 13,
-    "bearish_count": 5
-  }
+  "last_updated": "2025-09-18T13:42:02.101740"
 }
