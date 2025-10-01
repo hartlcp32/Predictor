@@ -1,6 +1,81 @@
 {
   "predictions": [
     {
+      "date": "2025-10-01",
+      "predictions": {
+        "momentum": {
+          "stock": "AAPL",
+          "position": "LONG",
+          "confidence": 0.5176150578471271,
+          "projected": "+3.1%",
+          "score": 0.31087865406732446
+        },
+        "mean_reversion": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 1.0,
+          "projected": "-11.0%",
+          "score": -1.1
+        },
+        "volume_breakout": {
+          "stock": "MSFT",
+          "position": "HOLD",
+          "confidence": 0.3,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "technical_indicators": {
+          "stock": "GOOGL",
+          "position": "HOLD",
+          "confidence": 0.4592478144072244,
+          "projected": "-2.3%",
+          "score": -0.2274968777246063
+        },
+        "pattern_recognition": {
+          "stock": "AMD",
+          "position": "SHORT",
+          "confidence": 0.5355944901752913,
+          "projected": "-3.4%",
+          "score": -0.33656355739327326
+        },
+        "volatility_arbitrage": {
+          "stock": "QQQ",
+          "position": "HOLD",
+          "confidence": 0.3176165983256988,
+          "projected": "-0.3%",
+          "score": -0.025166569036712588
+        },
+        "moving_average_crossover": {
+          "stock": "META",
+          "position": "HOLD",
+          "confidence": 0.3682719508891469,
+          "projected": "-1.0%",
+          "score": -0.09753135841306704
+        },
+        "support_resistance": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.46237943737070497,
+          "projected": "+2.3%",
+          "score": 0.2319706248152929
+        },
+        "market_sentiment": {
+          "stock": "NVDA",
+          "position": "HOLD",
+          "confidence": 0.30184131831065353,
+          "projected": "-0.0%",
+          "score": -0.002630454729505079
+        },
+        "ensemble": {
+          "stock": "AMZN",
+          "position": "HOLD",
+          "confidence": 0.43718973379644105,
+          "projected": "+2.0%",
+          "score": 0.19598533399491583
+        }
+      }
+    },
+    {
       "date": "2025-09-30",
       "predictions": {
         "momentum": {
@@ -901,5 +976,5 @@
       }
     }
   ],
-  "last_updated": "2025-09-30T13:44:18.661996"
+  "last_updated": "2025-10-01T13:45:12.688456"
 }
