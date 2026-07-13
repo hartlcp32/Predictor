@@ -1,6 +1,81 @@
 {
   "predictions": [
     {
+      "date": "2026-07-13",
+      "predictions": {
+        "momentum": {
+          "stock": "TSLA",
+          "position": "SHORT",
+          "confidence": 0.5116689169163895,
+          "projected": "-3.0%",
+          "score": -0.30238416702341353
+        },
+        "mean_reversion": {
+          "stock": "META",
+          "position": "SHORT",
+          "confidence": 0.7899999999999999,
+          "projected": "-7.0%",
+          "score": -0.7
+        },
+        "volume_breakout": {
+          "stock": "AAPL",
+          "position": "HOLD",
+          "confidence": 0.3,
+          "projected": "+0.0%",
+          "score": 0
+        },
+        "technical_indicators": {
+          "stock": "MSFT",
+          "position": "HOLD",
+          "confidence": 0.51,
+          "projected": "-3.0%",
+          "score": -0.3
+        },
+        "pattern_recognition": {
+          "stock": "AMD",
+          "position": "LONG",
+          "confidence": 0.5531205186831489,
+          "projected": "+3.6%",
+          "score": 0.3616007409759271
+        },
+        "volatility_arbitrage": {
+          "stock": "SPY",
+          "position": "HOLD",
+          "confidence": 0.3353268196290094,
+          "projected": "-0.5%",
+          "score": -0.05046688518429917
+        },
+        "moving_average_crossover": {
+          "stock": "NVDA",
+          "position": "HOLD",
+          "confidence": 0.3,
+          "projected": "+0.0%",
+          "score": 0.0
+        },
+        "support_resistance": {
+          "stock": "GOOGL",
+          "position": "HOLD",
+          "confidence": 0.5066498163757681,
+          "projected": "+3.0%",
+          "score": 0.29521402339395447
+        },
+        "market_sentiment": {
+          "stock": "QQQ",
+          "position": "HOLD",
+          "confidence": 0.33013200573815094,
+          "projected": "-0.4%",
+          "score": -0.04304572248307276
+        },
+        "ensemble": {
+          "stock": "AMZN",
+          "position": "HOLD",
+          "confidence": 0.40504854713114985,
+          "projected": "-1.5%",
+          "score": -0.15006935304449978
+        }
+      }
+    },
+    {
       "date": "2026-07-10",
       "predictions": {
         "momentum": {
@@ -2174,82 +2249,7 @@
           "score": 0.04338388509976519
         }
       }
-    },
-    {
-      "date": "2026-06-01",
-      "predictions": {
-        "momentum": {
-          "stock": "NVDA",
-          "position": "LONG",
-          "confidence": 0.7401106258596799,
-          "projected": "+6.3%",
-          "score": 0.6287294655138286
-        },
-        "mean_reversion": {
-          "stock": "MSFT",
-          "position": "SHORT",
-          "confidence": 1.0,
-          "projected": "-11.0%",
-          "score": -1.1
-        },
-        "volume_breakout": {
-          "stock": "AAPL",
-          "position": "HOLD",
-          "confidence": 0.3,
-          "projected": "+0.0%",
-          "score": 0
-        },
-        "technical_indicators": {
-          "stock": "GOOGL",
-          "position": "SHORT",
-          "confidence": 0.519655128830215,
-          "projected": "-3.1%",
-          "score": -0.31379304118602147
-        },
-        "pattern_recognition": {
-          "stock": "META",
-          "position": "HOLD",
-          "confidence": 0.4208340347697657,
-          "projected": "+1.7%",
-          "score": 0.1726200496710939
-        },
-        "volatility_arbitrage": {
-          "stock": "AMD",
-          "position": "SHORT",
-          "confidence": 0.6499999999999999,
-          "projected": "-5.0%",
-          "score": -0.5
-        },
-        "moving_average_crossover": {
-          "stock": "QQQ",
-          "position": "HOLD",
-          "confidence": 0.3623039541136278,
-          "projected": "+0.9%",
-          "score": 0.08900564873375405
-        },
-        "support_resistance": {
-          "stock": "TSLA",
-          "position": "LONG",
-          "confidence": 0.58,
-          "projected": "+4.0%",
-          "score": 0.4
-        },
-        "market_sentiment": {
-          "stock": "AMZN",
-          "position": "HOLD",
-          "confidence": 0.35268965857277373,
-          "projected": "-0.8%",
-          "score": -0.0752709408182482
-        },
-        "ensemble": {
-          "stock": "SPY",
-          "position": "HOLD",
-          "confidence": 0.42537949461391844,
-          "projected": "-1.8%",
-          "score": -0.17911356373416917
-        }
-      }
     }
   ],
-  "last_updated": "2026-07-10T15:42:50.330723"
+  "last_updated": "2026-07-13T16:02:15.180285"
 }
